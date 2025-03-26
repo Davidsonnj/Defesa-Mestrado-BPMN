@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1pd0792" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:process id="Process_1eeteym" name="Aluno" isExecutable="true" camunda:historyTimeToLive="7">
+    <bpmn:endEvent id="Event_01y69rm">
+      <bpmn:incoming>Flow_0e50mme</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1fgfbyc" sourceRef="Event_0xn56o5" targetRef="Activity_0r03h3o" />
+    <bpmn:startEvent id="Event_0xn56o5" name="Defesa Notificada">
+      <bpmn:outgoing>Flow_1fgfbyc</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0cpjfl0" messageRef="Message_2f1sddk" />
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_0r03h3o">
+      <bpmn:incoming>Flow_1fgfbyc</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e50mme</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0e50mme" sourceRef="Activity_0r03h3o" targetRef="Event_01y69rm" />
+  </bpmn:process>
+  <bpmn:signal id="Signal_3186d97" name="Signal_3186d97" />
+  <bpmn:message id="Message_2f1sddk" name="confirmarDefesaMessage" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1eeteym">
+      <bpmndi:BPMNShape id="Event_003bont_di" bpmnElement="Event_0xn56o5">
+        <dc:Bounds x="192" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="166" y="125" width="88" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01y69rm_di" bpmnElement="Event_01y69rm">
+        <dc:Bounds x="572" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1svz1z1_di" bpmnElement="Activity_0r03h3o">
+        <dc:Bounds x="330" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1fgfbyc_di" bpmnElement="Flow_1fgfbyc">
+        <di:waypoint x="228" y="100" />
+        <di:waypoint x="330" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e50mme_di" bpmnElement="Flow_0e50mme">
+        <di:waypoint x="430" y="100" />
+        <di:waypoint x="572" y="100" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
