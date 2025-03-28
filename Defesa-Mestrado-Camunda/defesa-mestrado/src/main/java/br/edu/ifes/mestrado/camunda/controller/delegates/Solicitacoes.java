@@ -13,15 +13,7 @@ public class Solicitacoes implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
 
-        String imapHost = "imap.gmail.com";
-        String smtpHost = "smtp.gmail.com"; // Para envio
-        String username = "laboratorio902t@gmail.com";
-        String password = "ogwn ypsh lkdr iywz"; // Use senha de app para segurança
-
-        EmailService emailService = new EmailService(imapHost, username, password);
-        EmailSenderService emailSenderService = new EmailSenderService(smtpHost, username, password);
-        EmailView emailView = new EmailView();
-        EmailController emailController = new EmailController(emailService, emailSenderService, emailView);
+        EmailController emailController = new EmailController();
 
         Scanner scanner = new Scanner(System.in);
 

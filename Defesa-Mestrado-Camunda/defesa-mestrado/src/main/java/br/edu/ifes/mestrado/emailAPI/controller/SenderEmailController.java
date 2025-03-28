@@ -13,7 +13,7 @@ public class SenderEmailController {
 
     public SenderEmailController() {
         emailLogin = new EmailLogin();
-        emailSenderService = new EmailSenderService(emailLogin.imapHost, emailLogin.username, emailLogin.password);
+        emailSenderService = new EmailSenderService(emailLogin.smtpHost, emailLogin.username, emailLogin.password);
     }
 
     public void sendEmail(String to, String subject, String body) {

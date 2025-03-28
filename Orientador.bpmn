@@ -7,7 +7,7 @@
     <bpmn:intermediateThrowEvent id="Event_1n7ejnt" name="Enviou os dados dos alunos">
       <bpmn:incoming>Flow_0bk4exc</bpmn:incoming>
       <bpmn:outgoing>Flow_025kvec</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_185i61z" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.SendMessageDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_185i61z" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.SendMessageDelegate" />
     </bpmn:intermediateThrowEvent>
     <bpmn:startEvent id="Event_05o1whs" name="Pronto para iniciar processo de defesa">
       <bpmn:outgoing>Flow_0bk4exc</bpmn:outgoing>
@@ -15,27 +15,22 @@
         <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
-    <bpmn:eventBasedGateway id="Gateway_038rgt9">
-      <bpmn:incoming>Flow_025kvec</bpmn:incoming>
-      <bpmn:outgoing>Flow_0lfc4e0</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_0j04sez" name="Defesa Cancelada">
-      <bpmn:incoming>Flow_0lfc4e0</bpmn:incoming>
-      <bpmn:outgoing>Flow_0z7w6do</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_039lm08" />
-    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="Flow_0bk4exc" sourceRef="Event_05o1whs" targetRef="Event_1n7ejnt" />
+    <bpmn:sequenceFlow id="Flow_025kvec" name="" sourceRef="Event_1n7ejnt" targetRef="Event_0j04sez" />
+    <bpmn:sequenceFlow id="Flow_0vu5o1s" sourceRef="Activity_0perxg4" targetRef="Event_1ruqxz9" />
+    <bpmn:endEvent id="Event_1ruqxz9">
+      <bpmn:incoming>Flow_0vu5o1s</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:userTask id="Activity_0perxg4">
       <bpmn:incoming>Flow_0z7w6do</bpmn:incoming>
       <bpmn:outgoing>Flow_0vu5o1s</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:endEvent id="Event_1ruqxz9">
-      <bpmn:incoming>Flow_0vu5o1s</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_0bk4exc" sourceRef="Event_05o1whs" targetRef="Event_1n7ejnt" />
-    <bpmn:sequenceFlow id="Flow_025kvec" sourceRef="Event_1n7ejnt" targetRef="Gateway_038rgt9" />
-    <bpmn:sequenceFlow id="Flow_0lfc4e0" sourceRef="Gateway_038rgt9" targetRef="Event_0j04sez" />
+    <bpmn:intermediateCatchEvent id="Event_0j04sez" name="Defesa Cancelada">
+      <bpmn:incoming>Flow_025kvec</bpmn:incoming>
+      <bpmn:outgoing>Flow_0z7w6do</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_039lm08" />
+    </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_0z7w6do" sourceRef="Event_0j04sez" targetRef="Activity_0perxg4" />
-    <bpmn:sequenceFlow id="Flow_0vu5o1s" sourceRef="Activity_0perxg4" targetRef="Event_1ruqxz9" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_15ea8l9">
@@ -55,9 +50,6 @@
           <dc:Bounds x="202" y="256" width="77" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_0g4qu8u_di" bpmnElement="Gateway_038rgt9">
-        <dc:Bounds x="405" y="292" width="50" height="50" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0j04sez_di" bpmnElement="Event_0j04sez">
         <dc:Bounds x="502" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -76,10 +68,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_025kvec_di" bpmnElement="Flow_025kvec">
         <di:waypoint x="358" y="317" />
-        <di:waypoint x="405" y="317" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0lfc4e0_di" bpmnElement="Flow_0lfc4e0">
-        <di:waypoint x="430" y="292" />
+        <di:waypoint x="430" y="317" />
         <di:waypoint x="430" y="250" />
         <di:waypoint x="502" y="250" />
       </bpmndi:BPMNEdge>
