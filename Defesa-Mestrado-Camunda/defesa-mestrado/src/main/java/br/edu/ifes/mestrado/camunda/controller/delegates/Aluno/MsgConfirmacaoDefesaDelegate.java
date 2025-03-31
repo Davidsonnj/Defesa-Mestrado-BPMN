@@ -1,11 +1,10 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
-import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-public class MessageConfirmacaoDefesa implements JavaDelegate {
+public class MsgConfirmacaoDefesaDelegate implements JavaDelegate {
 
     public void execute(DelegateExecution execution) throws Exception {
         String businessKey = execution.getProcessBusinessKey();
