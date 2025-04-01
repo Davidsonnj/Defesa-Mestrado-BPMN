@@ -3,7 +3,6 @@
   <bpmn:process id="Process_1eeteym" name="Aluno" isExecutable="true" camunda:historyTimeToLive="7">
     <bpmn:endEvent id="Event_01y69rm">
       <bpmn:incoming>Flow_0ki4fwo</bpmn:incoming>
-      <bpmn:incoming>Flow_047bmon</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1fgfbyc" sourceRef="Event_0xn56o5" targetRef="Activity_00gd1nh" />
     <bpmn:startEvent id="Event_0xn56o5" name="Defesa Notificada">
@@ -57,12 +56,11 @@
       <bpmn:messageEventDefinition id="MessageEventDefinition_0cmv6ml" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Aluno.MsgConfirmacaoDefesaDelegate" />
     </bpmn:intermediateThrowEvent>
     <bpmn:sequenceFlow id="Flow_0zwuaoe" sourceRef="Event_0wubdjg" targetRef="Activity_1dhufou" />
-    <bpmn:sequenceFlow id="Flow_1p6b0j2" sourceRef="Event_0vc64o2" targetRef="Activity_0vf4jbm" />
-    <bpmn:userTask id="Activity_0vf4jbm">
+    <bpmn:sequenceFlow id="Flow_1p6b0j2" sourceRef="Event_0vc64o2" targetRef="Event_073nfxr" />
+    <bpmn:endEvent id="Event_073nfxr" name="Envia para o email do aluno">
       <bpmn:incoming>Flow_1p6b0j2</bpmn:incoming>
-      <bpmn:outgoing>Flow_047bmon</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_047bmon" sourceRef="Activity_0vf4jbm" targetRef="Event_01y69rm" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1bhwyvp" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Aluno.DefesaCanceladaDelegate" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:signal id="Signal_3186d97" name="Signal_3186d97" />
   <bpmn:message id="Message_2f1sddk" name="confirmarDefesaMessage" />
@@ -112,8 +110,11 @@
           <dc:Bounds x="621" y="235" width="58" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_18bwls6_di" bpmnElement="Activity_0vf4jbm">
-        <dc:Bounds x="720" y="60" width="100" height="80" />
+      <bpmndi:BPMNShape id="Event_073nfxr_di" bpmnElement="Event_073nfxr">
+        <dc:Bounds x="602" y="82" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="584" y="46" width="72" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1fgfbyc_di" bpmnElement="Flow_1fgfbyc">
         <di:waypoint x="228" y="210" />
@@ -154,12 +155,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1p6b0j2_di" bpmnElement="Flow_1p6b0j2">
         <di:waypoint x="478" y="100" />
-        <di:waypoint x="720" y="100" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_047bmon_di" bpmnElement="Flow_047bmon">
-        <di:waypoint x="820" y="100" />
-        <di:waypoint x="860" y="100" />
-        <di:waypoint x="860" y="192" />
+        <di:waypoint x="602" y="100" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

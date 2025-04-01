@@ -17,6 +17,7 @@ public class SendMessageDelegate implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String tituloTrabalho = (String) execution.getVariable("titulo_trabalho");
         String emailAluno = (String) execution.getVariable("emailAluno");
+        String emailOrientador = (String) execution.getVariable("emailOrientador");
 
         if (emailAluno == null || emailAluno.isEmpty()) {
             System.out.println("⚠️ E-mail do aluno não foi fornecido. Impossível enviar o e-mail.");
@@ -27,6 +28,7 @@ public class SendMessageDelegate implements JavaDelegate {
         variables.put("aluno", aluno);
         variables.put("titulo_trabalho", tituloTrabalho);
         variables.put("emailAluno", emailAluno);
+        variables.put("emailOrientador", emailOrientador);
 
         if (businessKey != null) {
             runtimeService.createMessageCorrelation("dadosAlunos")

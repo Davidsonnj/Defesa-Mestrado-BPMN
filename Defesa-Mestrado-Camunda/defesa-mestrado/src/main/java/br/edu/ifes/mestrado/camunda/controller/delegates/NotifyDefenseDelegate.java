@@ -19,6 +19,7 @@ public class NotifyDefenseDelegate implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String tituloTrabalho = (String) execution.getVariable("titulo_trabalho");
         String emailAluno = (String) execution.getVariable("emailAluno");
+        String emailOrientador = (String) execution.getVariable("emailOrientador");
 
         // Criando o assunto e o corpo do e-mail
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
@@ -52,6 +53,7 @@ public class NotifyDefenseDelegate implements JavaDelegate {
                         .setVariable("aluno", aluno)
                         .setVariable("titulo_trabalho", tituloTrabalho)
                         .setVariable("emailAluno", emailAluno)
+                        .setVariable("emailOrientador", emailOrientador)
                         .processInstanceBusinessKey(businessKey)
                         .correlate();
             } else {

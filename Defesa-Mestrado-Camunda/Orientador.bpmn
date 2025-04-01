@@ -12,30 +12,26 @@
     <bpmn:startEvent id="Event_05o1whs" name="Pronto para iniciar processo de defesa">
       <bpmn:outgoing>Flow_0bk4exc</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1i558lo" camunda:variableName="email">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho}</bpmn:condition>
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty emailOrientador}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0bk4exc" sourceRef="Event_05o1whs" targetRef="Event_1n7ejnt" />
     <bpmn:sequenceFlow id="Flow_025kvec" name="" sourceRef="Event_1n7ejnt" targetRef="Gateway_1b7rm4d" />
-    <bpmn:sequenceFlow id="Flow_0vu5o1s" sourceRef="Activity_0perxg4" targetRef="Event_1ruqxz9" />
-    <bpmn:endEvent id="Event_1ruqxz9">
-      <bpmn:incoming>Flow_0vu5o1s</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:userTask id="Activity_0perxg4">
-      <bpmn:incoming>Flow_0z7w6do</bpmn:incoming>
-      <bpmn:outgoing>Flow_0vu5o1s</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:intermediateCatchEvent id="Event_0j04sez" name="Defesa Cancelada">
       <bpmn:incoming>Flow_0h18rlf</bpmn:incoming>
       <bpmn:outgoing>Flow_0z7w6do</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_039lm08" messageRef="Message_0ap2rt2" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_0z7w6do" sourceRef="Event_0j04sez" targetRef="Activity_0perxg4" />
+    <bpmn:sequenceFlow id="Flow_0z7w6do" sourceRef="Event_0j04sez" targetRef="Event_073nfxr" />
     <bpmn:eventBasedGateway id="Gateway_1b7rm4d">
       <bpmn:incoming>Flow_025kvec</bpmn:incoming>
       <bpmn:outgoing>Flow_0h18rlf</bpmn:outgoing>
     </bpmn:eventBasedGateway>
     <bpmn:sequenceFlow id="Flow_0h18rlf" sourceRef="Gateway_1b7rm4d" targetRef="Event_0j04sez" />
+    <bpmn:endEvent id="Event_073nfxr" name="Envia para o email do orientador">
+      <bpmn:incoming>Flow_0z7w6do</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1bhwyvp" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.DefesaCanceladaDelegate" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:message id="Message_0ap2rt2" name="DefesaCancelada" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -56,12 +52,6 @@
           <dc:Bounds x="202" y="256" width="77" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1ruqxz9_di" bpmnElement="Event_1ruqxz9">
-        <dc:Bounds x="722" y="232" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1dhvz7j_di" bpmnElement="Activity_0perxg4">
-        <dc:Bounds x="580" y="210" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0j04sez_di" bpmnElement="Event_0j04sez">
         <dc:Bounds x="502" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
@@ -71,6 +61,12 @@
       <bpmndi:BPMNShape id="Gateway_1b3gui0_di" bpmnElement="Gateway_1b7rm4d">
         <dc:Bounds x="405" y="292" width="50" height="50" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_073nfxr_di" bpmnElement="Event_073nfxr">
+        <dc:Bounds x="612" y="232" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="599" y="190" width="62" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0bk4exc_di" bpmnElement="Flow_0bk4exc">
         <di:waypoint x="258" y="317" />
         <di:waypoint x="322" y="317" />
@@ -79,13 +75,9 @@
         <di:waypoint x="358" y="317" />
         <di:waypoint x="405" y="317" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vu5o1s_di" bpmnElement="Flow_0vu5o1s">
-        <di:waypoint x="680" y="250" />
-        <di:waypoint x="722" y="250" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0z7w6do_di" bpmnElement="Flow_0z7w6do">
         <di:waypoint x="538" y="250" />
-        <di:waypoint x="580" y="250" />
+        <di:waypoint x="612" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0h18rlf_di" bpmnElement="Flow_0h18rlf">
         <di:waypoint x="430" y="292" />
