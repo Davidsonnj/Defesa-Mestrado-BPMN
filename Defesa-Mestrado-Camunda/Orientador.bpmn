@@ -36,15 +36,16 @@
     <bpmn:intermediateCatchEvent id="Event_0f2t67f" name="Cadastramento Solicitado">
       <bpmn:incoming>Flow_1mlbr1q</bpmn:incoming>
       <bpmn:outgoing>Flow_0yrskg5</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1fjigwp" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1fjigwp" messageRef="Message_2h2bo1u" />
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1mlbr1q" sourceRef="Gateway_1b7rm4d" targetRef="Event_0f2t67f" />
     <bpmn:sequenceFlow id="Flow_0yrskg5" sourceRef="Event_0f2t67f" targetRef="Activity_1s17ib1" />
-    <bpmn:sendTask id="Activity_1s17ib1" name="Envio de Dados da Defesa">
+    <bpmn:userTask id="Activity_1s17ib1" name="Envio de Dados da Defesa">
       <bpmn:incoming>Flow_0yrskg5</bpmn:incoming>
-    </bpmn:sendTask>
+    </bpmn:userTask>
   </bpmn:process>
   <bpmn:message id="Message_0ap2rt2" name="DefesaCancelada" />
+  <bpmn:message id="Message_2h2bo1u" name="CadastroSolicitado" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_15ea8l9">
       <bpmndi:BPMNShape id="Participant_1sbfnr5_di" bpmnElement="Participant_1sbfnr5" isHorizontal="true">
@@ -84,7 +85,7 @@
           <dc:Bounds x="482" y="330" width="76" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_06w3fgr_di" bpmnElement="Activity_1s17ib1">
+      <bpmndi:BPMNShape id="Activity_0g9o6bv_di" bpmnElement="Activity_1s17ib1">
         <dc:Bounds x="640" y="340" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0bk4exc_di" bpmnElement="Flow_0bk4exc">
