@@ -22,10 +22,10 @@ public class EmailController {
         emailSenderService = new EmailSenderService(emailLogin.imapHost, emailLogin.username, emailLogin.password);
     }
 
-    public boolean showEmails(String subjectFilter, String bodyFilter, String senderFilter) {
+    public List<Email> emails(String subjectFilter, String bodyFilter, String senderFilter) {
         List<Email> emails = emailService.fetchEmails(subjectFilter, bodyFilter, senderFilter);
         emailView.displayEmails(emails);
-        return !emails.isEmpty();
+        return emails;
     }
 
     public void sendEmail(String to, String subject, String body) {

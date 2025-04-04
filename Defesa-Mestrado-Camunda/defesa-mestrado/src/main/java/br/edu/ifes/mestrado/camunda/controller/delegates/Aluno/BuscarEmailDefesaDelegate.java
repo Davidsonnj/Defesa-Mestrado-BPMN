@@ -1,8 +1,11 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
+import br.edu.ifes.mestrado.emailAPI.model.Email;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+
+import java.util.List;
 
 public class BuscarEmailDefesaDelegate implements JavaDelegate {
     @Override
@@ -18,9 +21,9 @@ public class BuscarEmailDefesaDelegate implements JavaDelegate {
         System.out.println(subject);
 
         System.out.println("Verificando o email do aluno");
-        boolean emailConfirmacao = emailController.showEmails(subject, null, emailAluno);
+        List<Email> emailConfirmacao = emailController.emails(subject, null, emailAluno);
 
-        if(emailConfirmacao) {
+        if(!emailConfirmacao.isEmpty()) {
             recebeuEmail = true;
         } else {
             recebeuEmail = false;

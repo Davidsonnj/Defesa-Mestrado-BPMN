@@ -26,8 +26,7 @@ public class Main {
             String bodyFilter = filters[1];
             String senderFilter = filters[2];
 
-            // Exibe os e-mails com os filtros aplicados
-            emailController.showEmails(subjectFilter, bodyFilter, senderFilter);
+            emailController.emails(subjectFilter, bodyFilter, senderFilter);
         } else if (opcao == 2) {
             System.out.print("Para: ");
             String to = scanner.nextLine();
