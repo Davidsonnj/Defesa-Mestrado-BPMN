@@ -13,43 +13,48 @@ import java.util.Map;
 public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        EmailController emailController = new EmailController();
-        Boolean recebeuEmail = false;
+        if(execution.hasVariable("verificaEmail")) {
+            EmailController emailController = new EmailController();
+            Boolean recebeuEmail = false;
 
-        String aluno = (String) execution.getVariable("aluno");
-        String emailOrientador = (String) execution.getVariable("emailOrientador");
+            String aluno = (String) execution.getVariable("aluno");
+            String emailOrientador = (String) execution.getVariable("emailOrientador");
 
-        String subject = String.format("Dados do aluno - %s", aluno);
-        System.out.println("Verificando o email do Orientador " + emailOrientador);
-        List<Email> emails = emailController.emails(subject, null, emailOrientador);
+            String subject = String.format("Dados do aluno - %s", aluno);
+            System.out.println("Verificando o email do Orientador " + emailOrientador);
+            List<Email> emails = emailController.emails(subject, null, emailOrientador);
 
-        if (emails != null && !emails.isEmpty()) {
-            recebeuEmail = true;
+            if (emails != null && !emails.isEmpty()) {
+                recebeuEmail = true;
 
-            Email resposta = emails.get(0);
-            String corpo = resposta.getBody();
+                Email resposta = emails.get(0);
+                String corpo = resposta.getBody();
 
-            String data = extrairCampo(corpo, "Data");
-            String hora = extrairCampo(corpo, "Hora");
-            String local = extrairCampo(corpo, "Local");
+                String data = extrairCampo(corpo, "Data");
+                String hora = extrairCampo(corpo, "Hora");
+                String local = extrairCampo(corpo, "Local");
 
-            List<Map<String, String>> banca = extrairBanca(corpo);
+                List<Map<String, String>> banca = extrairBanca(corpo);
 
-            execution.setVariable("recebeuEmail", true);
-            execution.setVariable("data_defesa", data);
-            execution.setVariable("hora_defesa", hora);
-            execution.setVariable("local_defesa", local);
-            execution.setVariable("banca_defesa", banca);
+                execution.setVariable("recebeuEmail", true);
+                execution.setVariable("dataDefesa", data);
+                execution.setVariable("horaDefesa", hora);
+                execution.setVariable("localDefesa", local);
+                execution.setVariable("bancaDefesa", banca);
 
-            System.out.println("Dados extraídos:");
-            System.out.println("Data: " + data);
-            System.out.println("Hora: " + hora);
-            System.out.println("Local: " + local);
-            System.out.println("Banca: " + banca);
+                System.out.println("Dados extraídos:");
+                System.out.println("Data: " + data);
+                System.out.println("Hora: " + hora);
+                System.out.println("Local: " + local);
+                System.out.println("Banca: " + banca);
 
-        } else {
-            execution.setVariable("recebeuEmail", false);
-            System.out.println("Nenhum e-mail encontrado.");
+            } else {
+                execution.setVariable("recebeuEmail", false);
+                System.out.println("Nenhum e-mail encontrado.");
+            }
+        } else{
+            execution.setVariable("verificaEmail", 1);
+            System.out.println("Passou ao verificar o email do Orientador.");
         }
     }
 

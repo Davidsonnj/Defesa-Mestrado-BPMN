@@ -10,24 +10,30 @@ import java.util.List;
 public class BuscarEmailDefesaDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        EmailController emailController = new EmailController();
-        Boolean recebeuEmail = false;
 
-        String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
-        String emailAluno = (String) execution.getVariable("emailAluno");
-        String aluno = (String) execution.getVariable("aluno");
+        if(execution.hasVariable("verificaEmail")) {
+            EmailController emailController = new EmailController();
+            Boolean recebeuEmail = false;
 
-        String subject = String.format("Confirmação da Defesa - %s",titulo_trabalho);
-        System.out.println(subject);
+            String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
+            String emailAluno = (String) execution.getVariable("emailAluno");
+            String aluno = (String) execution.getVariable("aluno");
 
-        System.out.println("Verificando o email do aluno");
-        List<Email> emailConfirmacao = emailController.emails(subject, null, emailAluno);
+            String subject = String.format("Confirmação da Defesa - %s", titulo_trabalho);
+            System.out.println(subject);
 
-        if(!emailConfirmacao.isEmpty()) {
-            recebeuEmail = true;
-        } else {
-            recebeuEmail = false;
+            System.out.println("Verificando o email do aluno");
+            List<Email> emailConfirmacao = emailController.emails(subject, null, emailAluno);
+
+            if (!emailConfirmacao.isEmpty()) {
+                recebeuEmail = true;
+            } else {
+                recebeuEmail = false;
+            }
+            execution.setVariable("recebeuEmail", recebeuEmail);
+        } else{
+            execution.setVariable("verificaEmail", 1);
+            System.out.println("Passou ao verificar o email do Aluno.");
         }
-        execution.setVariable("recebeuEmail", recebeuEmail);
     }
 }
