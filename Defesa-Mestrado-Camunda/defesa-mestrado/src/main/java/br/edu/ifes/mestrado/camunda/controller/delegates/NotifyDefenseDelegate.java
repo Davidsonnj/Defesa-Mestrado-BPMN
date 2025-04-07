@@ -6,7 +6,9 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.runtime.Execution;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NotifyDefenseDelegate implements JavaDelegate {
 
@@ -49,20 +51,19 @@ public class NotifyDefenseDelegate implements JavaDelegate {
         if (execucoes.isEmpty()) {
             if (businessKey != null) {
 
+                Map<String, Object> variables = new HashMap<String, Object>();
+                variables.put("aluno", aluno);
+                variables.put("titulo_trabalho", tituloTrabalho);
+                variables.put("emailAluno", emailAluno);
+                variables.put("emailOrientador", emailOrientador);
+
+
                 runtimeService.createMessageCorrelation("confirmarDefesaMessage")
-                        .setVariable("aluno", aluno)
-                        .setVariable("titulo_trabalho", tituloTrabalho)
-                        .setVariable("emailAluno", emailAluno)
-                        .setVariable("emailOrientador", emailOrientador)
+                        .setVariables(variables)
                         .processInstanceBusinessKey(businessKey)
                         .correlate();
             } else {
-                System.out.println("⚠️ NotifyDefense - Business Key está NULL! Tentando correlacionar sem Business Key...");
-                runtimeService.createMessageCorrelation("confirmarDefesaMessage")
-                        .setVariable("aluno", aluno)
-                        .setVariable("titulo_trabalho", tituloTrabalho)
-                        .setVariable("emailAluno", emailAluno)
-                        .correlate();
+                System.out.println("⚠️ NotifyDefense - Business Key está NULL!");
             }
         } else {
 
