@@ -1,0 +1,27 @@
+Table Aluno {
+  idAluno int [pk, increment]
+  nome varchar(100)
+  email varchar(100)
+}
+
+Table Banca {
+  idBanca int [pk, increment]
+  minicurriculo text
+  instituicao varchar(100)
+  nome varchar(100)
+  email varchar(100)
+}
+
+Table Defesa {
+  idDefesa int [pk, increment]
+  FK_aluno int [not null, ref: > Aluno.idAluno]
+  dataDefesa date
+  localDefesa varchar(100)
+  tituloTrabalho varchar(200)
+}
+
+Table Defesa_Banca {
+  id int [pk, increment]
+  idDefesa int [not null, ref: > Defesa.idDefesa]
+  idBanca int [not null, ref: > Banca.idBanca]
+}
