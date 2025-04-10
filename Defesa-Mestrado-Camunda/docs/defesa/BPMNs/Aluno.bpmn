@@ -21,11 +21,11 @@
       <bpmn:outgoing>Flow_12dmcsh</bpmn:outgoing>
       <bpmn:outgoing>Flow_0r1arof</bpmn:outgoing>
     </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_11yb5s4" name="1 Minuto">
+    <bpmn:intermediateCatchEvent id="Event_11yb5s4" name="1 Segundo">
       <bpmn:incoming>Flow_1gzrxzo</bpmn:incoming>
       <bpmn:outgoing>Flow_0hzguab</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1ljeqs1">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1M</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1gzrxzo" sourceRef="Gateway_06c6ncz" targetRef="Event_11yb5s4" />
@@ -61,6 +61,10 @@
       <bpmn:incoming>Flow_1p6b0j2</bpmn:incoming>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1bhwyvp" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Aluno.DefesaCanceladaDelegate" />
     </bpmn:endEvent>
+    <bpmn:textAnnotation id="TextAnnotation_138qgh1">
+      <bpmn:text>Estou usando esse tempo para teste</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0hb4wkz" associationDirection="None" sourceRef="Event_11yb5s4" targetRef="TextAnnotation_138qgh1" />
   </bpmn:process>
   <bpmn:signal id="Signal_3186d97" name="Signal_3186d97" />
   <bpmn:message id="Message_2f1sddk" name="confirmarDefesaMessage" />
@@ -86,7 +90,7 @@
       <bpmndi:BPMNShape id="Event_11yb5s4_di" bpmnElement="Event_11yb5s4">
         <dc:Bounds x="442" y="302" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="439" y="345" width="43" height="14" />
+          <dc:Bounds x="434" y="345" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1i6l7ta_di" bpmnElement="Event_1i6l7ta">
@@ -116,6 +120,10 @@
           <dc:Bounds x="584" y="46" width="72" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0hb4wkz_di" bpmnElement="Association_0hb4wkz">
+        <di:waypoint x="478" y="320" />
+        <di:waypoint x="510" y="320" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1fgfbyc_di" bpmnElement="Flow_1fgfbyc">
         <di:waypoint x="228" y="210" />
         <di:waypoint x="280" y="210" />
@@ -157,6 +165,10 @@
         <di:waypoint x="478" y="100" />
         <di:waypoint x="602" y="100" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_138qgh1_di" bpmnElement="TextAnnotation_138qgh1">
+        <dc:Bounds x="510" y="305" width="139.9924089068826" height="40.48582995951416" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
