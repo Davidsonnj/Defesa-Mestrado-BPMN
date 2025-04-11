@@ -77,6 +77,8 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
                 defesaBanca.inserir(idDefesa, idBanca);
             }
 
+            execution.setVariable("idDefesaBD", idDefesa);
+
         } catch (ErroInsercaoBancoException e) {
             System.err.println("Erro ao armazenar dados: " + e.getMessage());
             execution.setVariable("erroArmazenamento", true);
