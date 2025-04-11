@@ -1,4 +1,4 @@
-package br.edu.ifes.mestrado.camunda.controller.delegates;
+package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
 import br.edu.ifes.mestrado.camunda.dao.implementations.AlunoDAO;
 import br.edu.ifes.mestrado.camunda.dao.implementations.BancaDAO;
@@ -8,15 +8,12 @@ import br.edu.ifes.mestrado.camunda.exception.ErroInsercaoBancoException;
 import br.edu.ifes.mestrado.camunda.model.Aluno;
 import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.camunda.model.Defesa;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ArmazenaDadosBDDelegate implements JavaDelegate {
     @Override
