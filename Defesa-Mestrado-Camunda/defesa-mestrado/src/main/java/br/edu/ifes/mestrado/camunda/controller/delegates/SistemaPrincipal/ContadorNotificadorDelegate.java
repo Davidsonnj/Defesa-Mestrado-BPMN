@@ -1,4 +1,4 @@
-package br.edu.ifes.mestrado.camunda.controller.delegates;
+package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

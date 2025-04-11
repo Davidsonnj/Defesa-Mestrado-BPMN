@@ -1,4 +1,4 @@
-package br.edu.ifes.mestrado.camunda.controller.delegates;
+package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.RuntimeService;
