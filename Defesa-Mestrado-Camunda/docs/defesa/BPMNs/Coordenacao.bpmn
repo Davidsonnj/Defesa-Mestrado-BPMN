@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dg5wmd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:process id="Process_0z4nyrp" name="Coordenacao" isExecutable="true">
+    <bpmn:serviceTask id="Activity_00gd1nh" name="Verificacao de recebimento de email" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Aluno.BuscarEmailDefesaDelegate">
+      <bpmn:incoming>Flow_0t4dns3</bpmn:incoming>
+      <bpmn:outgoing>Flow_01dqgx7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0t4dns3" sourceRef="StartEvent_1" targetRef="Activity_00gd1nh" />
+    <bpmn:eventBasedGateway id="Gateway_06c6ncz">
+      <bpmn:incoming>Flow_01dqgx7</bpmn:incoming>
+    </bpmn:eventBasedGateway>
+    <bpmn:sequenceFlow id="Flow_01dqgx7" sourceRef="Activity_00gd1nh" targetRef="Gateway_06c6ncz" />
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0t4dns3</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0rf3ghw" messageRef="Message_0krm355" />
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_0krm355" name="SolicitacaoAnuencia" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0z4nyrp">
+      <bpmndi:BPMNShape id="Gateway_1obxhhy_di" bpmnElement="Gateway_06c6ncz">
+        <dc:Bounds x="605" y="72" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1lb1ihk_di" bpmnElement="Activity_00gd1nh">
+        <dc:Bounds x="430" y="57" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01akrl4_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="79" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0t4dns3_di" bpmnElement="Flow_0t4dns3">
+        <di:waypoint x="215" y="97" />
+        <di:waypoint x="430" y="97" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01dqgx7_di" bpmnElement="Flow_01dqgx7">
+        <di:waypoint x="530" y="97" />
+        <di:waypoint x="605" y="97" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
