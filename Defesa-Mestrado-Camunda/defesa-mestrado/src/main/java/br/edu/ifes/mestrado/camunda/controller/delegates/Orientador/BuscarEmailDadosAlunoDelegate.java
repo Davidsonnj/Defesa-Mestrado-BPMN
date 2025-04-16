@@ -21,7 +21,7 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
             String emailOrientador = (String) execution.getVariable("emailOrientador");
 
             String subject = String.format("Dados do aluno - %s", aluno);
-            System.out.println("Verificando o email do Orientador " + emailOrientador);
+            System.out.println("Verificando se existem emails do Orientador " + emailOrientador + "...");
             List<Email> emails = emailController.emails(subject, null, emailOrientador);
 
             if (emails != null && !emails.isEmpty()) {
