@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0dg5wmd" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
-  <bpmn:process id="Process_0z4nyrp" name="Coordenacao" isExecutable="true">
+  <bpmn:process id="Process_0z4nyrp" name="Coordenacao" isExecutable="true" camunda:historyTimeToLive="7">
     <bpmn:serviceTask id="Activity_00gd1nh" name="Verificacao de recebimento de email" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao.BuscarEmailDelegate">
       <bpmn:incoming>Flow_0t4dns3</bpmn:incoming>
       <bpmn:incoming>Flow_1c0r7d5</bpmn:incoming>
@@ -17,11 +17,11 @@
       <bpmn:outgoing>Flow_0t4dns3</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0rf3ghw" messageRef="Message_0krm355" />
     </bpmn:startEvent>
-    <bpmn:intermediateCatchEvent id="Event_1pglpxs" name="1 Dia">
+    <bpmn:intermediateCatchEvent id="Event_1pglpxs" name="1 Segundo">
       <bpmn:incoming>Flow_1n2oiss</bpmn:incoming>
       <bpmn:outgoing>Flow_1c0r7d5</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_07c51ek">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P1S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_1n2oiss" sourceRef="Gateway_06c6ncz" targetRef="Event_1pglpxs" />
@@ -37,7 +37,7 @@
     <bpmn:sequenceFlow id="Flow_10j3pie" sourceRef="Event_1i6l7ta" targetRef="Event_0uj87x6" />
     <bpmn:endEvent id="Event_0uj87x6" name="Envia a resposta de anuência">
       <bpmn:incoming>Flow_10j3pie</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_14zvgkj" camunda:class="" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_14zvgkj" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao.MsgConfirmacaoDelegate" />
     </bpmn:endEvent>
   </bpmn:process>
   <bpmn:message id="Message_0krm355" name="SolicitacaoAnuencia" />
@@ -50,7 +50,7 @@
       <bpmndi:BPMNShape id="Event_1pglpxs_di" bpmnElement="Event_1pglpxs">
         <dc:Bounds x="412" y="182" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="419" y="225" width="27" height="14" />
+          <dc:Bounds x="406" y="225" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1obxhhy_di" bpmnElement="Gateway_06c6ncz">
