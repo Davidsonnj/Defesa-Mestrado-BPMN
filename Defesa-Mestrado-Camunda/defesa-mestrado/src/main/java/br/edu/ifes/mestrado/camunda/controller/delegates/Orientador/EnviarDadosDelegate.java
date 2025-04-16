@@ -13,17 +13,20 @@ public class EnviarDadosDelegate implements JavaDelegate {
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
         String businessKey = execution.getProcessBusinessKey();
 
-        Object bancaDefesa = execution.getVariable("bancaDefesa"); // Como é uma lista de objetos, será necessário fazer o cast correto
-        String dataDefesa = (String) execution.getVariable("dataDefesa");
-        String horaDefesa = (String) execution.getVariable("horaDefesa");
-        String localDefesa = (String) execution.getVariable("localDefesa");
-
         long count = runtimeService.createExecutionQuery()
                 .processInstanceBusinessKey(businessKey)
                 .messageEventSubscriptionName("CompletarCadastro")
                 .count();
+
         System.out.println("Bussiness Key: " + businessKey + " Envio de dados do aluno");
+
         if (count > 0){
+
+            Object bancaDefesa = execution.getVariable("bancaDefesa");
+            String dataDefesa = (String) execution.getVariable("dataDefesa");
+            String horaDefesa = (String) execution.getVariable("horaDefesa");
+            String localDefesa = (String) execution.getVariable("localDefesa");
+
             Map<String, Object> variables = new HashMap<String, Object>();
             variables.put("bancaDefesa", bancaDefesa);
             variables.put("dataDefesa", dataDefesa);
