@@ -3,6 +3,11 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.runtime.Execution;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SolicitarAnuenciaDelegate implements JavaDelegate {
 
@@ -11,19 +16,24 @@ public class SolicitarAnuenciaDelegate implements JavaDelegate {
         String businessKey = execution.getProcessBusinessKey();
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
 
-        long count = runtimeService.createExecutionQuery()
+        List<Execution> execucoes = runtimeService.createExecutionQuery()
+                .processDefinitionKey("Process_0z4nyrp")
                 .processInstanceBusinessKey(businessKey)
-                .messageEventSubscriptionName("SolicitacaoAnuencia")
-                .count();
+                .active()
+                .list();
 
-        if (count > 0) {
-            runtimeService.createMessageCorrelation("SolicitacaoAnuencia")
-                    .processInstanceBusinessKey(businessKey)
-                    .correlateAll();
-            System.out.println("Mensagem de anuência solicitado com sucesso!");
-        } else {
-            System.out.println("Nenhuma instância encontrada esperando pela mensagem de solicitacao de anuência.");
+        System.out.println(execucoes);
+
+        if (execucoes.isEmpty()) {
+            if (businessKey != null) {
+                runtimeService.createMessageCorrelation("SolicitacaoAnuencia")
+                        .processInstanceBusinessKey(businessKey)
+                        .correlate();
+
+                System.out.println("Mensagem de anuência solicitado com sucesso!");
+            } else {
+                System.out.println("Nenhuma instância encontrada esperando pela mensagem de solicitacao de anuência.");
+            }
         }
     }
-
 }
