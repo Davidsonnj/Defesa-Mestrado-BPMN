@@ -19,7 +19,6 @@ public class BuscarEmailAnuenciaDelegate implements JavaDelegate {
 
             String email = "davidsoncsantos45@gmail.com";
             String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
-            String aluno = (String) execution.getVariable("aluno");
 
             String subject = String.format("Anuencia de defesa - %s", titulo_trabalho);
             System.out.println(subject);
