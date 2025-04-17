@@ -7,7 +7,7 @@ import org.camunda.bpm.engine.delegate.JavaDelegate;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnviarDadosDelegate implements JavaDelegate {
+public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
