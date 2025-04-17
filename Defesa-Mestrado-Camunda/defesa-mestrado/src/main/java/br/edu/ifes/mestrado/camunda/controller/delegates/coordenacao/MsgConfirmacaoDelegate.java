@@ -31,7 +31,8 @@ public class MsgConfirmacaoDelegate implements JavaDelegate {
             }
 
             runtimeService.createMessageCorrelation("MsgCoordenacao")
-                    .setVariable("nome", execution.getVariable("nome"))
+                    .setVariable("justificativaAnuencia", justificativaAnuencia)
+                    .setVariable("anuencia", anuencia)
                     .processInstanceBusinessKey(businessKey)
                     .correlate();
         } else {
