@@ -24,7 +24,7 @@ public class EnviarJustificativaAnuenciaDelegate implements JavaDelegate {
             runtimeService.createMessageCorrelation("DefesaNegada")
                     .setVariable("justificativaAnuencia", justificativaAnuencia)
                     .processInstanceBusinessKey(businessKey)
-                    .correlate();
+                    .correlateAll();
         } else {
             System.out.println("Nenhuma instância encontrada esperando pela mensagem Envio de justificativa no sistema principal.");
         }
