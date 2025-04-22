@@ -34,7 +34,7 @@ public class NotifyDefenseDelegate implements JavaDelegate {
                 + "Caso haja alguma dúvida ou se necessitar de mais informações, "
                 + "por favor, entre em contato conosco.\n\n"
                 + "Atenciosamente,\n"
-                + "Equipe de Defesa de Trabalhos";
+                + "PPComp";
 
         emailSender.sendEmail(emailAluno, subject, body);
 
