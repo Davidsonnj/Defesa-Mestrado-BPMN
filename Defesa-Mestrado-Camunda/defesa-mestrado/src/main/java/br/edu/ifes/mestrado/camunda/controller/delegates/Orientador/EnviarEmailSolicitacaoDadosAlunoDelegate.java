@@ -12,7 +12,7 @@ public class EnviarEmailSolicitacaoDadosAlunoDelegate implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String emailOrientador = (String) execution.getVariable("emailOrientador");
 
-        String subject = "Solicitação de Dados do Aluno" + aluno;
+        String subject = "Solicitação de Dados do Aluno " + aluno;
         String body = "Prezado(a) Orientador(a),\n\n"
                 + "O PPComp do IFES - Campus Serra e esta entrando em contato para solicitar os seguintes dados do aluno " + aluno + " (siga exatamente essa formatação, sem nenhuma adição de informações):\n\n"
                 + "- Data:\n"
