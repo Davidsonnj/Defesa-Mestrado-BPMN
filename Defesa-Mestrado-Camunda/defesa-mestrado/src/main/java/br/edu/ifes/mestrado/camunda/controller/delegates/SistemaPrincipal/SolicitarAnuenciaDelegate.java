@@ -27,10 +27,12 @@ public class SolicitarAnuenciaDelegate implements JavaDelegate {
         if (execucoes.isEmpty()) {
             if (businessKey != null) {
                 String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
+                String aluno = (String) execution.getVariable("aluno");
 
                 runtimeService.createMessageCorrelation("SolicitacaoAnuencia")
                         .processInstanceBusinessKey(businessKey)
                         .setVariable("titulo_trabalho", titulo_trabalho)
+                        .setVariable("aluno", aluno)
                         .correlate();
 
                 System.out.println("Mensagem de anuência solicitado com sucesso!");
