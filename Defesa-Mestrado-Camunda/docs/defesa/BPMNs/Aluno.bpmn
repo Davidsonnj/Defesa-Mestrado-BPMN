@@ -119,7 +119,7 @@
       <bpmn:incoming>Flow_1eavlg3</bpmn:incoming>
       <bpmn:outgoing>Flow_17ow41j</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_064qwzo">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${recebeuEmail == true }</bpmn:condition>
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${recebeuEmail2 == true }</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:intermediateCatchEvent>
     <bpmn:sequenceFlow id="Flow_0ckfu53" sourceRef="Gateway_0l0yv3h" targetRef="Event_0c2v3z0" />
