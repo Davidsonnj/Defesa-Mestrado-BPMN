@@ -1,11 +1,13 @@
 package br.edu.ifes.mestrado.emailAPI;
 
+import br.edu.ifes.mestrado.emailAPI.model.Email;
 import br.edu.ifes.mestrado.emailAPI.service.EmailService;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.service.EmailSenderService;
 import br.edu.ifes.mestrado.emailAPI.view.ChoicesView;
 import br.edu.ifes.mestrado.emailAPI.view.EmailView;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -26,7 +28,8 @@ public class Main {
             String bodyFilter = filters[1];
             String senderFilter = filters[2];
 
-            emailController.emails(subjectFilter, bodyFilter, senderFilter);
+            List<Email> emails= emailController.emails(subjectFilter, bodyFilter, senderFilter);
+            System.out.println(emails);
         } else if (opcao == 2) {
             System.out.print("Para: ");
             String to = scanner.nextLine();

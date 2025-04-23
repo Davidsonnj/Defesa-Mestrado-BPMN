@@ -3,6 +3,9 @@ package br.edu.ifes.mestrado.emailAPI.service;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +42,11 @@ public class EmailService {
                 boolean matchesSender = (senderFilter == null || sender.toLowerCase().contains(senderFilter.toLowerCase()));
 
                 if (matchesSubject && matchesBody && matchesSender) {
-                    emails.add(new Email(subject, sender, message.getSentDate(), body));
+                    List<String> attachmentPaths = new ArrayList<>();
+                    if (message.getContent() instanceof MimeMultipart) {
+                        attachmentPaths = extractAttachments((MimeMultipart) message.getContent());
+                    }
+                    emails.add(new Email(subject, sender, message.getSentDate(), body, attachmentPaths));
                 }
             }
 
@@ -77,4 +84,38 @@ public class EmailService {
         }
         return text.toString();
     }
+
+    private List<String> extractAttachments(MimeMultipart multipart) throws Exception {
+        String outputDir = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/anexos/";
+        List<String> savedFiles = new ArrayList<>();
+
+        for (int i = 0; i < multipart.getCount(); i++) {
+            BodyPart part = multipart.getBodyPart(i);
+
+            if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition()) && part.getFileName() != null) {
+                String fileName = part.getFileName();
+                File file = new File(outputDir + fileName);
+                file.getParentFile().mkdirs();
+
+                try (InputStream is = part.getInputStream();
+                     FileOutputStream fos = new FileOutputStream(file)) {
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    while ((bytesRead = is.read(buffer)) != -1) {
+                        fos.write(buffer, 0, bytesRead);
+                    }
+                    savedFiles.add(file.getAbsolutePath());
+                    System.out.println("✅ Anexo salvo: " + file.getAbsolutePath());
+                }
+            }
+
+            // Se multipart aninhado
+            if (part.getContent() instanceof MimeMultipart) {
+                savedFiles.addAll(extractAttachments((MimeMultipart) part.getContent()));
+            }
+        }
+
+        return savedFiles;
+    }
+
 }
