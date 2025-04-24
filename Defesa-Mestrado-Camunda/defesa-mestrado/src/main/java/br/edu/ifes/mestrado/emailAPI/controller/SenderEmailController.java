@@ -5,6 +5,8 @@ import br.edu.ifes.mestrado.emailAPI.service.EmailSenderService;
 import br.edu.ifes.mestrado.emailAPI.service.EmailService;
 import br.edu.ifes.mestrado.emailAPI.view.EmailView;
 
+import java.util.List;
+
 public class SenderEmailController {
     private EmailLogin emailLogin;
     private EmailSenderService emailSenderService;
@@ -18,6 +20,11 @@ public class SenderEmailController {
 
     public void sendEmail(String to, String subject, String body) {
         boolean success = emailSenderService.sendEmail(to, subject, body);
+        emailView.displaySendEmailStatus(success);
+    }
+
+    public void sendEmail(String to, String subject, String body, List<String> paths) {
+        boolean success = emailSenderService.sendEmail(to, subject, body, paths);
         emailView.displaySendEmailStatus(success);
     }
 }
