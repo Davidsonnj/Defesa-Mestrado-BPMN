@@ -55,7 +55,7 @@ public class NotificarBancaDelegate implements JavaDelegate {
 
             emailSender.sendEmail(banca.getEmail(), subject, body);
         }
-        System.out.println("Notificou todos os integrantes da banca!");
+        System.out.println("Notificou todos os integrantes da banca sobre o horario e local de defesa.");
 
     }
 }
