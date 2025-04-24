@@ -30,6 +30,7 @@ public class NotifyDefenseDelegate implements JavaDelegate {
                 + tituloTrabalho + "', está agendada conforme os detalhes a seguir:\n\n"
                 + "Título do Trabalho: " + tituloTrabalho + "\n"
                 + "Aluno: " + aluno + "\n\n"
+                + "Para confirmar mande um email com o assunto: Confirmação da Defesa - " + tituloTrabalho + "\n"
                 + "A defesa ocorrerá de acordo com o cronograma e locais previamente definidos.\n\n"
                 + "Caso haja alguma dúvida ou se necessitar de mais informações, "
                 + "por favor, entre em contato conosco.\n\n"
