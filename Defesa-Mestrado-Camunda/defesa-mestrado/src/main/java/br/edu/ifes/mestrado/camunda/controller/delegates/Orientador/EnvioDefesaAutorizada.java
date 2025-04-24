@@ -12,7 +12,7 @@ public class EnvioDefesaAutorizada implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
         String dataDefesa = (String) execution.getVariable("dataDefesa");
-        String horaDefesa = (String) execution.getVariable("dataHora");
+        String horaDefesa = (String) execution.getVariable("horaDefesa");
         String localDefesa = (String) execution.getVariable("localDefesa");
 
         String subject = "Autorização para Defesa de Mestrado – " + aluno;
