@@ -36,21 +36,21 @@
         <bpmn:condition xsi:type="bpmn:tFormalExpression">${recebeuEmail == true }</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:intermediateCatchEvent>
-    <bpmn:endEvent id="Event_0uj87x6" name="Envia a resposta de anuência">
-      <bpmn:incoming>Flow_10j3pie</bpmn:incoming>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_14zvgkj" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao.MsgConfirmacaoDelegate" />
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0t4dns3" sourceRef="StartEvent_1" targetRef="Activity_00gd1nh" />
     <bpmn:sequenceFlow id="Flow_1c0r7d5" sourceRef="Event_1pglpxs" targetRef="Activity_00gd1nh" />
     <bpmn:sequenceFlow id="Flow_01dqgx7" sourceRef="Activity_00gd1nh" targetRef="Gateway_06c6ncz" />
     <bpmn:sequenceFlow id="Flow_1n2oiss" sourceRef="Gateway_06c6ncz" targetRef="Event_1pglpxs" />
     <bpmn:sequenceFlow id="Flow_18oefal" sourceRef="Gateway_06c6ncz" targetRef="Event_1i6l7ta" />
     <bpmn:sequenceFlow id="Flow_10j3pie" sourceRef="Event_1i6l7ta" targetRef="Event_0uj87x6" />
+    <bpmn:endEvent id="Event_0uj87x6" name="Envia a resposta de anuência">
+      <bpmn:incoming>Flow_10j3pie</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_14zvgkj" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao.MsgConfirmacaoDelegate" />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0dpsi52">
       <bpmndi:BPMNShape id="Participant_04ihjqg_di" bpmnElement="Participant_04ihjqg" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="600" height="250" />
+        <dc:Bounds x="160" y="80" width="690" height="250" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1lb1ihk_di" bpmnElement="Activity_00gd1nh">
