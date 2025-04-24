@@ -16,8 +16,11 @@ public class DissertacaoDelegate implements JavaDelegate {
                 .messageEventSubscriptionName("RegistrarDissertacao")
                 .count();
         if (count > 0) {
+            String caminhosDosAnexos = (String) execution.getVariable("caminhosDosAnexos");
+
             runtimeService.createMessageCorrelation("RegistrarDissertacao")
                     .processInstanceBusinessKey(businessKey)
+                    .setVariable("caminhosDosAnexos", caminhosDosAnexos)
                     .correlate();
         }
     }
