@@ -1,7 +1,7 @@
 Table Aluno {
   idAluno int [pk, increment]
   nome varchar(100)
-  email varchar(100)
+  email varchar(100) [unique]
 }
 
 Table Banca {
@@ -9,7 +9,7 @@ Table Banca {
   minicurriculo text
   instituicao varchar(100)
   nome varchar(100)
-  email varchar(100)
+  email varchar(100) [unique]
 }
 
 Table Defesa {
