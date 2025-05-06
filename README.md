@@ -137,4 +137,4 @@ Os diagramas a seguir representam visualmente os processos relacionados à Defes
 
 ### 📚 Coordenação
 > Apresenta as etapas sob responsabilidade da coordenação, como confirmar ou negar anuência da defesa.
-![BPMN Coordenacao](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/Coordenacao.png)**
+![BPMN Coordenacao](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/Coordenacao.png)
