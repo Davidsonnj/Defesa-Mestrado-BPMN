@@ -37,7 +37,7 @@ public class EmailService {
                 String body = getTextFromMessage(message);
 
                 // Aplicando os filtros
-                boolean matchesSubject = (subjectFilter == null || subject.toLowerCase().contains(subjectFilter.toLowerCase()));
+                boolean matchesSubject = (subjectFilter == null || subject.toLowerCase().equalsIgnoreCase(subjectFilter.toLowerCase()));
                 boolean matchesBody = (bodyFilter == null || body.toLowerCase().contains(bodyFilter.toLowerCase()));
                 boolean matchesSender = (senderFilter == null || sender.toLowerCase().contains(senderFilter.toLowerCase()));
 
