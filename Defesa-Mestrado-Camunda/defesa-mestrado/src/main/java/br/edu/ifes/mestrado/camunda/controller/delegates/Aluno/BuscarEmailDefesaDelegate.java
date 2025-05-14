@@ -2,6 +2,7 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
+import br.edu.ifes.mestrado.emailAPI.service.MarkEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
@@ -13,6 +14,7 @@ public class BuscarEmailDefesaDelegate implements JavaDelegate {
 
         if(execution.hasVariable("verificaEmail")) {
             EmailController emailController = new EmailController();
+            MarkEmail markEmail = new MarkEmail();
             Boolean recebeuEmail = false;
 
             String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
@@ -27,6 +29,10 @@ public class BuscarEmailDefesaDelegate implements JavaDelegate {
 
             if (!emailConfirmacao.isEmpty()) {
                 recebeuEmail = true;
+
+                for(Email email : emailConfirmacao) {
+                    markEmail.markEmailAsRead(email.getUid());
+                }
             } else {
                 recebeuEmail = false;
             }

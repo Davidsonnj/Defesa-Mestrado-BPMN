@@ -2,6 +2,7 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.Orientador;
 
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
+import br.edu.ifes.mestrado.emailAPI.service.MarkEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
@@ -9,12 +10,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         if(execution.hasVariable("verificaEmail")) {
             EmailController emailController = new EmailController();
+            MarkEmail markEmail = new MarkEmail();
             Boolean recebeuEmail = false;
 
             String aluno = (String) execution.getVariable("aluno");
@@ -48,6 +52,10 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
                 System.out.println("Local: " + local);
                 System.out.println("Banca: " + banca);
 
+                for(Email email : emails) {
+                    markEmail.markEmailAsRead(email.getUid());
+                }
+
             } else {
                 execution.setVariable("recebeuEmail", false);
                 System.out.println("Nenhum e-mail encontrado.");
@@ -59,10 +67,10 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
     }
 
     private String extrairCampo(String texto, String campo) {
-        for (String linha : texto.split("\n")) {
-            if (linha.trim().startsWith(campo + ":")) {
-                return linha.split(":", 2)[1].trim();
-            }
+        Pattern pattern = Pattern.compile(campo + ":\\s*(.*?)(?=\\s+[A-Z][a-z]+:|$)");
+        Matcher matcher = pattern.matcher(texto);
+        if (matcher.find()) {
+            return matcher.group(1).trim();
         }
         return "";
     }
@@ -70,40 +78,20 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
     private List<Map<String, String>> extrairBanca(String corpo) {
         List<Map<String, String>> banca = new ArrayList<>();
 
-        String[] linhas = corpo.split("\n");
-        boolean lendoBanca = false;
-        Map<String, String> membroAtual = new HashMap<>();
+        Pattern bancaPattern = Pattern.compile("Nome:\\s*(.*?)\\s+Email:\\s*(.*?)\\s+Instituição:\\s*(.*?)\\s+Minicurrículo:\\s*(.*?)(?=\\s+Nome:|$)");
+        Matcher matcher = bancaPattern.matcher(corpo);
 
-        for (String linha : linhas) {
-            linha = linha.trim();
-
-            if (linha.startsWith("Banca:")) {
-                lendoBanca = true;
-                continue;
-            }
-
-            if (lendoBanca) {
-                if (linha.startsWith("Nome:")) {
-                    if (!membroAtual.isEmpty()) {
-                        banca.add(new HashMap<>(membroAtual));
-                        membroAtual.clear();
-                    }
-                    membroAtual.put("nome", linha.split(":", 2)[1].trim());
-                } else if (linha.startsWith("Email:")) {
-                    membroAtual.put("email", linha.split(":", 2)[1].trim());
-                } else if (linha.startsWith("Instituição:")) {
-                    membroAtual.put("instituicao", linha.split(":", 2)[1].trim());
-                } else if (linha.startsWith("Minicurrículo:")) {
-                    membroAtual.put("minicurriculo", linha.split(":", 2)[1].trim());
-                }
-            }
-        }
-
-        if (!membroAtual.isEmpty()) {
-            banca.add(membroAtual);
+        while (matcher.find()) {
+            Map<String, String> membro = new HashMap<>();
+            membro.put("nome", matcher.group(1).trim());
+            membro.put("email", matcher.group(2).trim());
+            membro.put("instituicao", matcher.group(3).trim());
+            membro.put("minicurriculo", matcher.group(4).trim());
+            banca.add(membro);
         }
 
         return banca;
     }
+
 
 }
