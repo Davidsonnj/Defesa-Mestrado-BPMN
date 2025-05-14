@@ -21,6 +21,7 @@ public class EmailChecker {
     @Scheduled(fixedDelay = 60000)
     public void verificarEmails() {
         EmailController emailController = new EmailController();
+        MarkEmail markEmail = new MarkEmail();
 
         String subject = "Defesa";
         System.out.println("Verificando o email do aluno...");
@@ -40,23 +41,33 @@ public class EmailChecker {
                     String emailAluno = dados.email;
                     String titulo_trabalho = dados.titulo;
 
-                    System.out.println("Aluno: " + aluno);
-                    System.out.println("Email do Aluno: " + emailAluno);
-                    System.out.println("Titulo: " + titulo_trabalho);
-
-                    camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, emailOrientador);
+                    boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, emailOrientador);
+                    if(camundaResquest){
+                        System.out.println("Requisição enviada ao Camunda com sucesso!");
+                        markEmail.markEmailAsRead(email.getUid());
+                        emailController.sendEmail(emailOrientador, "\"Dados Extraídos com Sucesso\"\n",
+                                "Prezado(a),"
+                                        + "\n\nOs dados foram extraídos com sucesso e o processo foi iniciado."
+                                        + "\n\nAgradecemos a colaboração."
+                                        + "\n\nAtenciosamente,"
+                                        + "\nPPComp - Programa de Pós-Graduação em Computação");
+                    } else {
+                        System.out.println("Erro ao enviar requisição para o Camunda.");
+                    }
                 } else {
                     System.out.println("Dados não encontrados no email.");
                     emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
                                 "Prezado(a),"
                                     + "\n\nNão foi possível extrair os dados do e-mail enviado. Para que o cadastro do trabalho seja realizado corretamente, envie os dados no seguinte formato:"
-                                    + "\n\naluno: 'Nome do Aluno'"
+                                    + "\n\n Assunto do email: 'Defesa'"
+                                    + "\naluno: 'Nome do Aluno'"
                                     + "\nemail: 'email@exemplo.com'"
                                     + "\ntitulo: 'Título do Trabalho'"
                                     + "\n\nExemplo: aluno: 'João da Silva' email: 'joao.silva@exemplo.com' titulo: 'Análise de Dados com IA'"
                                     + "\n\nAgradecemos a colaboração."
                                     + "\n\nAtenciosamente,"
                                     + "\nPPComp - Programa de Pós-Graduação em Computação");
+                    markEmail.markEmailAsRead(email.getUid());
                 }
             }
         } else {
