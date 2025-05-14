@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Email {
+    private long uid;
     private String subject;
     private String sender;
     private Date date;
@@ -11,7 +12,8 @@ public class Email {
     private List<String> attachmentPaths;
 
 
-    public Email(String subject, String sender, Date date, String body, List<String> attachmentPaths) {
+    public Email(long uid, String subject, String sender, Date date, String body, List<String> attachmentPaths) {
+        this.uid = uid;
         this.subject = subject;
         this.sender = sender;
         this.date = date;
@@ -19,13 +21,15 @@ public class Email {
         this.attachmentPaths = attachmentPaths;
     }
 
-    public Email(String subject, String sender, Date date, String body) {
+    public Email(long uid, String subject, String sender, Date date, String body) {
+        this.uid = uid;
         this.subject = subject;
         this.sender = sender;
         this.date = date;
         this.body = body;
     }
 
+    public long getUid() { return uid; }
     public List<String> getAttachmentPaths() {
         return attachmentPaths;
     }
