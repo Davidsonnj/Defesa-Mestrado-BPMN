@@ -3,11 +3,13 @@ package br.edu.ifes.mestrado.emailAPI.service;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.search.FlagTerm;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class EmailService {
     private String host;
@@ -31,10 +33,16 @@ public class EmailService {
             Folder inbox = store.getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
 
-            for (Message message : inbox.getMessages()) {
+            UIDFolder uidFolder = (UIDFolder) inbox;
+
+            // Buscar apenas e-mails não lidos
+            Message[] messages = inbox.search(new FlagTerm(new Flags(Flags.Flag.SEEN), false));
+
+            for (Message message : messages) {
                 String subject = message.getSubject();
                 String sender = message.getFrom()[0].toString();
-                String body = getTextFromMessage(message);
+                String body = limparHtml(getTextFromMessage(message));
+                long uid = uidFolder.getUID(message);
 
                 // Aplicando os filtros
                 boolean matchesSubject = (subjectFilter == null || subject.toLowerCase().equalsIgnoreCase(subjectFilter.toLowerCase()));
@@ -46,7 +54,8 @@ public class EmailService {
                     if (message.getContent() instanceof MimeMultipart) {
                         attachmentPaths = extractAttachments((MimeMultipart) message.getContent());
                     }
-                    emails.add(new Email(subject, sender, message.getSentDate(), body, attachmentPaths));
+
+                    emails.add(new Email(uid, subject, sender, message.getSentDate(), body, attachmentPaths));
                 }
             }
 
@@ -72,18 +81,22 @@ public class EmailService {
         return "";
     }
 
+
     private String getTextFromMimeMultipart(MimeMultipart mimeMultipart) throws Exception {
-        StringBuilder text = new StringBuilder();
         for (int i = 0; i < mimeMultipart.getCount(); i++) {
             BodyPart part = mimeMultipart.getBodyPart(i);
+
             if (part.isMimeType("text/plain")) {
-                text.append((String) part.getContent());
+                return (String) part.getContent();
             } else if (part.isMimeType("text/html")) {
-                text.append((String) part.getContent());
+                return (String) part.getContent();
+            } else if (part.getContent() instanceof MimeMultipart) {
+                return getTextFromMimeMultipart((MimeMultipart) part.getContent());
             }
         }
-        return text.toString();
+        return "";
     }
+
 
     private List<String> extractAttachments(MimeMultipart multipart) throws Exception {
         String outputDir = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/anexos/";
@@ -117,5 +130,26 @@ public class EmailService {
 
         return savedFiles;
     }
+
+    public static String limparHtml(String html) {
+        if (html == null) return "";
+
+        // Remove tags HTML
+        String texto = html.replaceAll("<[^>]+>", "");
+
+        // Converte entidades HTML (ex: &#39; → ')
+        texto = texto.replaceAll("&#39;", "'")
+                .replaceAll("&quot;", "\"")
+                .replaceAll("&amp;", "&")
+                .replaceAll("&lt;", "<")
+                .replaceAll("&gt;", ">")
+                .replaceAll("&nbsp;", " ");
+
+        // Remove espaços duplicados e quebra de linha
+        texto = texto.replaceAll("\\s+", " ").trim();
+
+        return texto;
+    }
+
 
 }
