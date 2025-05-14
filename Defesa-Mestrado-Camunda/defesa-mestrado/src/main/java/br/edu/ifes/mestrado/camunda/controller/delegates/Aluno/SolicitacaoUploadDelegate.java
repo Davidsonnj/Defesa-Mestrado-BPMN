@@ -16,7 +16,7 @@ public class SolicitacaoUploadDelegate implements JavaDelegate {
 
         String body = "Prezado(a) Aluno(a),\n\n"
                 + "Gostaríamos de informar que, para dar continuidade ao processo de defesa de mestrado, "
-                + "solicitamos que envie a versão final da sua tese, com o título \"" + titulo_trabalho + "\", "
+                + "solicitamos que envie a versão final da sua tese, com o assunto: Dissertação da Defesa - " + titulo_trabalho + ", "
                 + "para este e-mail.\n\n"
                 + "Por favor, envie o arquivo da tese em formato PDF até a data limite, para que possamos agendar a sua defesa. "
                 + "Caso já tenha enviado o documento, por favor desconsidere este lembrete.\n\n"
