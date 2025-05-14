@@ -13,7 +13,7 @@ public class CamundaRequester {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public void iniciarProcesso(String aluno, String tituloTrabalho, String emailAluno, String emailOrientador) {
+    public boolean iniciarProcesso(String aluno, String tituloTrabalho, String emailAluno, String emailOrientador) {
         String url = "http://localhost:8080/engine-rest/condition";
 
         Map<String, Object> body = new HashMap<>();
@@ -37,9 +37,11 @@ public class CamundaRequester {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
             System.out.println("Requisição enviada ao Camunda com sucesso!");
             System.out.println("Resposta: " + response.getStatusCode());
+            return response.getStatusCode() == HttpStatus.OK;
         } catch (Exception e) {
             System.err.println("Erro ao enviar requisição para o Camunda: " + e.getMessage());
         }
+        return false;
     }
 
     private Map<String, Object> criarVariavel(Object valor, String tipo) {
