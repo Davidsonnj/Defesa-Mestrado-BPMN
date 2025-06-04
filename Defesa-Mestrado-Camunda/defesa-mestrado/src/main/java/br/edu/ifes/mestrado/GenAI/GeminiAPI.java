@@ -2,7 +2,9 @@ package br.edu.ifes.mestrado.GenAI;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
+import org.springframework.stereotype.Service;
 
+@Service
 public final class GeminiAPI {
     private static final Client client = Client.builder()
             .apiKey("GOOGLE_KEY")
