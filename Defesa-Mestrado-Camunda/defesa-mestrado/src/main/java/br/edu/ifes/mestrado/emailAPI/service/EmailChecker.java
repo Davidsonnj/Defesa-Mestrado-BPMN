@@ -1,8 +1,11 @@
 package br.edu.ifes.mestrado.emailAPI.service;
 
+import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaDadosIniciais;
+import br.edu.ifes.mestrado.GenAI.pergunta.interfaces.PromptPergunta;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
 import br.edu.ifes.mestrado.emailAPI.model.ExtrairDadosEmail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,9 +16,12 @@ import java.util.List;
 public class EmailChecker {
 
     private final CamundaRequester camundaRequester;
+    private final PerguntaDadosIniciais perguntaDadosIniciais;
 
-    public EmailChecker(CamundaRequester camundaRequester) {
+    @Autowired
+    public EmailChecker(CamundaRequester camundaRequester, PerguntaDadosIniciais perguntaDadosIniciais) {
         this.camundaRequester = camundaRequester;
+        this.perguntaDadosIniciais = perguntaDadosIniciais;
     }
 
     @Scheduled(fixedDelay = 60000)
@@ -34,7 +40,14 @@ public class EmailChecker {
                 String emailOrientador = email.getSender();
                 String body = email.getBody();
 
-                ExtrairDadosEmail.DadosExtraidos dados = ExtrairDadosEmail.extrairDados(body);
+                String resposta = perguntaDadosIniciais.takeQuestion(body);
+                String respostaLimpa = resposta.replaceAll("[\\n\\r]", " ")
+                        .replaceAll("\\s+", " ")
+                        .replace("'", "")
+                        .trim();
+
+
+                ExtrairDadosEmail.DadosExtraidos dados = ExtrairDadosEmail.extrairDados(respostaLimpa);
 
                 if (dados != null) {
                     String aluno = dados.aluno;
@@ -58,12 +71,12 @@ public class EmailChecker {
                     System.out.println("Dados não encontrados no email.");
                     emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
                                 "Prezado(a),"
-                                    + "\n\nNão foi possível extrair os dados do e-mail enviado. Para que o cadastro do trabalho seja realizado corretamente, envie os dados no seguinte formato:"
-                                    + "\n\n Assunto do email: 'Defesa'"
-                                    + "\naluno: 'Nome do Aluno'"
-                                    + "\nemail: 'email@exemplo.com'"
-                                    + "\ntitulo: 'Título do Trabalho'"
-                                    + "\n\nExemplo: aluno: 'João da Silva' email: 'joao.silva@exemplo.com' titulo: 'Análise de Dados com IA'"
+                                    + "\n\nNão foi possível extrair os dados do e-mail enviado. Para que o cadastro do trabalho seja realizado corretamente, envie os seguintes dados no corpo do e-mail:"
+                                    + "\n\nAssunto do email: Defesa"
+                                    + "\naluno: Nome do Aluno"
+                                    + "\nemail: email@exemplo.com"
+                                    + "\ntitulo: Título do Trabalho"
+                                    + "\n\nExemplo: aluno: João da Silva email: joao.silva@exemplo.com titulo: Análise de Dados com IA"
                                     + "\n\nAgradecemos a colaboração."
                                     + "\n\nAtenciosamente,"
                                     + "\nPPComp - Programa de Pós-Graduação em Computação");

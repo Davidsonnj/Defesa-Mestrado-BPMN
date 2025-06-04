@@ -24,6 +24,7 @@ public class ExtrairDadosEmail {
                 Pattern.CASE_INSENSITIVE
         );
 
+
         Matcher matcher = pattern.matcher(texto);
         if (matcher.find()) {
             String aluno = matcher  .group(1);
