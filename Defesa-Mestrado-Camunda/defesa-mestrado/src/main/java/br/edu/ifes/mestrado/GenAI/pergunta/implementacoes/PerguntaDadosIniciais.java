@@ -16,13 +16,18 @@ public class PerguntaDadosIniciais implements PromptPergunta {
     }
 
     @Override
-    public String takeQuestion(String body) {
-        String texto = "Olá! Preciso que você me informe os seguintes dados para montar uma mensagem sobre a defesa de uma dissertação. "
-                + "Por favor, responda exatamente neste formato, para que eu possa extrair e armazenar em variáveis:\n\n"
-                + "aluno: nome do aluno   email: email do aluno   titulo: titulo da dissertação\n\n\n"
-                + "O texto de onde você deve extrair essas informações está a seguir:\n"
-                + body;
+    public String takeQuestion(String body) throws Exception{
+        try {
+            String texto = "Olá! Preciso que você me informe os seguintes dados para montar uma mensagem sobre a defesa de uma dissertação. "
+                    + "Por favor, responda exatamente neste formato, para que eu possa extrair e armazenar em variáveis:\n\n"
+                    + "aluno: nome do aluno   email: email do aluno   titulo: titulo da dissertação\n\n\n"
+                    + "O texto de onde você deve extrair essas informações está a seguir:\n"
+                    + body;
 
-        return geminiAPI.perguntar(texto);
+            return geminiAPI.perguntar(texto);
+        } catch (Exception e) {
+            throw e;
+        }
     }
+
 }

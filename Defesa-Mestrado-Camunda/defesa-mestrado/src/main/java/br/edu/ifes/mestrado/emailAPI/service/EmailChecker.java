@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class EmailChecker {
@@ -38,14 +40,39 @@ public class EmailChecker {
                 System.out.println("Email encontrado: " + email.getSubject() + " - " + email.getSender());
 
                 String emailOrientador = email.getSender();
-                String body = email.getBody();
 
-                String resposta = perguntaDadosIniciais.takeQuestion(body);
+                // Trata o email do orientador (Pega o nome e o email
+                String regex = "^(.*?)\\s<([^<>@\\s]+@[^<>@\\s]+)>";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(emailOrientador);
+
+                if (matcher.find()) {
+                    String nome = matcher.group(1);
+                    emailOrientador = matcher.group(2); // emailOrientador agora contém só o e-mail
+
+                    System.out.println("Nome: " + nome);
+                    System.out.println("Email: " + emailOrientador);
+                }
+
+                String body = email.getBody();
+                String resposta = null;
+                try {
+                    resposta = perguntaDadosIniciais.takeQuestion(body);
+                } catch (Exception e) {
+                    System.err.println("Erro ao processar takeQuestion: " + e.getMessage());
+                    continue;
+                }
+                System.out.println("Resposta: " + resposta);
+
+                if (resposta == null) {
+                    System.out.println("Resposta é nula, pulando esse email.");
+                    continue;
+                }
+
                 String respostaLimpa = resposta.replaceAll("[\\n\\r]", " ")
                         .replaceAll("\\s+", " ")
                         .replace("'", "")
                         .trim();
-
 
                 ExtrairDadosEmail.DadosExtraidos dados = ExtrairDadosEmail.extrairDados(respostaLimpa);
 

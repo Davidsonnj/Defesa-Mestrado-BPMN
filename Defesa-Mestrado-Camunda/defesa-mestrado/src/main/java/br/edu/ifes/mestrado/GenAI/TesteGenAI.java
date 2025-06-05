@@ -24,7 +24,11 @@ public class TesteGenAI {
                 + body;
 
 
+        try {
+            System.out.println(geminiAPI.perguntar(pergunta));
+        }catch (Exception e) {
+            System.err.println("Erro ao processar takeQuestion: " + e.getMessage());
+        }
 
-        System.out.println(geminiAPI.perguntar(pergunta));
     }
 }
