@@ -22,7 +22,8 @@ public class PerguntaDadosIniciais implements PromptPergunta {
                     + "Por favor, responda exatamente neste formato, para que eu possa extrair e armazenar em variáveis:\n\n"
                     + "aluno: nome do aluno   email: email do aluno   titulo: titulo da dissertação\n\n\n"
                     + "O texto de onde você deve extrair essas informações está a seguir:\n"
-                    + body;
+                    + body
+                    + ". Se tu não encontrar, retornar SOMENTE a palavra null";
 
             return geminiAPI.perguntar(texto);
         } catch (Exception e) {
