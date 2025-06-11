@@ -1,12 +1,15 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
+import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
+import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
 import br.edu.ifes.mestrado.emailAPI.service.MarkEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import java.util.List;
+import java.util.Map;
 
 public class BuscarEmailDefesaDelegate implements JavaDelegate {
     @Override
@@ -14,24 +17,30 @@ public class BuscarEmailDefesaDelegate implements JavaDelegate {
 
         if(execution.hasVariable("verificaEmail")) {
             EmailController emailController = new EmailController();
-            MarkEmail markEmail = new MarkEmail();
+            EmailDAO emailDAO = new EmailDAO();
             Boolean recebeuEmail = false;
 
             String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
             String emailAluno = (String) execution.getVariable("emailAluno");
             String aluno = (String) execution.getVariable("aluno");
 
-            String subject = String.format("Confirmação da Defesa - %s", titulo_trabalho);
-            System.out.println(subject);
-
-            System.out.println("Verificando o email do aluno");
-            List<Email> emailConfirmacao = emailController.emails(subject, null, emailAluno);
+            System.out.println("Verificando se existem emails do " + aluno);
+            List<Email> emailConfirmacao = emailDAO.findAll();
 
             if (!emailConfirmacao.isEmpty()) {
-                recebeuEmail = true;
-
+                int cont = 0;
                 for(Email email : emailConfirmacao) {
-                    markEmail.markEmailAsRead(email.getUid());
+                    Map.Entry<String, String> resultado = FuncoesEmail.tratarEmailSender(email);
+                    String emailAlunoBD =  resultado.getValue();
+
+                    if(email.getStatus().equals("CONFIRMACAO_DEFESA") && emailAlunoBD.equals(emailAluno) ) {
+                        email.setStatus("PROCESSADO");
+                        emailDAO.update(email);
+                        cont++;
+                    }
+                }
+                if(cont > 0) {
+                    recebeuEmail = true;
                 }
             } else {
                 recebeuEmail = false;
