@@ -1,6 +1,6 @@
-package br.edu.ifes.mestrado.camunda.dao.implementations;
+package br.edu.ifes.mestrado.database.dao.implementations;
 
-import br.edu.ifes.mestrado.camunda.dao.interfaceDAO.IDissertacaoDAO;
+import br.edu.ifes.mestrado.database.dao.interfaceDAO.IDissertacaoDAO;
 import br.edu.ifes.mestrado.database.DatabaseConnection;
 
 import java.sql.Connection;

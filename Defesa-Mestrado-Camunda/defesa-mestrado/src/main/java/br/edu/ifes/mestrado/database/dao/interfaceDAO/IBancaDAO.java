@@ -1,4 +1,4 @@
-package br.edu.ifes.mestrado.camunda.dao.interfaceDAO;
+package br.edu.ifes.mestrado.database.dao.interfaceDAO;
 
 import br.edu.ifes.mestrado.camunda.model.Banca;
 

@@ -1,6 +1,6 @@
-package br.edu.ifes.mestrado.camunda.dao.implementations;
+package br.edu.ifes.mestrado.database.dao.implementations;
 
-import br.edu.ifes.mestrado.camunda.dao.interfaceDAO.IAlunoDAO;
+import br.edu.ifes.mestrado.database.dao.interfaceDAO.IAlunoDAO;
 import br.edu.ifes.mestrado.camunda.model.Aluno;
 import br.edu.ifes.mestrado.database.DatabaseConnection;
 
