@@ -3,12 +3,13 @@ package br.edu.ifes.mestrado.database.dao.implementations;
 import br.edu.ifes.mestrado.database.DatabaseConnection;
 import br.edu.ifes.mestrado.database.dao.interfaceDAO.IEmailDAO;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@Component
 public class EmailDAO implements IEmailDAO {
     @Override
     public void insert(Email email){
