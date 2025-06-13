@@ -13,7 +13,7 @@ public class EnviarEmailSolicitacaoAnuenciaDelegate implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
 
-        String subject = "Solicitação de Anuência do aluno " + aluno ;
+        String subject = "Solicitação de Anuência do aluno " + aluno + "Titulo da dissertação: " + titulo_trabalho;
         String body = "Prezado(a) Coordenador(a),\n\n"
                 + "Estamos entrando em contato para solicitar a anuência do " + aluno + " que tem a defesa intitulada de '"+ titulo_trabalho +"', favor seguir exatamente essa formatação, sem nenhuma adição de informações:\n\n"
                 + "O assunto deve ser: Anuencia de defesa - 'Titutlo da defesa' "
