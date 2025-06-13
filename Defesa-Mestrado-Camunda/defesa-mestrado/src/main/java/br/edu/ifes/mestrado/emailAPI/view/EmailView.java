@@ -11,7 +11,6 @@ public class EmailView {
             System.out.println("De: " + email.getSender());
             System.out.println("Data: " + email.getDate());
             System.out.println("Corpo: " + email.getBody());
-            System.out.println("Status: " + email.getStatus());
             System.out.println("---------------------------------");
         }
     }

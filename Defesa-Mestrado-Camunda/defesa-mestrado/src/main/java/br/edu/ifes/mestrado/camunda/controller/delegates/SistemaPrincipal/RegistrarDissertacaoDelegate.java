@@ -1,6 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
-import br.edu.ifes.mestrado.database.dao.implementations.DissertacaoDAO;
+import br.edu.ifes.mestrado.camunda.dao.implementations.DissertacaoDAO;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 

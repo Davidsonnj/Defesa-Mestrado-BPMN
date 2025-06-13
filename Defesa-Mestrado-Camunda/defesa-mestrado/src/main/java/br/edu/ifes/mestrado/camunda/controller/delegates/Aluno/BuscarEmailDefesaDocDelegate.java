@@ -1,78 +1,52 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
-import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaValidacaoDoc;
-import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
-import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
 import br.edu.ifes.mestrado.emailAPI.service.MarkEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-@Component
 public class BuscarEmailDefesaDocDelegate implements JavaDelegate {
-
-    @Autowired
-    EmailDAO emailDAO;
-
-    @Autowired
-    PerguntaValidacaoDoc perguntaValidacaoDoc;
-
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(DelegateExecution execution){
         if(execution.hasVariable("verificaEmail2")) {
+            EmailController emailController = new EmailController();
+            MarkEmail markEmail = new MarkEmail();
             Boolean recebeuEmail = false;
 
             String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
             String emailAluno = (String) execution.getVariable("emailAluno");
+            String aluno = (String) execution.getVariable("aluno");
 
-            List<Email> emails = emailDAO.findAll();
-            System.out.println("Verificando se existem doc da dissertação " + titulo_trabalho);
-            int cont = 0;
-            for (Email email : emails) {
+            String subject = String.format("Dissertação da Defesa - %s", titulo_trabalho);
 
-                Map.Entry<String, String> resultado = FuncoesEmail.tratarEmailSender(email);
-                String emailAlunoBD =  resultado.getValue();
+            List<Email> emailConfirmacao = emailController.emails(subject, null, emailAluno);
+            StringBuilder paths = new StringBuilder();
 
-                if(email.getStatus().equals("DOCUMENTO_DISSERTACAO") && emailAluno.equals(emailAlunoBD)) {
-
-                    String txt = "Titulo do trabalho no sistema: " + titulo_trabalho + "Subject: " + email.getSubject() + "Body: " + email.getBody();
-                    boolean validacao = perguntaValidacaoDoc.booleanTakeQuestion(txt);
-
-                    if(validacao) {
-
-                        if (!email.getAttachmentPaths().isEmpty()) {
-                            String caminhoFormatado = email.getAttachmentPaths().toString().replace("[", "").replace("]", "");
-                            /* Testar Amanha
-                            List<String> anexos = email.getAttachmentPaths();
-                            if (anexos != null && !anexos.isEmpty()) {
-                                for (String path : anexos) {
-                                    System.out.println("📎 Anexo encontrado: " + path);
-                                    paths.append(path).append(";"); // separa os paths com ponto e vírgula, por exemplo
-                                }
-                        }
-                             */
-                            execution.setVariable("caminhosDosAnexos", caminhoFormatado);
-
-                        } else {
-                            System.out.println("PDF de dissertação não foi enviado.");
-                        }
-
-                        cont++;
-                        email.setStatus("PROCESSADO");
-                        emailDAO.update(email);
+            for (Email email : emailConfirmacao) {
+                List<String> anexos = email.getAttachmentPaths();
+                if (anexos != null && !anexos.isEmpty()) {
+                    for (String path : anexos) {
+                        System.out.println("📎 Anexo encontrado: " + path);
+                        paths.append(path).append(";"); // separa os paths com ponto e vírgula, por exemplo
                     }
                 }
             }
-            if(cont > 0){
+            if(!paths.isEmpty()){
+                execution.setVariable("caminhosDosAnexos", paths.toString());
+            }else{
+                System.out.println("PDF de dissertação não foi enviado.");
+            }
+
+            if (!emailConfirmacao.isEmpty()) {
                 recebeuEmail = true;
+                for(Email email : emailConfirmacao) {
+                    markEmail.markEmailAsRead(email.getUid());
+                }
+            } else {
+                recebeuEmail = false;
             }
             execution.setVariable("recebeuEmail2", recebeuEmail);
         } else{
