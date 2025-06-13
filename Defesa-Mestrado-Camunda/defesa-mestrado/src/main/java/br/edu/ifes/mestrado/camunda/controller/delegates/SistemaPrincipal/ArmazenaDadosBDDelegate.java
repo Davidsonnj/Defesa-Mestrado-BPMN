@@ -1,12 +1,12 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
-import br.edu.ifes.mestrado.camunda.dao.implementations.AlunoDAO;
-import br.edu.ifes.mestrado.camunda.dao.implementations.BancaDAO;
-import br.edu.ifes.mestrado.camunda.dao.implementations.DefesaBancaDAO;
-import br.edu.ifes.mestrado.camunda.dao.implementations.DefesaDAO;
+import br.edu.ifes.mestrado.database.dao.implementations.AlunoDAO;
+import br.edu.ifes.mestrado.database.dao.implementations.BancaDAO;
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaBancaDAO;
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import br.edu.ifes.mestrado.camunda.exception.ErroInsercaoBancoException;
-import br.edu.ifes.mestrado.camunda.model.Aluno;
 import br.edu.ifes.mestrado.camunda.model.Banca;
+import br.edu.ifes.mestrado.camunda.model.Aluno;
 import br.edu.ifes.mestrado.camunda.model.Defesa;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

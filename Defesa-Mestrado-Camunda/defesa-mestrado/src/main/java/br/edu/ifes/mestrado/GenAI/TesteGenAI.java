@@ -19,7 +19,7 @@ public class TesteGenAI {
 
         String pergunta = "Olá! Preciso que você me informe os seguintes dados para montar uma mensagem sobre a defesa de uma dissertação. "
                 + "Por favor, responda exatamente neste formato, para que eu possa extrair e armazenar em variáveis:\n\n"
-                + "aluno: 'nome do aluno'   email: 'email do aluno'   titulo: 'titulo da dissertação'\n\n\n"
+                + "aluno: nome do aluno   email: email do aluno   titulo: titulo da dissertação\n\n\n"
                 + "O texto de onde você deve extrair essas informações está a seguir:\n"
                 + body;
 
