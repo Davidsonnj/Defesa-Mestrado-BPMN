@@ -13,13 +13,15 @@ public class DefesaCanceladaDelegate implements JavaDelegate {
         String tituloTrabalho = (String) execution.getVariable("titulo_trabalho");
         String businessKey = execution.getProcessBusinessKey();
 
-        String subject = "Cancelamento da Defesa de Trabalho de " + aluno;
+        String subject = "Cancelamento da Defesa de Dissertação do(a) discente " + aluno;
         String body = "Prezado(a) Coordenador(a),\n\n" +
-                "Gostaríamos de informá-lo(a) que, infelizmente, a defesa do trabalho, intitulada \"" + tituloTrabalho + "\", foi cancelada. " +
-                "Isso ocorreu devido à falta de resposta aos e-mails enviados ao aluno.\n\n" +
-                "Atenciosamente,\n" +
-                "PPComp\n" +
-                "IFES - Campus Serra\n";
+                "Comunicamos que a defesa da dissertação intitulada \"" + tituloTrabalho + "\", de autoria do(a) discente " + aluno + ", foi cancelada. " +
+                "O cancelamento se deu em virtude da ausência de resposta aos e-mails encaminhados ao(à) referido(a) discente.\n\n" +
+                "Permanecemos à disposição para quaisquer esclarecimentos que se fizerem necessários.\n\n" +
+                "Atenciosamente,\n\n" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                "IFES – Campus Serra";
+
 
         emailSender.sendEmail(emailOrientador, subject, body);
     }

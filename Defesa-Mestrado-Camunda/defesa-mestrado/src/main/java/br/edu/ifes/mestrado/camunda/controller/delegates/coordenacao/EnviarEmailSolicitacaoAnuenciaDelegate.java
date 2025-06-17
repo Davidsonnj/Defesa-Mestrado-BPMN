@@ -13,16 +13,18 @@ public class EnviarEmailSolicitacaoAnuenciaDelegate implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
 
-        String subject = "Solicitação de Anuência do aluno " + aluno + "Titulo da dissertação: " + titulo_trabalho;
+        String subject = "Solicitação de anuência – Aluno: " + aluno + " | Título: " + titulo_trabalho;
         String body = "Prezado(a) Coordenador(a),\n\n"
-                + "Estamos entrando em contato para solicitar a anuência do " + aluno + " que tem a defesa intitulada de '"+ titulo_trabalho +"', favor seguir exatamente essa formatação, sem nenhuma adição de informações:\n\n"
-                + "O assunto deve ser: Anuencia de defesa - 'Titutlo da defesa' "
-                + "Caso tenha sido negado enviar a mensagem com a seguinta formatação: 'Jutisficativa: (Colocar o motivo da rejeição)'"
-                + "Caso seja autorizado enviar no corpo da mensagem somente a palavra Autorizado\n\n"
-                + "Por favor, preencha essas informações o mais breve possível para darmos continuidade ao processo.\n\n"
-                + "Atenciosamente,\n"
-                + "PPComp \n"
-                + "IFES - Campus Serra";
+                + "Solicitamos, por meio deste, a anuência institucional referente à defesa de mestrado do(a) discente " + aluno +
+                ", cujo trabalho intitula-se: \"" + titulo_trabalho + "\".\n\n"
+                + "Gentilmente, solicitamos que a resposta a esta solicitação contenha, de forma objetiva:\n"
+                + "- A autorização para realização da defesa, ou\n"
+                + "- A negativa, acompanhada da respectiva justificativa.\n\n"
+                + "O retorno desta informação é imprescindível para a continuidade dos trâmites acadêmicos referentes ao processo de defesa.\n\n"
+                + "Permanecemos à disposição para quaisquer esclarecimentos.\n\n"
+                + "Atenciosamente,\n\n"
+                + "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n"
+                + "IFES – Campus Serra";
         senderEmail.sendEmail(email, subject, body);
     }
 }

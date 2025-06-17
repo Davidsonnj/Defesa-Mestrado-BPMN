@@ -16,14 +16,14 @@ public class EnvioDefesaNegadaDelegate implements JavaDelegate {
         String subject = "Defesa de Mestrado Negada - " + aluno;
 
         String body = "Prezado(a) Aluno(a),\n\n"
-                + "Gostaríamos de informar que a defesa de mestrado"
-                + ", com o título do trabalho \"" + titulo_trabalho + "\", foi negada. "
-                + "Abaixo estão os detalhes da justificativa para essa decisão:\n\n"
-                + "Justificativa para a negativa da defesa:\n\"" + justificativaAnuencia + "\"\n\n"
-                + "Agradecemos sua atenção a este assunto e permanecemos à disposição para quaisquer esclarecimentos adicionais.\n\n"
+                + "Informamos que a solicitação de defesa de mestrado, referente ao trabalho intitulado \"" + titulo_trabalho + "\", foi indeferida.\n\n"
+                + "Motivo da negativa:\n"
+                + "\"" + justificativaAnuencia + "\"\n\n"
+                + "Caso haja dúvidas ou necessidade de esclarecimentos adicionais, estamos à disposição.\n\n"
                 + "Atenciosamente,\n\n"
-                + "PPComp \n"
+                + "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n"
                 + "IFES - Campus Serra";
+
 
         emailSender.sendEmail(emailOrientador, subject, body);
     }
