@@ -23,7 +23,7 @@ public class PerguntaDadosDetalhados implements PromptPergunta {
                     + "E-mail para análise: ```" + body + "```\n\n"
                     + "Formate a saída EXATAMENTE como no modelo abaixo, usando hífens, espaços e quebras de linha. Se houver mais de um membro na banca, repita o bloco de informações de cada membro.\n\n"
                     + "Modelo de Saída:\n"
-                    + "- Data: [data extraída]\n"
+                    + "- Data: [data extraída] (data deve ser exatamente nesse formato: dd/mm/yyyy)\n"
                     + "- Hora: [hora extraída]\n"
                     + "- Local: [local extraído]\n\n"
                     + "- Banca:\n"
