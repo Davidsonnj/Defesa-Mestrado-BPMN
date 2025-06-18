@@ -1,6 +1,7 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Orientador;
 
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaDadosDetalhados;
+import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
@@ -55,7 +56,7 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
                         String data = extrairCampo(resposta, "Data");
                         String hora = extrairCampo(resposta, "Hora");
                         String local = extrairCampo(resposta, "Local");
-                        List<Map<String, String>> banca = extrairBanca(resposta);
+                        List<Banca> banca = extrairBanca(resposta);
 
                         execution.setVariable("dataDefesa", data);
                         execution.setVariable("horaDefesa", hora);
@@ -101,8 +102,8 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
     }
 
 
-    private List<Map<String, String>> extrairBanca(String corpo) {
-        List<Map<String, String>> banca = new ArrayList<>();
+    private List<Banca> extrairBanca(String corpo) {
+        List<Banca> banca = new ArrayList<>();
 
         Pattern bancaPattern = Pattern.compile(
                 "- Nome:\\s*(.*?)\\n" +
@@ -113,11 +114,11 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
         Matcher matcher = bancaPattern.matcher(corpo);
 
         while (matcher.find()) {
-            Map<String, String> membro = new HashMap<>();
-            membro.put("nome", matcher.group(1).trim());
-            membro.put("email", matcher.group(2).trim());
-            membro.put("instituicao", matcher.group(3).trim());
-            membro.put("minicurriculo", matcher.group(4).trim());
+            String nome = matcher.group(1).trim();
+            String email = matcher.group(2).trim();
+            String instituicao = matcher.group(3).trim();
+            String minicurriculo = matcher.group(4).trim();
+            Banca membro = new Banca(nome, email, instituicao, minicurriculo);
             banca.add(membro);
         }
 

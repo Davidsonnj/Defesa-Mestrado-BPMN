@@ -88,14 +88,28 @@ public class EmailChecker {
                 } else if(email.getStatus().equals("DADOS_INICIAIS_INCORRETOS")) {
                     System.out.println("Dados não encontrados no email.");
                     emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
-                            "Prezado(a),"
-                                    + "\n\nNão foi possível extrair os dados do e-mail enviado. Para que o cadastro do trabalho seja realizado corretamente, reenvie o email com os seguintes dados assunto: Defesa e no corpo do e-mail:"
-                                    + "\naluno: Nome do Aluno"
-                                    + "\nemail: email@exemplo.com"
-                                    + "\ntitulo: Título do Trabalho"
-                                    + "\n\nAgradecemos a colaboração."
-                                    + "\n\nAtenciosamente,"
-                                    + "\nPPComp - Programa de Pós-Graduação em Computação");
+                              "Prezado(a) Orientador(a),\n\n" +
+                                    "Encaminhamos, abaixo, o modelo com as informações obrigatórias para a formalização do processo de defesa de dissertação no âmbito do Programa de Pós-Graduação em Computação Aplicada (PPComp) – IFES, Campus Serra, referentes ao(à) discente.\n\n" +
+                                    "Solicitamos que todos os campos abaixo sejam devidamente preenchidos e enviados no corpo do e-mail, com o assunto: Defesa.\n\n" +
+                                    "Informações obrigatórias do(a) discente:\n" +
+                                    "- Nome completo do(a) aluno(a)\n" +
+                                    "- E-mail institucional do(a) aluno(a)\n" +
+                                    "- Título da dissertação\n\n" +
+                                    "Informações obrigatórias para a defesa:\n" +
+                                    "- Data da defesa\n" +
+                                    "- Horário da defesa\n" +
+                                    "- Local da defesa (presencial ou remoto, com link se for online)\n\n" +
+                                    "Composição da banca examinadora (dados obrigatórios para cada membro):\n" +
+                                    "- Nome completo\n" +
+                                    "- E-mail \n" +
+                                    "- Instituição de origem\n" +
+                                    "- Minicurrículo resumido\n\n" +
+                                    "O envio completo e correto dessas informações é essencial para o adequado registro e andamento dos trâmites acadêmicos.\n\n" +
+                                    "Agradecemos sua atenção e colaboração, e permanecemos à disposição para quaisquer esclarecimentos.\n\n" +
+                                    "Atenciosamente,\n\n" +
+                                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                                    "IFES – Campus Serra");
+
 
                     email.setStatus("PROCESSADO");
                     emailDAO.update(email);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wvzbrw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.29.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wvzbrw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+  <bpmn:message id="Message_0ap2rt2" name="DefesaCancelada" />
+  <bpmn:message id="Message_2h2bo1u" name="CadastroSolicitado" />
+  <bpmn:message id="Message_3ljrk5v" name="DefesaAutorizada" />
+  <bpmn:message id="Message_0isvi1u" name="DefesaNegada" />
   <bpmn:collaboration id="Collaboration_15ea8l9">
     <bpmn:participant id="Participant_1sbfnr5" name="Orientador" processRef="Process_0v8scmd" />
-    <bpmn:textAnnotation id="TextAnnotation_0j6hna4">
-      <bpmn:text>Estou usando esse tempo para teste</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_11hsa1c" associationDirection="None" sourceRef="Event_1w0rm9a" targetRef="TextAnnotation_0j6hna4" />
   </bpmn:collaboration>
   <bpmn:process id="Process_0v8scmd" name="Orientador" isExecutable="true" camunda:historyTimeToLive="7">
     <bpmn:intermediateThrowEvent id="Event_1n7ejnt" name="Enviou os dados dos alunos">
@@ -16,7 +16,7 @@
     <bpmn:startEvent id="Event_05o1whs" name="Pronto para iniciar processo de defesa">
       <bpmn:outgoing>Flow_0bk4exc</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1i558lo" camunda:variableName="email">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty emailOrientador}</bpmn:condition>
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty emailOrientador &amp;&amp; not empty dataDefesa &amp;&amp; not empty horaDefesa &amp;&amp; not empty localDefesa &amp; bancaDefesa}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
     <bpmn:intermediateCatchEvent id="Event_0j04sez" name="Defesa Cancelada">
@@ -32,71 +32,22 @@
       <bpmn:outgoing>Flow_0h18rlf</bpmn:outgoing>
       <bpmn:outgoing>Flow_1mlbr1q</bpmn:outgoing>
     </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_0f2t67f" name="Cadastramento Solicitado">
+    <bpmn:intermediateCatchEvent id="Event_0f2t67f" name="Defesa Confirmada">
       <bpmn:extensionElements>
         <camunda:executionListener class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnviarEmailSolicitacaoDadosAlunoDelegate" event="end" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1mlbr1q</bpmn:incoming>
-      <bpmn:outgoing>Flow_05zi8gt</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0otu21g</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1fjigwp" messageRef="Message_2h2bo1u" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:serviceTask id="Activity_00gd1nh" name="Verificacao de recebimento de email" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.BuscarEmailDadosAlunoDelegate">
-      <bpmn:incoming>Flow_0ybymhw</bpmn:incoming>
-      <bpmn:incoming>Flow_05zi8gt</bpmn:incoming>
-      <bpmn:outgoing>Flow_1uhb6gc</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:eventBasedGateway id="Gateway_06c6ncz">
-      <bpmn:incoming>Flow_1uhb6gc</bpmn:incoming>
-      <bpmn:outgoing>Flow_020y38t</bpmn:outgoing>
-      <bpmn:outgoing>Flow_0vk6i0b</bpmn:outgoing>
-    </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_1w0rm9a" name="1 Segundo">
-      <bpmn:incoming>Flow_020y38t</bpmn:incoming>
-      <bpmn:outgoing>Flow_0ybymhw</bpmn:outgoing>
-      <bpmn:timerEventDefinition id="TimerEventDefinition_1jx72gf">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT1S</bpmn:timeDuration>
-      </bpmn:timerEventDefinition>
-    </bpmn:intermediateCatchEvent>
-    <bpmn:intermediateCatchEvent id="Event_1i6l7ta" name="Email Recebido">
-      <bpmn:incoming>Flow_0vk6i0b</bpmn:incoming>
-      <bpmn:outgoing>Flow_00xj962</bpmn:outgoing>
-      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1yoc0sn">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${recebeuEmail == true }</bpmn:condition>
-      </bpmn:conditionalEventDefinition>
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sendTask id="Activity_1s17ib1" name="Envio de Dados da Defesa" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnviarDadosParaSistemaDelegate">
-      <bpmn:incoming>Flow_00xj962</bpmn:incoming>
-      <bpmn:outgoing>Flow_08a434o</bpmn:outgoing>
-    </bpmn:sendTask>
+    <bpmn:endEvent id="Event_073nfxr">
+      <bpmn:incoming>Flow_0z7w6do</bpmn:incoming>
+    </bpmn:endEvent>
     <bpmn:eventBasedGateway id="Gateway_1jw28ij">
-      <bpmn:incoming>Flow_08a434o</bpmn:incoming>
-      <bpmn:outgoing>Flow_0piufk9</bpmn:outgoing>
+      <bpmn:incoming>Flow_0otu21g</bpmn:incoming>
       <bpmn:outgoing>Flow_16858qs</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0piufk9</bpmn:outgoing>
     </bpmn:eventBasedGateway>
-    <bpmn:intermediateCatchEvent id="Event_0nwzvea" name="Defesa Autorizada">
-      <bpmn:extensionElements>
-        <camunda:executionListener class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnvioDefesaAutorizada" event="end" />
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_16858qs</bpmn:incoming>
-      <bpmn:outgoing>Flow_1kpqhe2</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_15m6svs" messageRef="Message_3ljrk5v" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="Flow_0bk4exc" sourceRef="Event_05o1whs" targetRef="Event_1n7ejnt" />
-    <bpmn:sequenceFlow id="Flow_025kvec" name="" sourceRef="Event_1n7ejnt" targetRef="Gateway_1b7rm4d" />
-    <bpmn:sequenceFlow id="Flow_0h18rlf" sourceRef="Gateway_1b7rm4d" targetRef="Event_0j04sez" />
-    <bpmn:sequenceFlow id="Flow_0z7w6do" sourceRef="Event_0j04sez" targetRef="Event_073nfxr" />
-    <bpmn:sequenceFlow id="Flow_1mlbr1q" sourceRef="Gateway_1b7rm4d" targetRef="Event_0f2t67f" />
-    <bpmn:sequenceFlow id="Flow_05zi8gt" sourceRef="Event_0f2t67f" targetRef="Activity_00gd1nh" />
-    <bpmn:sequenceFlow id="Flow_0ybymhw" sourceRef="Event_1w0rm9a" targetRef="Activity_00gd1nh" />
-    <bpmn:sequenceFlow id="Flow_1uhb6gc" sourceRef="Activity_00gd1nh" targetRef="Gateway_06c6ncz" />
-    <bpmn:sequenceFlow id="Flow_020y38t" sourceRef="Gateway_06c6ncz" targetRef="Event_1w0rm9a" />
-    <bpmn:sequenceFlow id="Flow_0vk6i0b" sourceRef="Gateway_06c6ncz" targetRef="Event_1i6l7ta" />
-    <bpmn:sequenceFlow id="Flow_00xj962" sourceRef="Event_1i6l7ta" targetRef="Activity_1s17ib1" />
-    <bpmn:sequenceFlow id="Flow_08a434o" sourceRef="Activity_1s17ib1" targetRef="Gateway_1jw28ij" />
-    <bpmn:sequenceFlow id="Flow_0piufk9" sourceRef="Gateway_1jw28ij" targetRef="Event_0tzhbil" />
-    <bpmn:sequenceFlow id="Flow_16858qs" sourceRef="Gateway_1jw28ij" targetRef="Event_0nwzvea" />
-    <bpmn:sequenceFlow id="Flow_1iixky7" sourceRef="Event_0tzhbil" targetRef="Activity_01eckoe" />
-    <bpmn:sequenceFlow id="Flow_1kpqhe2" sourceRef="Event_0nwzvea" targetRef="Activity_01eckoe" />
     <bpmn:intermediateCatchEvent id="Event_0tzhbil" name="Justificativa de defesa negada reportada">
       <bpmn:extensionElements>
         <camunda:executionListener class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnvioDefesaNegada" event="end" />
@@ -105,187 +56,143 @@
       <bpmn:outgoing>Flow_1iixky7</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_02ob0r9" messageRef="Message_0isvi1u" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="Event_0nwzvea" name="Defesa Autorizada">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnvioDefesaAutorizada" event="end" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_16858qs</bpmn:incoming>
+      <bpmn:outgoing>Flow_1kpqhe2</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_15m6svs" messageRef="Message_3ljrk5v" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Activity_01eckoe">
+      <bpmn:incoming>Flow_1iixky7</bpmn:incoming>
+      <bpmn:incoming>Flow_1kpqhe2</bpmn:incoming>
+      <bpmn:outgoing>Flow_1necrfh</bpmn:outgoing>
+    </bpmn:userTask>
     <bpmn:endEvent id="Event_0od0r7e">
       <bpmn:incoming>Flow_1necrfh</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:userTask id="Activity_01eckoe">
-      <bpmn:incoming>Flow_1kpqhe2</bpmn:incoming>
-      <bpmn:incoming>Flow_1iixky7</bpmn:incoming>
-      <bpmn:outgoing>Flow_1necrfh</bpmn:outgoing>
-    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0bk4exc" sourceRef="Event_05o1whs" targetRef="Event_1n7ejnt" />
+    <bpmn:sequenceFlow id="Flow_025kvec" name="" sourceRef="Event_1n7ejnt" targetRef="Gateway_1b7rm4d" />
+    <bpmn:sequenceFlow id="Flow_0h18rlf" sourceRef="Gateway_1b7rm4d" targetRef="Event_0j04sez" />
+    <bpmn:sequenceFlow id="Flow_0z7w6do" sourceRef="Event_0j04sez" targetRef="Event_073nfxr" />
+    <bpmn:sequenceFlow id="Flow_1mlbr1q" sourceRef="Gateway_1b7rm4d" targetRef="Event_0f2t67f" />
+    <bpmn:sequenceFlow id="Flow_0otu21g" sourceRef="Event_0f2t67f" targetRef="Gateway_1jw28ij" />
+    <bpmn:sequenceFlow id="Flow_16858qs" sourceRef="Gateway_1jw28ij" targetRef="Event_0nwzvea" />
+    <bpmn:sequenceFlow id="Flow_0piufk9" sourceRef="Gateway_1jw28ij" targetRef="Event_0tzhbil" />
+    <bpmn:sequenceFlow id="Flow_1iixky7" sourceRef="Event_0tzhbil" targetRef="Activity_01eckoe" />
+    <bpmn:sequenceFlow id="Flow_1kpqhe2" sourceRef="Event_0nwzvea" targetRef="Activity_01eckoe" />
     <bpmn:sequenceFlow id="Flow_1necrfh" sourceRef="Activity_01eckoe" targetRef="Event_0od0r7e" />
-    <bpmn:endEvent id="Event_073nfxr">
-      <bpmn:incoming>Flow_0z7w6do</bpmn:incoming>
-    </bpmn:endEvent>
   </bpmn:process>
-  <bpmn:message id="Message_0ap2rt2" name="DefesaCancelada" />
-  <bpmn:message id="Message_2h2bo1u" name="CadastroSolicitado" />
-  <bpmn:message id="Message_3ljrk5v" name="DefesaAutorizada" />
-  <bpmn:message id="Message_0isvi1u" name="DefesaNegada" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_15ea8l9">
       <bpmndi:BPMNShape id="Participant_1sbfnr5_di" bpmnElement="Participant_1sbfnr5" isHorizontal="true">
-        <dc:Bounds x="160" y="70" width="1460" height="540" />
+        <dc:Bounds x="160" y="80" width="940" height="390" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0xc52mp_di" bpmnElement="Event_1n7ejnt">
-        <dc:Bounds x="322" y="309" width="36" height="36" />
+        <dc:Bounds x="322" y="209" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="299" y="272" width="82" height="27" />
+          <dc:Bounds x="299" y="172" width="82" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1x12tjx_di" bpmnElement="Event_05o1whs">
-        <dc:Bounds x="222" y="309" width="36" height="36" />
+        <dc:Bounds x="222" y="209" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="202" y="266" width="77" height="40" />
+          <dc:Bounds x="202" y="166" width="77" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0j04sez_di" bpmnElement="Event_0j04sez">
-        <dc:Bounds x="502" y="242" width="36" height="36" />
+        <dc:Bounds x="502" y="142" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="493" y="285" width="54" height="27" />
+          <dc:Bounds x="493" y="185" width="54" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1b3gui0_di" bpmnElement="Gateway_1b7rm4d">
-        <dc:Bounds x="405" y="302" width="50" height="50" />
+        <dc:Bounds x="405" y="202" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0f2t67f_di" bpmnElement="Event_0f2t67f">
-        <dc:Bounds x="502" y="372" width="36" height="36" />
+        <dc:Bounds x="502" y="272" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="482" y="340" width="76" height="27" />
+          <dc:Bounds x="491" y="240" width="58" height="27" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1lb1ihk_di" bpmnElement="Activity_00gd1nh">
-        <dc:Bounds x="610" y="350" width="100" height="80" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_1obxhhy_di" bpmnElement="Gateway_06c6ncz">
-        <dc:Bounds x="755" y="365" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1w0rm9a_di" bpmnElement="Event_1w0rm9a">
-        <dc:Bounds x="762" y="472" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="754" y="515" width="54" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1i6l7ta_di" bpmnElement="Event_1i6l7ta">
-        <dc:Bounds x="852" y="372" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="831" y="415" width="78" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0dg4qs5_di" bpmnElement="Activity_1s17ib1">
-        <dc:Bounds x="940" y="350" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Gateway_085zqac_di" bpmnElement="Gateway_1jw28ij">
-        <dc:Bounds x="1075" y="365" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0nwzvea_di" bpmnElement="Event_0nwzvea">
-        <dc:Bounds x="1212" y="302" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1203" y="348" width="54" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_1sm9ahq" bpmnElement="Event_0tzhbil">
-        <dc:Bounds x="1212" y="452" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1193" y="493" width="74" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0od0r7e_di" bpmnElement="Event_0od0r7e">
-        <dc:Bounds x="1452" y="372" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_10wamot_di" bpmnElement="Activity_01eckoe">
-        <dc:Bounds x="1310" y="350" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1io4rkb_di" bpmnElement="Event_073nfxr">
-        <dc:Bounds x="612" y="242" width="36" height="36" />
+        <dc:Bounds x="612" y="142" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="599" y="200" width="62" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_085zqac_di" bpmnElement="Gateway_1jw28ij">
+        <dc:Bounds x="605" y="265" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1sm9ahq" bpmnElement="Event_0tzhbil">
+        <dc:Bounds x="732" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="713" y="393" width="74" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0nwzvea_di" bpmnElement="Event_0nwzvea">
+        <dc:Bounds x="732" y="202" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="723" y="248" width="54" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_10wamot_di" bpmnElement="Activity_01eckoe">
+        <dc:Bounds x="840" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0od0r7e_di" bpmnElement="Event_0od0r7e">
+        <dc:Bounds x="1002" y="272" width="36" height="36" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0bk4exc_di" bpmnElement="Flow_0bk4exc">
-        <di:waypoint x="258" y="327" />
-        <di:waypoint x="322" y="327" />
+        <di:waypoint x="258" y="227" />
+        <di:waypoint x="322" y="227" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_025kvec_di" bpmnElement="Flow_025kvec">
-        <di:waypoint x="358" y="327" />
-        <di:waypoint x="405" y="327" />
+        <di:waypoint x="358" y="227" />
+        <di:waypoint x="405" y="227" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0h18rlf_di" bpmnElement="Flow_0h18rlf">
-        <di:waypoint x="430" y="302" />
-        <di:waypoint x="430" y="260" />
-        <di:waypoint x="502" y="260" />
+        <di:waypoint x="430" y="202" />
+        <di:waypoint x="430" y="160" />
+        <di:waypoint x="502" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0z7w6do_di" bpmnElement="Flow_0z7w6do">
-        <di:waypoint x="538" y="260" />
-        <di:waypoint x="612" y="260" />
+        <di:waypoint x="538" y="160" />
+        <di:waypoint x="612" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1mlbr1q_di" bpmnElement="Flow_1mlbr1q">
-        <di:waypoint x="430" y="352" />
-        <di:waypoint x="430" y="390" />
-        <di:waypoint x="502" y="390" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_05zi8gt_di" bpmnElement="Flow_05zi8gt">
-        <di:waypoint x="538" y="390" />
-        <di:waypoint x="610" y="390" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0ybymhw_di" bpmnElement="Flow_0ybymhw">
-        <di:waypoint x="762" y="490" />
-        <di:waypoint x="660" y="490" />
-        <di:waypoint x="660" y="430" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1uhb6gc_di" bpmnElement="Flow_1uhb6gc">
-        <di:waypoint x="710" y="390" />
-        <di:waypoint x="755" y="390" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_020y38t_di" bpmnElement="Flow_020y38t">
-        <di:waypoint x="780" y="415" />
-        <di:waypoint x="780" y="472" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0vk6i0b_di" bpmnElement="Flow_0vk6i0b">
-        <di:waypoint x="805" y="390" />
-        <di:waypoint x="852" y="390" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_00xj962_di" bpmnElement="Flow_00xj962">
-        <di:waypoint x="888" y="390" />
-        <di:waypoint x="940" y="390" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08a434o_di" bpmnElement="Flow_08a434o">
-        <di:waypoint x="1040" y="390" />
-        <di:waypoint x="1075" y="390" />
+        <di:waypoint x="430" y="252" />
+        <di:waypoint x="430" y="290" />
+        <di:waypoint x="502" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0piufk9_di" bpmnElement="Flow_0piufk9">
-        <di:waypoint x="1100" y="415" />
-        <di:waypoint x="1100" y="470" />
-        <di:waypoint x="1212" y="470" />
+        <di:waypoint x="630" y="315" />
+        <di:waypoint x="630" y="370" />
+        <di:waypoint x="732" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16858qs_di" bpmnElement="Flow_16858qs">
-        <di:waypoint x="1100" y="365" />
-        <di:waypoint x="1100" y="320" />
-        <di:waypoint x="1212" y="320" />
+        <di:waypoint x="630" y="265" />
+        <di:waypoint x="630" y="220" />
+        <di:waypoint x="732" y="220" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1iixky7_di" bpmnElement="Flow_1iixky7">
-        <di:waypoint x="1248" y="470" />
-        <di:waypoint x="1360" y="470" />
-        <di:waypoint x="1360" y="430" />
+        <di:waypoint x="768" y="370" />
+        <di:waypoint x="890" y="370" />
+        <di:waypoint x="890" y="330" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kpqhe2_di" bpmnElement="Flow_1kpqhe2">
-        <di:waypoint x="1248" y="320" />
-        <di:waypoint x="1360" y="320" />
-        <di:waypoint x="1360" y="350" />
+        <di:waypoint x="768" y="220" />
+        <di:waypoint x="890" y="220" />
+        <di:waypoint x="890" y="250" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1necrfh_di" bpmnElement="Flow_1necrfh">
-        <di:waypoint x="1410" y="390" />
-        <di:waypoint x="1452" y="390" />
+        <di:waypoint x="940" y="290" />
+        <di:waypoint x="1002" y="290" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="TextAnnotation_0j6hna4_di" bpmnElement="TextAnnotation_0j6hna4">
-        <dc:Bounds x="840" y="471" width="150" height="37" />
-        <bpmndi:BPMNLabel />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_11hsa1c_di" bpmnElement="Association_11hsa1c">
-        <di:waypoint x="798" y="489" />
-        <di:waypoint x="840" y="488" />
+      <bpmndi:BPMNEdge id="Flow_0otu21g_di" bpmnElement="Flow_0otu21g">
+        <di:waypoint x="538" y="290" />
+        <di:waypoint x="605" y="290" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

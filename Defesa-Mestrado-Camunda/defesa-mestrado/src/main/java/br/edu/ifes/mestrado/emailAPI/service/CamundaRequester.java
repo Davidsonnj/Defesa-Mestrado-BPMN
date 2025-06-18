@@ -1,11 +1,14 @@
 package br.edu.ifes.mestrado.emailAPI.service;
 
+import br.edu.ifes.mestrado.camunda.model.Banca;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -13,7 +16,7 @@ public class CamundaRequester {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public boolean iniciarProcesso(String aluno, String tituloTrabalho, String emailAluno, String emailOrientador) {
+    public boolean iniciarProcesso(String aluno, String tituloTrabalho, String emailAluno, String emailOrientador, String dataDefesa, Date horaDefesa, String localDefesa, List<Banca> banca) {
         String url = "http://localhost:8080/engine-rest/condition";
 
         Map<String, Object> body = new HashMap<>();
@@ -25,6 +28,10 @@ public class CamundaRequester {
         variables.put("titulo_trabalho", criarVariavel(tituloTrabalho, "String"));
         variables.put("emailAluno", criarVariavel(emailAluno, "String"));
         variables.put("emailOrientador", criarVariavel(emailOrientador, "String"));
+        variables.put("dataDefesa",  criarVariavel(dataDefesa, "String"));
+        variables.put("horaDefesa", criarVariavel(horaDefesa, "String"));
+        variables.put("localDefesa", criarVariavel(localDefesa, "String"));
+        variables.put("banca", criarVariavel(banca, "Object"));
 
         body.put("variables", variables);
 
