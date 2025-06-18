@@ -2,7 +2,6 @@ package br.edu.ifes.mestrado.emailAPI.controller;
 
 import br.edu.ifes.mestrado.emailAPI.model.EmailLogin;
 import br.edu.ifes.mestrado.emailAPI.service.EmailSenderService;
-import br.edu.ifes.mestrado.emailAPI.service.EmailService;
 import br.edu.ifes.mestrado.emailAPI.view.EmailView;
 
 import java.util.List;

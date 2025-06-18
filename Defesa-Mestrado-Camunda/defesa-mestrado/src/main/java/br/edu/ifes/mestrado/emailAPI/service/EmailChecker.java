@@ -29,7 +29,6 @@ public class EmailChecker {
     public void verificarEmails() {
         System.out.println("Verificando emails...");
         EmailController emailController = new EmailController();
-        MarkEmail markEmail = new MarkEmail();
 
         EmailDAO emailDAO = new EmailDAO();
         List<Email> emailConfirmacao = emailDAO.findAll();
@@ -79,7 +78,7 @@ public class EmailChecker {
                                             + "\n\nAgradecemos a colaboração."
                                             + "\n\nAtenciosamente,"
                                             + "\nPPComp - Programa de Pós-Graduação em Computação");
-                            // markEmail.markEmailAsRead(email.getUid());
+
                             email.setStatus("PROCESSADO");
                             emailDAO.update(email);
                         } else {
@@ -98,7 +97,6 @@ public class EmailChecker {
                                     + "\n\nAtenciosamente,"
                                     + "\nPPComp - Programa de Pós-Graduação em Computação");
 
-                    // markEmail.markEmailAsRead(email.getUid());
                     email.setStatus("PROCESSADO");
                     emailDAO.update(email);
                 }

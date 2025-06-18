@@ -1,13 +1,11 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao;
 
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaAnuencia;
-import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaConfirmacaoDefesa;
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaValidacaoAnuencia;
 import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
-import br.edu.ifes.mestrado.emailAPI.service.MarkEmail;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 @Component
 public class BuscarEmailAnuenciaDelegate implements JavaDelegate {
 
