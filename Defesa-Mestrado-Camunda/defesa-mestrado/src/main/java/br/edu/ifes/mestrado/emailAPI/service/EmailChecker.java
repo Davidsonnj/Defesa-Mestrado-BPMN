@@ -36,13 +36,12 @@ public class EmailChecker {
 
         if (!emailConfirmacao.isEmpty()) {
             for (Email email : emailConfirmacao) {
+                Map.Entry<String, String> resultado = FuncoesEmail.tratarEmailSender(email);
+
+                String nome = resultado.getKey();
+                String emailOrientador = resultado.getValue();
                 if(email.getStatus().equals("DADOS_INICIAIS")) {
                     System.out.println("Email encontrado: " + email.getSubject() + " - " + email.getSender());
-
-                    Map.Entry<String, String> resultado = FuncoesEmail.tratarEmailSender(email);
-
-                    String nome = resultado.getKey();
-                    String emailOrientador = resultado.getValue();
 
                     String body = email.getBody();
                     String resposta = null;
@@ -86,22 +85,22 @@ public class EmailChecker {
                         } else {
                             System.out.println("Erro ao enviar requisição para o Camunda.");
                         }
-                    } else {
-                        System.out.println("Dados não encontrados no email.");
-                        emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
-                                "Prezado(a),"
-                                        + "\n\nNão foi possível extrair os dados do e-mail enviado. Para que o cadastro do trabalho seja realizado corretamente, envie os seguintes dados no corpo do e-mail:"
-                                        + "\naluno: Nome do Aluno"
-                                        + "\nemail: email@exemplo.com"
-                                        + "\ntitulo: Título do Trabalho"
-                                        + "\n\nAgradecemos a colaboração."
-                                        + "\n\nAtenciosamente,"
-                                        + "\nPPComp - Programa de Pós-Graduação em Computação");
-
-                        // markEmail.markEmailAsRead(email.getUid());
-                        email.setStatus("PROCESSADO");
-                        emailDAO.update(email);
                     }
+                } else if(email.getStatus().equals("DADOS_INICIAIS_INCORRETOS")) {
+                    System.out.println("Dados não encontrados no email.");
+                    emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
+                            "Prezado(a),"
+                                    + "\n\nNão foi possível extrair os dados do e-mail enviado. Para que o cadastro do trabalho seja realizado corretamente, reenvie o email com os seguintes dados assunto: Defesa e no corpo do e-mail:"
+                                    + "\naluno: Nome do Aluno"
+                                    + "\nemail: email@exemplo.com"
+                                    + "\ntitulo: Título do Trabalho"
+                                    + "\n\nAgradecemos a colaboração."
+                                    + "\n\nAtenciosamente,"
+                                    + "\nPPComp - Programa de Pós-Graduação em Computação");
+
+                    // markEmail.markEmailAsRead(email.getUid());
+                    email.setStatus("PROCESSADO");
+                    emailDAO.update(email);
                 }
             }
         } else {

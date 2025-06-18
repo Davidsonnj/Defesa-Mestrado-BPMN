@@ -16,16 +16,14 @@ public class DefesaCanceladaDelegate implements JavaDelegate {
 
         String subject = "Cancelamento da Defesa de Trabalho de " + aluno;
         String body = "Prezado(a) " + aluno + ",\n\n" +
-                "Espero que esteja bem.\n\n" +
-                "Gostaríamos de informá-lo(a) que, infelizmente, a sua defesa do trabalho, intitulada \"" + tituloTrabalho + "\", foi cancelada. " +
-                "Isso ocorreu devido à falta de resposta aos e-mails enviados anteriormente.\n\n" +
-                "Entendemos que imprevistos podem acontecer, e caso você ainda tenha interesse em reagendar a sua defesa, " +
-                "pedimos que entre em contato conosco o quanto antes. Nossa equipe estará disponível para fornecer todas as informações necessárias " +
-                "para que você possa tomar as providências necessárias.\n\n" +
-                "Aguardamos o seu retorno.\n\n" +
-                "Atenciosamente,\n" +
-                "PPComp\n" +
-                "IFES - Campus Serra\n";
+                "Informamos que a sua defesa do trabalho intitulado \"" + tituloTrabalho + "\" foi cancelada, em razão da ausência de resposta aos e-mails enviados anteriormente.\n\n" +
+                "Compreendemos que imprevistos podem ocorrer e, caso ainda tenha interesse em reagendar a sua defesa, solicitamos que entre em contato conosco o quanto antes. " +
+                "Nossa equipe está à disposição para prestar os devidos esclarecimentos e orientações necessárias para a retomada do processo.\n\n" +
+                "Aguardamos seu retorno.\n\n" +
+                "Atenciosamente,\n\n" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                "IFES - Campus Serra";
+
 
         emailSender.sendEmail(emailAluno, subject, body);
     }

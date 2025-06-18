@@ -39,19 +39,18 @@ public class NotificarBancaDelegate implements JavaDelegate {
 
         for (Banca banca : bancaList) {
             String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
-            String body = "Prezado(a) " + banca.getNome() + ",\n\n"
-                    + "Gostaríamos de informar que a defesa do trabalho, intitulada '"
-                    + titulo_trabalho + "', está agendada conforme os detalhes a seguir:\n\n"
-                    + "Título do Trabalho: " + titulo_trabalho + "\n"
-                    + "Aluno: " + aluno + "\n"
-                    + "Data de defesa: " + dataDefesa + "\n"
-                    + "Hora de defesa: " + horaDefesa + "\n"
-                    + "Local: " + localDefesa + "\n\n"
-                    + "A defesa ocorrerá de acordo com o cronograma e locais previamente definidos.\n\n"
-                    + "Caso haja alguma dúvida ou se necessitar de mais informações, "
-                    + "por favor, entre em contato conosco.\n\n"
-                    + "Atenciosamente,\n"
-                    + "PPComp";
+            String body = "Prezado(a) " + banca.getNome() + ",\n\n" +
+                    "Informamos que a defesa do trabalho, intitulada \"" + titulo_trabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
+                    "Título do Trabalho: " + titulo_trabalho + "\n" +
+                    "Aluno(a): " + aluno + "\n" +
+                    "Data: " + dataDefesa + "\n" +
+                    "Hora: " + horaDefesa + "\n" +
+                    "Local: " + localDefesa + "\n\n" +
+                    "A defesa ocorrerá conforme o cronograma e local previamente definidos.\n\n" +
+                    "Caso haja alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
+                    "Atenciosamente,\n\n" +
+                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                    "Instituto Federal do Espírito Santo – Campus Serra";
 
             emailSender.sendEmail(banca.getEmail(), subject, body);
         }

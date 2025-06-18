@@ -12,21 +12,24 @@ public class EnviarEmailSolicitacaoDadosAlunoDelegate implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String emailOrientador = (String) execution.getVariable("emailOrientador");
 
-        String subject = "Solicitação de Dados do Aluno " + aluno;
-        String body = "Prezado(a) Orientador(a),\n\n"
-                + "O PPComp do IFES - Campus Serra e esta entrando em contato para solicitar os seguintes dados do aluno " + aluno + " (siga exatamente essa formatação, sem nenhuma adição de informações):\n\n"
-                + "\n\n Assunto: Dados do aluno - " + aluno + "\n\n"
-                + "- Data:\n"
-                + "- Hora:\n"
-                + "- Local:\n\n"
-                + "- Banca:\n"
-                + "- Nome:\n"
-                + "- Email:\n"
-                + "- Instituição:\n"
-                + "- Minicurrículo\n\n"
-                + "Por favor, preencha essas informações o mais breve possível para darmos continuidade ao processo.\n\n"
-                + "Atenciosamente,\n"
-                + "PPComp - IFES - Campus Serra";
+        String subject = "Solicitação de dados para agendamento de defesa – Aluno(a) " + aluno;
+        String body = "Prezado(a) Orientador(a),\n\n" +
+                "Solicitamos, por gentileza, o envio das informações referentes à defesa de dissertação do(a) discente " + aluno + ", necessárias para a formalização do processo no âmbito do PPComp – IFES Campus Serra.\n\n" +
+                "As informações requeridas são:\n\n" +
+                "- Data da defesa;\n" +
+                "- Horário;\n" +
+                "- Local;\n\n" +
+                "Composição da banca examinadora:\n" +
+                "- Nome de cada membro;\n" +
+                "- E-mail institucional;\n" +
+                "- Instituição de origem;\n" +
+                "- Minicurrículo (resumido).\n\n" +
+                "Agradecemos o envio dessas informações com a maior brevidade possível para que possamos dar prosseguimento aos trâmites acadêmicos.\n\n" +
+                "Permanecemos à disposição para eventuais esclarecimentos.\n\n" +
+                "Atenciosamente,\n\n" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                "IFES – Campus Serra";
+
 
         senderEmail.sendEmail(emailOrientador, subject, body);
     }

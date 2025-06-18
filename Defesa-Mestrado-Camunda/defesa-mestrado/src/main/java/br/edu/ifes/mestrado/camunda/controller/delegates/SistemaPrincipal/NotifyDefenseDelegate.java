@@ -25,17 +25,18 @@ public class NotifyDefenseDelegate implements JavaDelegate {
 
         // Criando o assunto e o corpo do e-mail
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
-        String body = "Prezado(a) " + aluno + ",\n\n"
-                + "Gostaríamos de informar que a sua defesa de trabalho, intitulada '"
-                + tituloTrabalho + "', está agendada conforme os detalhes a seguir:\n\n"
-                + "Título do Trabalho: " + tituloTrabalho + "\n"
-                + "Aluno: " + aluno + "\n\n"
-                + "Para confirmar mande um email com o assunto: Confirmação da Defesa - " + tituloTrabalho + "\n"
-                + "A defesa ocorrerá de acordo com o cronograma e locais previamente definidos.\n\n"
-                + "Caso haja alguma dúvida ou se necessitar de mais informações, "
-                + "por favor, entre em contato conosco.\n\n"
-                + "Atenciosamente,\n"
-                + "PPComp";
+        String body = "Prezado(a) " + aluno + ",\n\n" +
+                "Informamos que a sua defesa de trabalho, intitulada \"" + tituloTrabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
+                "Título do Trabalho: " + tituloTrabalho + "\n" +
+                "Aluno(a): " + aluno + "\n\n" +
+                "Solicitamos, por gentileza, que confirme sua participação respondendo a este e-mail.\n\n" +
+                "Ressaltamos que este pedido de confirmação será enviado por até três dias consecutivos. Caso não confirme, por favor, desconsidere as mensagens subsequentes.\n\n" +
+                "A defesa será realizada conforme o cronograma e local previamente definidos.\n\n" +
+                "Caso tenha alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
+                "Atenciosamente,\n\n" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                "IFES – Campus Serra";
+
 
         emailSender.sendEmail(emailAluno, subject, body);
 

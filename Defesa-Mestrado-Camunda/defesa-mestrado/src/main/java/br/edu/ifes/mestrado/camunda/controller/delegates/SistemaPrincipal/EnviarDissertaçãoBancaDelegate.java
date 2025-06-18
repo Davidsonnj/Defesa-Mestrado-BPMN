@@ -42,14 +42,14 @@ public class EnviarDissertaçãoBancaDelegate implements JavaDelegate {
         }
 
         for (Banca banca : bancaList) {
-            String subject = "Dissertação do aluno: " + aluno;
-            String body = "Prezado(a) " + banca.getNome() + ",\n\n"
-                    + "Gostaríamos de informar que a defesa do trabalho, intitulada '"
-                    + titulo_trabalho + "' está anexado neste email.\n\n"
-                    + "Caso haja alguma dúvida ou se necessitar de mais informações, "
-                    + "por favor, entre em contato conosco.\n\n"
-                    + "Atenciosamente,\n"
-                    + "PPComp";
+            String subject = "Dissertação do(a) aluno(a): " + aluno;
+            String body = "Prezado(a) " + banca.getNome() + ",\n\n" +
+                    "Informamos que a dissertação intitulada \"" + titulo_trabalho + "\" está anexada a este e-mail para sua apreciação.\n\n" +
+                    "Caso haja qualquer dúvida ou necessidade de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
+                    "Atenciosamente,\n\n" +
+                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                    "IFES – Campus Serra";
+
 
             emailSender.sendEmail(banca.getEmail(), subject, body, paths);
         }
