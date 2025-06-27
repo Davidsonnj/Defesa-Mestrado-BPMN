@@ -11,7 +11,6 @@ public class DefesaCanceladaDelegate implements JavaDelegate {
         String emailOrientador = (String) execution.getVariable("emailOrientador");
         String aluno = (String) execution.getVariable("aluno");
         String tituloTrabalho = (String) execution.getVariable("titulo_trabalho");
-        String businessKey = execution.getProcessBusinessKey();
 
         String subject = "Cancelamento da Defesa de Dissertação do(a) discente " + aluno;
         String body = "Prezado(a) Coordenador(a),\n\n" +

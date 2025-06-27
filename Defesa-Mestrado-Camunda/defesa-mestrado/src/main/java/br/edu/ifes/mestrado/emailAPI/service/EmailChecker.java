@@ -1,6 +1,7 @@
 package br.edu.ifes.mestrado.emailAPI.service;
 
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaDadosIniciais;
+import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -68,8 +70,12 @@ public class EmailChecker {
                         String aluno = dados.aluno;
                         String emailAluno = dados.email;
                         String titulo_trabalho = dados.titulo;
+                        String dataDefesa = dados.dataDefesa;
+                        String horaDefesa = dados.horaDefesa;
+                        String localDefesa = dados.localDefesa;
+                        List<Banca> banca = dados.banca;
 
-                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, emailOrientador);
+                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, emailOrientador, dataDefesa, horaDefesa, localDefesa, banca);
                         if (camundaResquest) {
                             System.out.println("Requisição enviada ao Camunda com sucesso!");
                             emailController.sendEmail(emailOrientador, "\"Dados Extraídos com Sucesso\"\n",
@@ -93,7 +99,7 @@ public class EmailChecker {
                                     "Solicitamos que todos os campos abaixo sejam devidamente preenchidos e enviados no corpo do e-mail, com o assunto: Defesa.\n\n" +
                                     "Informações obrigatórias do(a) discente:\n" +
                                     "- Nome completo do(a) aluno(a)\n" +
-                                    "- E-mail institucional do(a) aluno(a)\n" +
+                                    "- E-mail do(a) aluno(a)\n" +
                                     "- Título da dissertação\n\n" +
                                     "Informações obrigatórias para a defesa:\n" +
                                     "- Data da defesa\n" +

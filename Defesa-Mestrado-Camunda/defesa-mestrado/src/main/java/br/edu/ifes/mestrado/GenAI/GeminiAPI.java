@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public final class GeminiAPI {
     private static final Client client = Client.builder()
-            .apiKey("GOOGLE_KEY")
+            .apiKey("AIzaSyBu_ZZ3dO_qPL-cBr83dnBGB3YJafHHYXw")
             .build();
 
     public String perguntar(String pergunta) throws Exception{

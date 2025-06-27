@@ -16,7 +16,7 @@
     <bpmn:startEvent id="Event_05o1whs" name="Pronto para iniciar processo de defesa">
       <bpmn:outgoing>Flow_0bk4exc</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1i558lo" camunda:variableName="email">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty emailOrientador &amp;&amp; not empty dataDefesa &amp;&amp; not empty horaDefesa &amp;&amp; not empty localDefesa &amp; bancaDefesa}</bpmn:condition>
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp;not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty emailOrientador &amp;&amp; not empty dataDefesa &amp;&amp; not empty horaDefesa &amp;&amp; not empty localDefesa &amp;&amp; bancaDefesa}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
     <bpmn:intermediateCatchEvent id="Event_0j04sez" name="Defesa Cancelada">
@@ -166,15 +166,19 @@
         <di:waypoint x="430" y="290" />
         <di:waypoint x="502" y="290" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0piufk9_di" bpmnElement="Flow_0piufk9">
-        <di:waypoint x="630" y="315" />
-        <di:waypoint x="630" y="370" />
-        <di:waypoint x="732" y="370" />
+      <bpmndi:BPMNEdge id="Flow_0otu21g_di" bpmnElement="Flow_0otu21g">
+        <di:waypoint x="538" y="290" />
+        <di:waypoint x="605" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16858qs_di" bpmnElement="Flow_16858qs">
         <di:waypoint x="630" y="265" />
         <di:waypoint x="630" y="220" />
         <di:waypoint x="732" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0piufk9_di" bpmnElement="Flow_0piufk9">
+        <di:waypoint x="630" y="315" />
+        <di:waypoint x="630" y="370" />
+        <di:waypoint x="732" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1iixky7_di" bpmnElement="Flow_1iixky7">
         <di:waypoint x="768" y="370" />
@@ -189,10 +193,6 @@
       <bpmndi:BPMNEdge id="Flow_1necrfh_di" bpmnElement="Flow_1necrfh">
         <di:waypoint x="940" y="290" />
         <di:waypoint x="1002" y="290" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0otu21g_di" bpmnElement="Flow_0otu21g">
-        <di:waypoint x="538" y="290" />
-        <di:waypoint x="605" y="290" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
