@@ -22,13 +22,22 @@ public class NotifyDefenseDelegate implements JavaDelegate {
         String tituloTrabalho = (String) execution.getVariable("titulo_trabalho");
         String emailAluno = (String) execution.getVariable("emailAluno");
         String emailOrientador = (String) execution.getVariable("emailOrientador");
+        String dataDefesa = (String) execution.getVariable("dataDefesa");
+        String horaDefesa = (String) execution.getVariable("horaDefesa");
+        String localDefesa = (String) execution.getVariable("localDefesa");
+
 
         // Criando o assunto e o corpo do e-mail
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
         String body = "Prezado(a) " + aluno + ",\n\n" +
                 "Informamos que a sua defesa de trabalho, intitulada \"" + tituloTrabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
+
                 "Título do Trabalho: " + tituloTrabalho + "\n" +
                 "Aluno(a): " + aluno + "\n\n" +
+                "Data da Defesa: " + dataDefesa + "\n" +
+                "Hora da Defesa: " + horaDefesa + "\n" +
+                "Local da Defesa: " + localDefesa + "\n\n" +
+
                 "Solicitamos, por gentileza, que confirme sua participação respondendo a este e-mail.\n\n" +
                 "Ressaltamos que este pedido de confirmação será enviado por até três dias consecutivos. Caso não confirme, por favor, desconsidere as mensagens subsequentes.\n\n" +
                 "A defesa será realizada conforme o cronograma e local previamente definidos.\n\n" +
