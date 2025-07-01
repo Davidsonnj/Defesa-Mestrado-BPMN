@@ -176,7 +176,7 @@
     <bpmn:intermediateThrowEvent id="Event_0gcs0l3" name="Defesa Confirmada">
       <bpmn:incoming>Flow_0elfpf3</bpmn:incoming>
       <bpmn:outgoing>Flow_0axjatw</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1phmfcc" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal.SolicitarCadastroDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1phmfcc" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal.DefesaoConfirmadaDelegate" />
     </bpmn:intermediateThrowEvent>
     <bpmn:sequenceFlow id="Flow_1buzu5b" sourceRef="Gateway_06yzxi6" targetRef="Activity_0scuqvz" />
     <bpmn:sequenceFlow id="Flow_1myzg1h" sourceRef="Activity_0scuqvz" targetRef="Event_1vnfekv" />
@@ -493,14 +493,6 @@
         <di:waypoint x="678" y="350" />
         <di:waypoint x="741" y="350" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1qtjgy7_di" bpmnElement="Association_1qtjgy7">
-        <di:waypoint x="759" y="219" />
-        <di:waypoint x="759" y="171" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0q548om_di" bpmnElement="Association_0q548om">
-        <di:waypoint x="851" y="223" />
-        <di:waypoint x="899" y="160" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1e1sqgh_di" bpmnElement="TextAnnotation_1e1sqgh">
         <dc:Bounds x="660" y="130" width="198" height="41" />
         <bpmndi:BPMNLabel />
@@ -531,6 +523,14 @@
       <bpmndi:BPMNEdge id="DataOutputAssociation_187hu9o_di" bpmnElement="DataOutputAssociation_187hu9o">
         <di:waypoint x="240" y="255" />
         <di:waypoint x="241" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1qtjgy7_di" bpmnElement="Association_1qtjgy7">
+        <di:waypoint x="759" y="219" />
+        <di:waypoint x="759" y="171" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0q548om_di" bpmnElement="Association_0q548om">
+        <di:waypoint x="851" y="223" />
+        <di:waypoint x="899" y="160" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
