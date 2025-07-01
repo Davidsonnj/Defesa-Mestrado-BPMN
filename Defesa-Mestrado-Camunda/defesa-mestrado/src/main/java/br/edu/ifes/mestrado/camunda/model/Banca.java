@@ -1,11 +1,15 @@
 package br.edu.ifes.mestrado.camunda.model;
 
-public class Banca {
+import java.io.Serializable;
+
+public class Banca implements Serializable {
     private int idBanca;
     private String nome;
     private String email;
     private String instituicao;
     private String minicurriculo;
+
+    public Banca(){}
 
     /**
      * Constrói um objeto Banca com as informações fornecidas.
@@ -16,7 +20,6 @@ public class Banca {
      * @param minicurriculo Um resumo breve (minicurrículo) sobre o membro da banca.
      *
      **/
-
     public Banca(String nome, String email, String instituicao, String minicurriculo) {
         this.nome = nome;
         this.email = email;

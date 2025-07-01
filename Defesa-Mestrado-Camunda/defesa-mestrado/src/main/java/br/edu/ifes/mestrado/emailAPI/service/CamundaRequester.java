@@ -14,7 +14,7 @@ import java.util.Map;
 public class CamundaRequester {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper(); // Para serializar a lista
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public boolean iniciarProcesso(
             String aluno,
@@ -24,8 +24,14 @@ public class CamundaRequester {
             String dataDefesa,
             String horaDefesa,
             String localDefesa,
-            List<Banca> banca
+            List<Banca> bancaDefesa
     ) {
+        if(bancaDefesa.isEmpty() || aluno == null || tituloTrabalho == null || emailAluno == null ||
+           emailOrientador == null || dataDefesa == null || horaDefesa == null || localDefesa == null)
+        {
+            System.err.println("Dados insuficientes para iniciar o processo.");
+            return false;
+        }
         String url = "http://localhost:8080/engine-rest/condition";
 
         // Corpo da requisição
@@ -45,8 +51,8 @@ public class CamundaRequester {
 
         // Serializar a banca como JSON puro
         try {
-            String bancaJson = objectMapper.writeValueAsString(banca);
-            variables.put("banca", criarVariavelJson(bancaJson));
+            String bancaJson = objectMapper.writeValueAsString(bancaDefesa);
+            variables.put("bancaDefesa", criarVariavelJson(bancaJson));
         } catch (Exception e) {
             System.err.println("Erro ao serializar a banca: " + e.getMessage());
             return false;
@@ -57,6 +63,18 @@ public class CamundaRequester {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+
+        // --- CÓDIGO PARA VISUALIZAR O JSON SENDO ENVIADO ---
+        try {
+            System.out.println("================= CORPO DA REQUISIÇÃO JSON ==================");
+            // Usa o objectMapper para criar um JSON formatado (pretty print)
+            String jsonBody = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(body);
+            System.out.println(jsonBody);
+            System.out.println("==========================================================");
+        } catch (Exception e) {
+            System.err.println("Erro ao converter o corpo da requisição para JSON: " + e.getMessage());
+        }
+        // --- FIM DO TRECHO DE VISUALIZAÇÃO ---
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
@@ -69,7 +87,6 @@ public class CamundaRequester {
         }
     }
 
-    // Cria variável comum
     private Map<String, Object> criarVariavel(Object valor, String tipo) {
         Map<String, Object> var = new HashMap<>();
         var.put("value", valor);
@@ -77,11 +94,10 @@ public class CamundaRequester {
         return var;
     }
 
-    // Cria variável do tipo Json (Camunda não tenta desserializar)
     private Map<String, Object> criarVariavelJson(String valorJson) {
         Map<String, Object> var = new HashMap<>();
         var.put("value", valorJson);
-        var.put("type", "Json"); // Camunda aceita como JSON bruto
+        var.put("type", "Json");
         return var;
     }
 }

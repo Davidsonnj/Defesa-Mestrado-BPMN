@@ -59,12 +59,8 @@ public class EmailChecker {
                         continue;
                     }
 
-                    String respostaLimpa = resposta.replaceAll("[\\n\\r]", " ")
-                            .replaceAll("\\s+", " ")
-                            .replace("'", "")
-                            .trim();
 
-                    ExtrairDadosEmail.DadosExtraidos dados = ExtrairDadosEmail.extrairDados(respostaLimpa);
+                    ExtrairDadosEmail.DadosExtraidos dados = ExtrairDadosEmail.extrairDados(resposta);
 
                     if (dados != null) {
                         String aluno = dados.aluno;
