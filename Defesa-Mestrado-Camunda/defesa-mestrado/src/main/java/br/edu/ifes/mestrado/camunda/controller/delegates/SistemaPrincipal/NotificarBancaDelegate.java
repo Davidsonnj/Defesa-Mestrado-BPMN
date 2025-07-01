@@ -5,37 +5,21 @@ import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class NotificarBancaDelegate implements JavaDelegate {
     @Override
-    public void execute(DelegateExecution execution){
+    public void execute(DelegateExecution execution) {
         SenderEmailController emailSender = new SenderEmailController();
 
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
         String dataDefesa = (String) execution.getVariable("dataDefesa");
-        String horaDefesa =  (String) execution.getVariable("horaDefesa");
+        String horaDefesa = (String) execution.getVariable("horaDefesa");
         String localDefesa = (String) execution.getVariable("localDefesa");
 
-        Object rawBanca = execution.getVariable("bancaDefesa");
-        System.out.println(rawBanca);
-
-        List<Map<String, Object>> bancaMapList = (List<Map<String, Object>>) rawBanca;
-        List<Banca> bancaList = new ArrayList<>();
-
-        for (Map<String, Object> bancaMap : bancaMapList) {
-            String nome = (String) bancaMap.get("nome");
-            String email = (String) bancaMap.get("email");
-            String instituicao = (String) bancaMap.get("instituicao");
-            String minicurriculo = (String) bancaMap.get("minicurriculo");
-            System.out.println(email);
-
-            Banca banca = new Banca(nome, email, instituicao, minicurriculo);
-            bancaList.add(banca);
-        }
+        List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
+        System.out.println("Variável 'bancaDefesa' lida com sucesso. Conteúdo: " + bancaList);
 
         for (Banca banca : bancaList) {
             String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
@@ -55,6 +39,5 @@ public class NotificarBancaDelegate implements JavaDelegate {
             emailSender.sendEmail(banca.getEmail(), subject, body);
         }
         System.out.println("Notificou todos os integrantes da banca sobre o horario e local de defesa.");
-
     }
 }

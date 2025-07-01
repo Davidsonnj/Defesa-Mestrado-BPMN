@@ -23,23 +23,7 @@ public class EnviarDissertaçãoBancaDelegate implements JavaDelegate {
                 ? Arrays.asList(caminhosDosAnexos.split(";"))
                 : new ArrayList<>();
 
-
-        Object rawBanca = execution.getVariable("bancaDefesa");
-        System.out.println(rawBanca);
-
-        List<Map<String, Object>> bancaMapList = (List<Map<String, Object>>) rawBanca;
-        List<Banca> bancaList = new ArrayList<>();
-
-        for (Map<String, Object> bancaMap : bancaMapList) {
-            String nome = (String) bancaMap.get("nome");
-            String email = (String) bancaMap.get("email");
-            String instituicao = (String) bancaMap.get("instituicao");
-            String minicurriculo = (String) bancaMap.get("minicurriculo");
-            System.out.println(email);
-
-            Banca banca = new Banca(nome, email, instituicao, minicurriculo);
-            bancaList.add(banca);
-        }
+        List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
 
         for (Banca banca : bancaList) {
             String subject = "Dissertação do(a) aluno(a): " + aluno;

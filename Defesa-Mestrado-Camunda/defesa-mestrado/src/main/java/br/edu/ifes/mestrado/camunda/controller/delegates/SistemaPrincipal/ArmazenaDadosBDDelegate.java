@@ -19,7 +19,6 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         try {
-            // INSERIR ALUNO NO BANCO DE DADOS
             String nomeAluno = execution.getVariable("aluno").toString();
             String emailAluno = execution.getVariable("emailAluno").toString();
 
@@ -32,8 +31,6 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
                 throw new ErroInsercaoBancoException("Falha ao inserir aluno no banco de dados.");
             }
 
-
-            // INSERIR DEFESA NO BANCO DE DADOS
             String dataDefesa = execution.getVariable("dataDefesa").toString();
             String horaDefesa = execution.getVariable("horaDefesa").toString();
             String localDefesa = execution.getVariable("localDefesa").toString();
@@ -44,22 +41,7 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
             DefesaDAO defesaDAO = new DefesaDAO();
             int idDefesa = defesaDAO.inserir(defesa);
 
-            // INSERIR BANCA NO BANCO DE DADOS
-
-            Object rawBanca = execution.getVariable("bancaDefesa");
-
-            List<Map<String, Object>> bancaMapList = (List<Map<String, Object>>) rawBanca;
-            List<Banca> bancaList = new ArrayList<>();
-
-            for (Map<String, Object> bancaMap : bancaMapList) {
-                String nome = (String) bancaMap.get("nome");
-                String email = (String) bancaMap.get("email");
-                String instituicao = (String) bancaMap.get("instituicao");
-                String minicurriculo = (String) bancaMap.get("minicurriculo");
-
-                Banca banca = new Banca(nome, email, instituicao, minicurriculo);
-                bancaList.add(banca);
-            }
+            List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
 
             List<Integer> idBancaList = new ArrayList<>();
             BancaDAO bancaDAO = new BancaDAO();
@@ -68,7 +50,6 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
                 idBancaList.add(idBanca);
             }
 
-            // RELACIONAR BANCA E DEFESA
             DefesaBancaDAO defesaBanca = new DefesaBancaDAO();
             for (int idBanca : idBancaList) {
                 defesaBanca.inserir(idDefesa, idBanca);
@@ -81,6 +62,5 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
             execution.setVariable("erroArmazenamento", true);
             throw e;
         }
-
     }
 }
