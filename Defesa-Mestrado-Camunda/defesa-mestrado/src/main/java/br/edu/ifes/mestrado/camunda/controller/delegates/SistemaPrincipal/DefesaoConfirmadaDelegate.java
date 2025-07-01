@@ -4,7 +4,7 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-public class SolicitarCadastroDelegate implements JavaDelegate {
+public class DefesaoConfirmadaDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         String businessKey = execution.getProcessBusinessKey();
@@ -12,11 +12,11 @@ public class SolicitarCadastroDelegate implements JavaDelegate {
 
         long count = runtimeService.createExecutionQuery()
                 .processInstanceBusinessKey(businessKey)
-                .messageEventSubscriptionName("CadastroSolicitado")
+                .messageEventSubscriptionName("DefesaConfirmadaOrientador")
                 .count();
 
         if (count > 0) {
-            runtimeService.createMessageCorrelation("CadastroSolicitado")
+            runtimeService.createMessageCorrelation("DefesaConfirmadaOrientador")
                     .processInstanceBusinessKey(businessKey)
                     .correlateAll();
             System.out.println("Mensagem de cadastro Solicitado com sucesso!");
