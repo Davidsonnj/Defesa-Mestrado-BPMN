@@ -1,5 +1,18 @@
-spring.datasource.url: jdbc:h2:file:./camunda-h2-database
+spring:
+  datasource:
 
-camunda.bpm.admin-user:
-  id: davidson
-  password: admin
+    url: jdbc:postgresql://localhost:5432/camunda
+
+    username: davidson
+    password: davidson123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+camunda:
+  bpm:
+    admin-user:
+      id: davidson
+      password: admin
+    database:
+      schema-update: true
