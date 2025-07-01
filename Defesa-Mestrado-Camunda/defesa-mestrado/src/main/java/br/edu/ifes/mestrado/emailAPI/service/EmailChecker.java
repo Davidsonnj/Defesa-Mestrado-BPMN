@@ -106,6 +106,9 @@ public class EmailChecker {
                                     "- E-mail \n" +
                                     "- Instituição de origem\n" +
                                     "- Minicurrículo resumido\n\n" +
+                                    "Observações adicionais:\n" +
+                                    "- Caso a defesa seja remota, incluir o link de acesso\n" +
+                                    "- Enviar o dados com identificação ex.: nome do aluno: 'Jose Silva'\n\n" +
                                     "O envio completo e correto dessas informações é essencial para o adequado registro e andamento dos trâmites acadêmicos.\n\n" +
                                     "Agradecemos sua atenção e colaboração, e permanecemos à disposição para quaisquer esclarecimentos.\n\n" +
                                     "Atenciosamente,\n\n" +
