@@ -7,14 +7,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-public class GeradorDeAta {
+public class GeradorDeAta extends AbstractDocTextReplacer {
 
     public static void gerarAta(String dataDefesa, String horaDefesa, String localDefesa,
                                 String nomeAluno, String tituloTese, String orientadorPrincipal,
                                 String coOrientador, String membroInterno, String membroExterno) {
 
-        String templatePath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/entrada/MODELO_ATA.docx";
-        String outputPath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/saida/ATA_GERADA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\MODELO_ATA.docx";
+        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\ata_defesa\\ATA_GERADA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         try {
             FileInputStream fis = new FileInputStream(templatePath);
@@ -57,30 +57,4 @@ public class GeradorDeAta {
         }
     }
 
-    private static void replaceTextInDoc(XWPFDocument doc, String findText, String replaceText) {
-
-        for (XWPFParagraph p : doc.getParagraphs()) {
-            replaceTextInParagraph(p, findText, replaceText);
-        }
-
-        for (XWPFTable tbl : doc.getTables()) {
-            for (XWPFTableRow row : tbl.getRows()) {
-                for (XWPFTableCell cell : row.getTableCells()) {
-                    for (XWPFParagraph p : cell.getParagraphs()) {
-                        replaceTextInParagraph(p, findText, replaceText);
-                    }
-                }
-            }
-        }
-    }
-
-    private static void replaceTextInParagraph(XWPFParagraph p, String findText, String replaceText) {
-        for (XWPFRun r : p.getRuns()) {
-            String text = r.getText(0);
-            if (text != null && text.contains(findText)) {
-                text = text.replace(findText, replaceText);
-                r.setText(text, 0);
-            }
-        }
-    }
 }
