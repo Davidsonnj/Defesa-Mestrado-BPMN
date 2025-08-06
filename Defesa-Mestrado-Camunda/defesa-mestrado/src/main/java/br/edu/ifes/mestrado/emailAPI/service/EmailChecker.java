@@ -39,7 +39,7 @@ public class EmailChecker {
             for (Email email : emailConfirmacao) {
                 Map.Entry<String, String> resultado = FuncoesEmail.tratarEmailSender(email);
 
-                String nome = resultado.getKey();
+                String nomeOrientador = resultado.getKey();
                 String emailOrientador = resultado.getValue();
                 if(email.getStatus().equals("DADOS_INICIAIS")) {
                     System.out.println("Email encontrado: " + email.getSubject() + " - " + email.getSender());
@@ -71,7 +71,7 @@ public class EmailChecker {
                         String localDefesa = dados.localDefesa;
                         List<Banca> banca = dados.banca;
 
-                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, emailOrientador, dataDefesa, horaDefesa, localDefesa, banca);
+                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, banca);
                         if (camundaResquest) {
                             System.out.println("Requisição enviada ao Camunda com sucesso!");
                             emailController.sendEmail(emailOrientador, "\"Dados Extraídos com Sucesso\"\n",

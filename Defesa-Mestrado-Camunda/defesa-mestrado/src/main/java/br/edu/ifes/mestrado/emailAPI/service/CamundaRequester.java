@@ -20,6 +20,7 @@ public class CamundaRequester {
             String aluno,
             String tituloTrabalho,
             String emailAluno,
+            String nomeOrientador,
             String emailOrientador,
             String dataDefesa,
             String horaDefesa,
@@ -44,6 +45,7 @@ public class CamundaRequester {
         variables.put("aluno", criarVariavel(aluno, "String"));
         variables.put("titulo_trabalho", criarVariavel(tituloTrabalho, "String"));
         variables.put("emailAluno", criarVariavel(emailAluno, "String"));
+        variables.put("nomeOrientador", criarVariavel(nomeOrientador, "String"));
         variables.put("emailOrientador", criarVariavel(emailOrientador, "String"));
         variables.put("dataDefesa", criarVariavel(dataDefesa, "String"));
         variables.put("horaDefesa", criarVariavel(horaDefesa, "String"));
