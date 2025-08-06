@@ -11,12 +11,12 @@
     <bpmn:intermediateThrowEvent id="Event_1n7ejnt" name="Enviou os dados dos alunos">
       <bpmn:incoming>Flow_0bk4exc</bpmn:incoming>
       <bpmn:outgoing>Flow_025kvec</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_185i61z" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.SendMessageDelegate" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_185i61z" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnviarDadosParaSistemaDelegate" />
     </bpmn:intermediateThrowEvent>
     <bpmn:startEvent id="Event_05o1whs" name="Pronto para iniciar processo de defesa">
       <bpmn:outgoing>Flow_0bk4exc</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1i558lo" camunda:variableName="email">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp; not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty emailOrientador &amp;&amp; not empty dataDefesa &amp;&amp; not empty horaDefesa &amp;&amp; not empty localDefesa &amp;&amp; not empty bancaDefesa}</bpmn:condition>
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${email == 1 &amp;&amp; not empty emailAluno &amp;&amp; not empty aluno &amp;&amp; not empty titulo_trabalho &amp;&amp; not empty nomeOrientador &amp;&amp; not empty emailOrientador &amp;&amp; not empty dataDefesa &amp;&amp; not empty horaDefesa &amp;&amp; not empty localDefesa &amp;&amp; not empty bancaDefesa}</bpmn:condition>
       </bpmn:conditionalEventDefinition>
     </bpmn:startEvent>
     <bpmn:intermediateCatchEvent id="Event_0j04sez" name="Defesa Cancelada">
