@@ -17,27 +17,37 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String dataDefesa = (String) execution.getVariable("dataDefesa");
         String horaDefesa = (String) execution.getVariable("horaDefesa");
         String localDefesa = (String) execution.getVariable("localDefesa");
+        String emailOrientador = (String) execution.getVariable("emailOrientador");
+        String nomeOrientador = (String) execution.getVariable("nomeOrientador");
 
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
         System.out.println("Variável 'bancaDefesa' lida com sucesso. Conteúdo: " + bancaList);
 
-        for (Banca banca : bancaList) {
-            String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
-            String body = "Prezado(a) " + banca.getNome() + ",\n\n" +
-                    "Informamos que a defesa do trabalho, intitulada \"" + titulo_trabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
-                    "Título do Trabalho: " + titulo_trabalho + "\n" +
-                    "Aluno(a): " + aluno + "\n" +
-                    "Data: " + dataDefesa + "\n" +
-                    "Hora: " + horaDefesa + "\n" +
-                    "Local: " + localDefesa + "\n\n" +
-                    "A defesa ocorrerá conforme o cronograma e local previamente definidos.\n\n" +
-                    "Caso haja alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
-                    "Atenciosamente,\n\n" +
-                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
-                    "Instituto Federal do Espírito Santo – Campus Serra";
+        String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
 
+        for (Banca banca : bancaList) {
+            String body = gerarCorpoEmail(banca.getNome(), titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
             emailSender.sendEmail(banca.getEmail(), subject, body);
         }
-        System.out.println("Notificou todos os integrantes da banca sobre o horario e local de defesa.");
+
+        String bodyOrientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+        emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
+
+        System.out.println("Notificou todos os integrantes da banca sobre o horário e local de defesa.");
+    }
+
+    private String gerarCorpoEmail(String nomeDestinatario, String tituloTrabalho, String aluno, String data, String hora, String local) {
+        return "Prezado(a) " + nomeDestinatario + ",\n\n" +
+                "Informamos que a defesa do trabalho, intitulada \"" + tituloTrabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
+                "Título do Trabalho: " + tituloTrabalho + "\n" +
+                "Aluno(a): " + aluno + "\n" +
+                "Data: " + data + "\n" +
+                "Hora: " + hora + "\n" +
+                "Local: " + local + "\n\n" +
+                "A defesa ocorrerá conforme o cronograma e local previamente definidos.\n\n" +
+                "Caso haja alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
+                "Atenciosamente,\n\n" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                "Instituto Federal do Espírito Santo – Campus Serra";
     }
 }
