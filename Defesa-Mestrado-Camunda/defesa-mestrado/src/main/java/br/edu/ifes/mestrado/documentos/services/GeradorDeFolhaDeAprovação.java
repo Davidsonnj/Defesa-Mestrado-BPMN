@@ -9,12 +9,12 @@ import java.io.FileOutputStream;
 
 public class GeradorDeFolhaDeAprovação extends AbstractDocTextReplacer {
 
-    public static void gerarFolhaDeAprovacao(String dataDefesa, String nomeAluno, String tituloTese,
+    public static String gerarFolhaDeAprovacao(String dataDefesa, String nomeAluno, String tituloTese,
                                              String orientadorPrincipal, String coOrientador,
                                              String membroInterno, String membroExterno) {
 
         String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\MODELO_FOLHA_DE_APROVACAO.docx";
-        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\folha_aprovacao\\FOLHA_APROVACAO_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\folha_aprovacao\\FOLHA_APROVACAO_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         File outputFile = new File(outputPath);
         outputFile.getParentFile().mkdirs();
@@ -46,5 +46,6 @@ public class GeradorDeFolhaDeAprovação extends AbstractDocTextReplacer {
             System.err.println("Falha ao gerar a Folha de Aprovação.");
             e.printStackTrace();
         }
+        return outputPath;
     }
 }

@@ -9,12 +9,12 @@ import java.io.FileOutputStream;
 
 public class GeradorDeAta extends AbstractDocTextReplacer {
 
-    public static void gerarAta(String dataDefesa, String horaDefesa, String localDefesa,
+    public static String gerarAta(String dataDefesa, String horaDefesa, String localDefesa,
                                 String nomeAluno, String tituloTese, String orientadorPrincipal,
                                 String coOrientador, String membroInterno, String membroExterno) {
 
         String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\MODELO_ATA.docx";
-        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\ata_defesa\\ATA_GERADA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\ata_defesa\\ATA_GERADA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         try {
             FileInputStream fis = new FileInputStream(templatePath);
@@ -55,6 +55,7 @@ public class GeradorDeAta extends AbstractDocTextReplacer {
             System.err.println("Falha ao gerar o documento.");
             e.printStackTrace();
         }
+        return outputPath;
     }
 
 }

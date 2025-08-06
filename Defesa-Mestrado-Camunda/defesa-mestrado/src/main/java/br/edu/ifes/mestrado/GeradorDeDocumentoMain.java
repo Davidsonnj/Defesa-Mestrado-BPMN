@@ -1,10 +1,16 @@
 package br.edu.ifes.mestrado;
 
 import br.edu.ifes.mestrado.documentos.services.*;
+import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GeradorDeDocumentoMain {
 
     public static void main(String[] args) {
+
+        SenderEmailController emailSender = new SenderEmailController();
 
         String nomeAluno = "Davidson Ca. Santos";
         String tituloTese = "Documento Teste de Geração de Documentos de Defesa";
@@ -19,7 +25,9 @@ public class GeradorDeDocumentoMain {
 
         System.out.println("Iniciando a geração de documentos...");
 
-        GeradorDeAta.gerarAta(
+        List<String> caminhosDosAnexos = new ArrayList<>();
+
+        caminhosDosAnexos.add(GeradorDeAta.gerarAta(
                 dataDefesa,
                 horaDefesa,
                 localDefesa,
@@ -29,9 +37,9 @@ public class GeradorDeDocumentoMain {
                 coOrientador,
                 membroInterno,
                 membroExterno
-        );
+        ));
 
-        GeradorDeFolhaDeAprovação.gerarFolhaDeAprovacao(
+        caminhosDosAnexos.add(GeradorDeFolhaDeAprovação.gerarFolhaDeAprovacao(
                 dataDefesa,
                 nomeAluno,
                 tituloTese,
@@ -39,39 +47,43 @@ public class GeradorDeDocumentoMain {
                 coOrientador,
                 membroInterno,
                 membroExterno
-        );
+        ));
 
-        GeradorDeDeclaracaoPrincipal.gerarDeclaracao(
+        caminhosDosAnexos.add(GeradorDeDeclaracaoPrincipal.gerarDeclaracao(
                 nomeCoordenador,
                 orientadorPrincipal,
                 nomeAluno,
                 tituloTese,
                 dataDefesa
-        );
+        ));
 
-        GeradorDeDeclaracaoCoorientador.gerarDeclaracao(
+        caminhosDosAnexos.add(GeradorDeDeclaracaoCoorientador.gerarDeclaracao(
                 nomeCoordenador,
                 coOrientador,
                 nomeAluno,
                 tituloTese,
                 dataDefesa
-        );
+        ));
 
-        GeradorDeDeclaracaoMembroInterno.gerarDeclaracao(
+        caminhosDosAnexos.add(GeradorDeDeclaracaoMembroInterno.gerarDeclaracao(
                 nomeCoordenador,
                 membroInterno,
                 nomeAluno,
                 tituloTese,
                 dataDefesa
-        );
+        ));
 
-        GeradorDeDeclaracaoMembroExterno.gerarDeclaracao(
+        caminhosDosAnexos.add(GeradorDeDeclaracaoMembroExterno.gerarDeclaracao(
                 nomeCoordenador,
                 membroExterno,
                 nomeAluno,
                 tituloTese,
                 dataDefesa
-        );
+        ));
+
+        emailSender.sendEmail("davidsonifes@gmail.com", "Documentos de Defesa Gerados com Sucesso",
+                "Prezado(a),\n\nOs documentos referentes à defesa do trabalho de " + nomeAluno + " foram gerados com sucesso. Seguem os anexos.\n\nAtenciosamente,\nSistema de Geração de Documentos",
+                caminhosDosAnexos);
 
         System.out.println("\nProcesso de geração de documentos finalizado com sucesso!");
     }

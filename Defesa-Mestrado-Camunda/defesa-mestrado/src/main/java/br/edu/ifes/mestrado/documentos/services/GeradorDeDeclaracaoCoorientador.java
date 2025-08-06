@@ -9,11 +9,11 @@ import java.io.FileOutputStream;
 
 public class GeradorDeDeclaracaoCoorientador extends AbstractDocTextReplacer {
 
-    public static void gerarDeclaracao(String nomeCoordenador, String coOrientador, String nomeAluno,
+    public static String gerarDeclaracao(String nomeCoordenador, String coOrientador, String nomeAluno,
                                        String tituloTese, String dataDefesa) {
 
         String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\Modelo_Declaração_Coorientador.docx";
-        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\declaracao_coorientador\\DECLARACAO_COORIENTADOR_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\declaracao_coorientador\\DECLARACAO_COORIENTADOR_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         try {
             FileInputStream fis = new FileInputStream(templatePath);
@@ -47,5 +47,6 @@ public class GeradorDeDeclaracaoCoorientador extends AbstractDocTextReplacer {
             System.err.println("Falha ao gerar a Declaração de Coorientador.");
             e.printStackTrace();
         }
+        return outputPath;
     }
 }
