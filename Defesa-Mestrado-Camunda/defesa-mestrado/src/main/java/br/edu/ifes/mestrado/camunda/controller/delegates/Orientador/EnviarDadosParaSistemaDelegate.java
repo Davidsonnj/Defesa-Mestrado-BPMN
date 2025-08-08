@@ -26,6 +26,8 @@ public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
         String localDefesa = (String) execution.getVariable("localDefesa");
         String tituloTrabalho = (String) execution.getVariable("titulo_trabalho");
         String nomeOrientador = (String) execution.getVariable("nomeOrientador");
+        String emailCoorientador = (String) execution.getVariable("emailCoorientador");
+        String nomeCoorientador = (String) execution.getVariable("nomeCoorientador");
 
         String bancaJsonString = execution.getVariableTyped("bancaDefesa").getValue().toString();
 
@@ -54,6 +56,8 @@ public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
         variables.put("localDefesa", localDefesa);
         variables.put("bancaDefesa", bancaDefesa);
         variables.put("nomeOrientador", nomeOrientador);
+        variables.put("nomeCoorientador", nomeCoorientador);
+        variables.put("emailCoorientador", emailCoorientador);
 
         if (businessKey != null) {
             runtimeService.createMessageCorrelation("dadosAlunos")
