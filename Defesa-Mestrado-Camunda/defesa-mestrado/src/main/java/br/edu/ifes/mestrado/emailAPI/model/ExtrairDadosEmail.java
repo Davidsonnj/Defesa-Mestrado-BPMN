@@ -20,16 +20,21 @@ public class ExtrairDadosEmail {
         public String horaDefesa;
         public String localDefesa;
         public List<Banca> banca;
+        public String emailCoorientador;
+        public String nomeCoorientador;
 
         // Construtor completo para facilitar a criação do objeto.
-        public DadosExtraidos(String aluno, String email, String titulo, String dataDefesa, String horaDefesa, String localDefesa, List<Banca> banca) {
+        public DadosExtraidos(String aluno, String email, String titulo, String dataDefesa, String horaDefesa, String localDefesa, String nomeCoorientador, String emailCoorientador,List<Banca> banca) {
             this.aluno = aluno;
             this.email = email;
             this.titulo = titulo;
             this.dataDefesa = dataDefesa;
             this.horaDefesa = horaDefesa;
             this.localDefesa = localDefesa;
+            this.nomeCoorientador = nomeCoorientador;
+            this.emailCoorientador = emailCoorientador;
             this.banca = banca;
+
         }
     }
 
@@ -45,7 +50,7 @@ public class ExtrairDadosEmail {
         }
 
         // Variáveis para armazenar os dados de nível superior
-        String aluno = null, email = null, titulo = null, dataDefesa = null, horaDefesa = null, localDefesa = null;
+        String aluno = null, email = null, titulo = null, dataDefesa = null, horaDefesa = null, localDefesa = null, nomeCoorientador = null, emailCoorientador = null;
         List<Banca> bancaList = new ArrayList<>();
 
         // Variáveis temporárias para construir cada membro da banca
@@ -68,6 +73,10 @@ public class ExtrairDadosEmail {
                 horaDefesa = extractValue(trimmedLine, "- Hora da Defesa:");
             } else if (trimmedLine.startsWith("- Local da Defesa:")) {
                 localDefesa = extractValue(trimmedLine, "- Local da Defesa:");
+            } else if (trimmedLine.startsWith("- Coorientador nome:")) {
+                nomeCoorientador = extractValue(trimmedLine, "- Coorientador nome:");
+            }else if (trimmedLine.startsWith("- Coorientador email:")) {
+                emailCoorientador = extractValue(trimmedLine, "- Coorientador email:");
             } else if (trimmedLine.startsWith("- Nome:")) {
                 // Ao encontrar um novo "Nome", significa que um novo membro da banca começou.
                 // Primeiro, salvamos o membro anterior se ele existir.
@@ -96,7 +105,7 @@ public class ExtrairDadosEmail {
             bancaList.add(new Banca(nomeMembro, emailMembro, instituicaoMembro, miniCurriculoMembro));
         }
 
-        return new DadosExtraidos(aluno, email, titulo, dataDefesa, horaDefesa, localDefesa, bancaList);
+        return new DadosExtraidos(aluno, email, titulo, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, bancaList);
     }
 
     /**
