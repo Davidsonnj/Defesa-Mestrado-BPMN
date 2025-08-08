@@ -25,6 +25,8 @@ public class CamundaRequester {
             String dataDefesa,
             String horaDefesa,
             String localDefesa,
+            String nomeCoorientador,
+            String emailCoorientador,
             List<Banca> bancaDefesa
     ) {
         if(bancaDefesa.isEmpty() || aluno == null || tituloTrabalho == null || emailAluno == null ||
@@ -50,6 +52,8 @@ public class CamundaRequester {
         variables.put("dataDefesa", criarVariavel(dataDefesa, "String"));
         variables.put("horaDefesa", criarVariavel(horaDefesa, "String"));
         variables.put("localDefesa", criarVariavel(localDefesa, "String"));
+        variables.put("nomeCoorientador", criarVariavel(nomeCoorientador, "String"));
+        variables.put("emailCoorientador", criarVariavel(emailCoorientador, "String"));
 
         // Serializar a banca como JSON puro
         try {

@@ -69,17 +69,19 @@ public class EmailChecker {
                         String dataDefesa = dados.dataDefesa;
                         String horaDefesa = dados.horaDefesa;
                         String localDefesa = dados.localDefesa;
+                        String nomeCoorientador = dados.nomeCoorientador;
+                        String emailCoorientador = dados.emailCoorientador;
                         List<Banca> banca = dados.banca;
 
-                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, banca);
+                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, banca);
                         if (camundaResquest) {
                             System.out.println("Requisição enviada ao Camunda com sucesso!");
                             emailController.sendEmail(emailOrientador, "\"Dados Extraídos com Sucesso\"\n",
-                                    "Prezado(a),"
-                                            + "\n\nOs dados foram extraídos com sucesso e o processo foi iniciado."
-                                            + "\n\nAgradecemos a colaboração."
-                                            + "\n\nAtenciosamente,"
-                                            + "\nPPComp - Programa de Pós-Graduação em Computação");
+                                    "Prezado(a),<br><br>" +
+                                          "Os dados foram extraídos com sucesso e o processo foi iniciado.<br><br>" +
+                                          "Agradecemos a colaboração.<br><br>" +
+                                          "Atenciosamente,<br>" +
+                                          "PPComp - Programa de Pós-Graduação em Computação");
 
                             email.setStatus("PROCESSADO");
                             emailDAO.update(email);
@@ -90,29 +92,38 @@ public class EmailChecker {
                 } else if(email.getStatus().equals("DADOS_INICIAIS_INCORRETOS")) {
                     System.out.println("Dados não encontrados no email.");
                     emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
-                              "Prezado(a) Orientador(a),\n\n" +
-                                    "Encaminhamos, abaixo, o modelo com as informações obrigatórias para a formalização do processo de defesa de dissertação no âmbito do Programa de Pós-Graduação em Computação Aplicada (PPComp) – IFES, Campus Serra, referentes ao(à) discente.\n\n" +
-                                    "Solicitamos que todos os campos abaixo sejam devidamente preenchidos e enviados no corpo do e-mail, com o assunto: Defesa.\n\n" +
-                                    "Informações obrigatórias do(a) discente:\n" +
-                                    "- Nome completo do(a) aluno(a)\n" +
-                                    "- E-mail do(a) aluno(a)\n" +
-                                    "- Título da dissertação\n\n" +
-                                    "Informações obrigatórias para a defesa:\n" +
-                                    "- Data da defesa\n" +
-                                    "- Horário da defesa\n" +
-                                    "- Local da defesa (presencial ou remoto, com link se for online)\n\n" +
-                                    "Composição da banca examinadora (dados obrigatórios para cada membro):\n" +
-                                    "- Nome completo\n" +
-                                    "- E-mail \n" +
-                                    "- Instituição de origem\n" +
-                                    "- Minicurrículo resumido\n\n" +
-                                    "Observações adicionais:\n" +
-                                    "- Caso a defesa seja remota, incluir o link de acesso\n" +
-                                    "- Enviar o dados com identificação ex.: nome do aluno: 'Jose Silva'\n\n" +
-                                    "O envio completo e correto dessas informações é essencial para o adequado registro e andamento dos trâmites acadêmicos.\n\n" +
-                                    "Agradecemos sua atenção e colaboração, e permanecemos à disposição para quaisquer esclarecimentos.\n\n" +
-                                    "Atenciosamente,\n\n" +
-                                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                            "Prezado(a) Orientador(a),<br><br>" +
+                                    "Encaminhamos, abaixo, o modelo com as informações obrigatórias para a formalização do processo de defesa de dissertação no âmbito do Programa de Pós-Graduação em Computação Aplicada (PPComp) – IFES, Campus Serra, referentes ao(à) discente.<br><br>" +
+
+                                    "Solicitamos que todos os campos abaixo sejam devidamente preenchidos e enviados no corpo do e-mail, com o assunto: <strong>Defesa</strong>.<br><br>" +
+
+                                    "<strong>Informações obrigatórias do(a) discente:</strong><br>" +
+                                    "- Nome completo do(a) aluno(a)<br>" +
+                                    "- E-mail do(a) aluno(a)<br>" +
+                                    "- Título da dissertação<br><br>" +
+
+                                    "<strong>Informações obrigatórias para a defesa:</strong><br>" +
+                                    "- Data da defesa<br>" +
+                                    "- Horário da defesa<br>" +
+                                    "- Local da defesa (presencial ou remoto, com link se for online)<br>" +
+                                    "- Nome do(a) coorientador(a) (caso não haja, deixar em branco)<br>" +
+                                    "- E-mail do(a) coorientador(a) (caso não haja, deixar em branco)<br><br>" +
+
+                                    "<strong>Composição da banca examinadora (dados obrigatórios para cada membro):</strong><br>" +
+                                    "- Nome completo<br>" +
+                                    "- E-mail<br>" +
+                                    "- Instituição de origem<br>" +
+                                    "- Minicurrículo resumido<br><br>" +
+
+                                    "<strong>Observações adicionais:</strong><br>" +
+                                    "- Caso a defesa seja remota, incluir o link de acesso<br>" +
+                                    "- Enviar os dados com identificação, ex.: nome do aluno: 'Jose Silva'<br><br>" +
+
+                                    "O envio completo e correto dessas informações é essencial para o adequado registro e andamento dos trâmites acadêmicos.<br><br>" +
+
+                                    "Agradecemos sua atenção e colaboração, e permanecemos à disposição para quaisquer esclarecimentos.<br><br>" +
+                                    "Atenciosamente,<br><br>" +
+                                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
                                     "IFES – Campus Serra");
 
 
