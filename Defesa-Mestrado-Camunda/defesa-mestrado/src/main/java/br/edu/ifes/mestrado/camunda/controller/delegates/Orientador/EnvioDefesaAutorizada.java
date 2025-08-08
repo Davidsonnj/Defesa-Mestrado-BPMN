@@ -16,17 +16,18 @@ public class EnvioDefesaAutorizada implements JavaDelegate {
         String localDefesa = (String) execution.getVariable("localDefesa");
 
         String subject = "Autorização para Defesa de Mestrado – " + aluno;
-        String body = "Prezado(a) Orientador(a),\n\n" +
-                "Comunicamos que, conforme anuência da Coordenação do Programa de Pós-Graduação em Computação Aplicada (PPComp), está autorizada a realização da defesa de dissertação do(a) mestrando(a) " + aluno + ", intitulada:\n\n" +
-                "\"" + titulo_trabalho + "\"\n\n" +
-                "A defesa está agendada para:\n" +
-                "Data: " + dataDefesa + "\n" +
-                "Hora: " + horaDefesa + "\n" +
-                "Local: " + localDefesa + "\n\n" +
-                "Permanecemos à disposição para quaisquer esclarecimentos adicionais.\n\n" +
-                "Atenciosamente,\n\n" +
-                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+        String body = "Prezado(a) Orientador(a),<br><br>" +
+                "Comunicamos que, conforme anuência da Coordenação do Programa de Pós-Graduação em Computação Aplicada (PPComp), está autorizada a realização da defesa de dissertação do(a) mestrando(a) " + aluno + ", intitulada:<br><br>" +
+                "&quot;" + titulo_trabalho + "&quot;<br><br>" +
+                "A defesa está agendada para:<br>" +
+                "Data: " + dataDefesa + "<br>" +
+                "Hora: " + horaDefesa + "<br>" +
+                "Local: " + localDefesa + "<br><br>" +
+                "Permanecemos à disposição para quaisquer esclarecimentos adicionais.<br><br>" +
+                "Atenciosamente,<br><br>" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
                 "IFES – Campus Serra";
+
 
 
         emailSender.sendEmail(emailOrientador, subject, body);

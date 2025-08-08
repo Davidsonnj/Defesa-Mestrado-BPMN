@@ -14,16 +14,17 @@ public class SolicitacaoUploadDelegate implements JavaDelegate {
 
         String subject = "Solicitação de upload da tese - " + titulo_trabalho;
 
-        String body = "Prezado(a) Aluno(a),\n\n"
+        String body = "Prezado(a) Aluno(a),<br><br>"
                 + "Gostaríamos de informar que, para dar continuidade ao processo de defesa de mestrado, "
                 + "solicitamos que envie a versão final da sua tese, com o assunto: Dissertação da Defesa - " + titulo_trabalho + ", "
-                + "para este e-mail.\n\n"
+                + "para este e-mail.<br><br>"
                 + "Por favor, envie o arquivo da tese em formato PDF até a data limite, para que possamos agendar a sua defesa. "
-                + "Caso já tenha enviado o documento, por favor desconsidere este lembrete.\n\n"
-                + "Agradecemos sua atenção e ficamos à disposição para quaisquer esclarecimentos adicionais.\n\n"
-                + "Atenciosamente,\n\n"
-                + "PPComp \n"
+                + "Caso já tenha enviado o documento, por favor desconsidere este lembrete.<br><br>"
+                + "Agradecemos sua atenção e ficamos à disposição para quaisquer esclarecimentos adicionais.<br><br>"
+                + "Atenciosamente,<br><br>"
+                + "PPComp <br>"
                 + "IFES - Campus Serra";
+
 
         emailSender.sendEmail(emailAluno, subject, body);
     }

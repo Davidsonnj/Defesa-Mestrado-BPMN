@@ -37,17 +37,17 @@ public class NotificarBancaDelegate implements JavaDelegate {
     }
 
     private String gerarCorpoEmail(String nomeDestinatario, String tituloTrabalho, String aluno, String data, String hora, String local) {
-        return "Prezado(a) " + nomeDestinatario + ",\n\n" +
-                "Informamos que a defesa do trabalho, intitulada \"" + tituloTrabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
-                "Título do Trabalho: " + tituloTrabalho + "\n" +
-                "Aluno(a): " + aluno + "\n" +
-                "Data: " + data + "\n" +
-                "Hora: " + hora + "\n" +
-                "Local: " + local + "\n\n" +
-                "A defesa ocorrerá conforme o cronograma e local previamente definidos.\n\n" +
-                "Caso haja alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
-                "Atenciosamente,\n\n" +
-                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+        return "Prezado(a) " + nomeDestinatario + ",<br><br>" +
+                "Informamos que a defesa do trabalho, intitulada &quot;" + tituloTrabalho + "&quot;, está agendada conforme os detalhes abaixo:<br><br>" +
+                "Título do Trabalho: " + tituloTrabalho + "<br>" +
+                "Aluno(a): " + aluno + "<br>" +
+                "Data: " + data + "<br>" +
+                "Hora: " + hora + "<br>" +
+                "Local: " + local + "<br><br>" +
+                "A defesa ocorrerá conforme o cronograma e local previamente definidos.<br><br>" +
+                "Caso haja alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.<br><br>" +
+                "Atenciosamente,<br><br>" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
                 "Instituto Federal do Espírito Santo – Campus Serra";
     }
 }

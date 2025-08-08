@@ -15,13 +15,13 @@ public class EnvioDefesaNegada implements JavaDelegate {
 
         String subject = "Comunicação de Indeferimento da Defesa de Mestrado – " + aluno;
 
-        String body = "Prezado(a) Orientador(a),\n\n" +
-                "Informamos que a defesa de mestrado do(a) discente " + aluno + ", intitulada \"" + titulo_trabalho + "\", foi indeferida. " +
-                "Segue abaixo a justificativa detalhada para essa decisão:\n\n" +
-                "Justificativa:\n\"" + justificativaAnuencia + "\"\n\n" +
-                "Agradecemos a atenção dispensada e colocamo-nos à disposição para quaisquer esclarecimentos adicionais.\n\n" +
-                "Atenciosamente,\n\n" +
-                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+        String body = "Prezado(a) Orientador(a),<br><br>" +
+                "Informamos que a defesa de mestrado do(a) discente " + aluno + ", intitulada &quot;" + titulo_trabalho + "&quot;, foi indeferida. " +
+                "Segue abaixo a justificativa detalhada para essa decisão:<br><br>" +
+                "Justificativa:<br>&quot;" + justificativaAnuencia + "&quot;<br><br>" +
+                "Agradecemos a atenção dispensada e colocamo-nos à disposição para quaisquer esclarecimentos adicionais.<br><br>" +
+                "Atenciosamente,<br><br>" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
                 "IFES – Campus Serra";
 
 

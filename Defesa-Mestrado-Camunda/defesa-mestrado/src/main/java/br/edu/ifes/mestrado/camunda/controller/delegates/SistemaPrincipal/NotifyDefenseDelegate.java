@@ -29,22 +29,24 @@ public class NotifyDefenseDelegate implements JavaDelegate {
 
         // Criando o assunto e o corpo do e-mail
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
-        String body = "Prezado(a) " + aluno + ",\n\n" +
-                "Informamos que a sua defesa de trabalho, intitulada \"" + tituloTrabalho + "\", está agendada conforme os detalhes abaixo:\n\n" +
+        String body = "Prezado(a) " + aluno + ",<br><br>" +
+                "Informamos que a sua defesa de trabalho, intitulada &quot;" + tituloTrabalho + "&quot;, está agendada conforme os detalhes abaixo:<br><br>" +
 
-                "Título do Trabalho: " + tituloTrabalho + "\n" +
-                "Aluno(a): " + aluno + "\n\n" +
-                "Data da Defesa: " + dataDefesa + "\n" +
-                "Hora da Defesa: " + horaDefesa + "\n" +
-                "Local da Defesa: " + localDefesa + "\n\n" +
+                "Título do Trabalho: " + tituloTrabalho + "<br>" +
+                "Aluno(a): " + aluno + "<br><br>" +
 
-                "Solicitamos, por gentileza, que confirme sua participação respondendo a este e-mail.\n\n" +
-                "Ressaltamos que este pedido de confirmação será enviado por até três dias consecutivos. Caso não confirme, por favor, desconsidere as mensagens subsequentes.\n\n" +
-                "A defesa será realizada conforme o cronograma e local previamente definidos.\n\n" +
-                "Caso tenha alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.\n\n" +
-                "Atenciosamente,\n\n" +
-                "Programa de Pós-Graduação em Computação Aplicada (PPComp)\n" +
+                "Data da Defesa: " + dataDefesa + "<br>" +
+                "Hora da Defesa: " + horaDefesa + "<br>" +
+                "Local da Defesa: " + localDefesa + "<br><br>" +
+
+                "Solicitamos, por gentileza, que <strong>confirme sua participação</strong> respondendo a este e-mail (ex: 'Confirmo a minha presença', 'Não participarei').<br><br>" +
+                "Ressaltamos que este pedido de confirmação será enviado por até três dias consecutivos. Caso não confirme dentro do prazo, o processo será cancelado.<br><br>" +
+                "A defesa será realizada conforme o cronograma e local previamente definidos.<br><br>" +
+                "Caso tenha alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.<br><br>" +
+                "Atenciosamente,<br><br>" +
+                "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
                 "IFES – Campus Serra";
+
 
 
         emailSender.sendEmail(emailAluno, subject, body);

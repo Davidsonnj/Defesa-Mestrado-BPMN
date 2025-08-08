@@ -40,7 +40,7 @@ public class EmailSenderService {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
-            message.setText(body);
+            message.setContent(body, "text/html; charset=utf-8");
 
             // Enviando o e-mail
             Transport.send(message);
@@ -71,7 +71,8 @@ public class EmailSenderService {
             message.setSubject(subject);
 
             MimeBodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(body);
+            messageBodyPart.setContent(body, "text/html; charset=utf-8");
+
 
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
