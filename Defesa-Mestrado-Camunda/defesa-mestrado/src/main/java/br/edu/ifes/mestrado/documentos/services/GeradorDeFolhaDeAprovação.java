@@ -13,8 +13,8 @@ public class GeradorDeFolhaDeAprovação extends AbstractDocTextReplacer {
                                              String orientadorPrincipal, String coOrientador,
                                              String membroInterno, String membroExterno) {
 
-        String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\MODELO_FOLHA_DE_APROVACAO.docx";
-        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\folha_aprovacao\\FOLHA_APROVACAO_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String templatePath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/entrada/MODELO_FOLHA_DE_APROVACAO.docx";
+        String outputPath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/saida/folha_aprovacao/FOLHA_APROVACAO_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         File outputFile = new File(outputPath);
         outputFile.getParentFile().mkdirs();
