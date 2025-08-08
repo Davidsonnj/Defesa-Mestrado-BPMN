@@ -30,6 +30,9 @@ public class PerguntaDadosIniciais implements PromptPergunta {
         - Data da Defesa: [data no formato dd/mm/yyyy]
         - Hora da Defesa: [hora da defesa]
         - Local da Defesa: [local da defesa]
+        
+        - Coorientador nome: [nome do coorientador]
+        - Coorientador email: [email do coorientador]
 
         - Banca Examinadora:
         - Nome: [nome do membro 1]
