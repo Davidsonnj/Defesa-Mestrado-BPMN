@@ -13,8 +13,8 @@ public class GeradorDeAta extends AbstractDocTextReplacer {
                                 String nomeAluno, String tituloTese, String orientadorPrincipal,
                                 String coOrientador, String membroInterno, String membroExterno) {
 
-        String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\MODELO_ATA.docx";
-        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\ata_defesa\\ATA_GERADA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String templatePath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/entrada/MODELO_ATA.docx";
+        String outputPath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/saida/ata_defesa/ATA_GERADA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         try {
             FileInputStream fis = new FileInputStream(templatePath);

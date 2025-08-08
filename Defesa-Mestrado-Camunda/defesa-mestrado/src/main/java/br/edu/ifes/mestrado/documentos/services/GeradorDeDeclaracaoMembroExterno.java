@@ -12,8 +12,8 @@ public class GeradorDeDeclaracaoMembroExterno extends AbstractDocTextReplacer {
     public static String gerarDeclaracao(String nomeCoordenador, String membroExterno, String nomeAluno,
                                        String tituloTese, String dataDefesa) {
 
-        String templatePath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\entrada\\Modelo_Declaração_Membro_Externo.docx";
-        String outputPath = "C:\\Users\\Davidson\\Desktop\\Defesa-Mestrado-BPMN\\Defesa-Mestrado-Camunda\\defesa-mestrado\\src\\main\\java\\br\\edu\\ifes\\mestrado\\documentos\\templates\\saida\\declaracao_externa\\DECLARACAO_EXTERNA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
+        String templatePath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/entrada/Modelo_Declaração_Membro_Externo.docx";
+        String outputPath = "/home/davidson/Desktop/Defesa-Mestrado-BPMN/Defesa-Mestrado-Camunda/defesa-mestrado/src/main/java/br/edu/ifes/mestrado/documentos/templates/saida/declaracao_externa/DECLARACAO_EXTERNA_" + tituloTese.replaceAll("[^a-zA-Z0-9.-]", "_") + "_" + nomeAluno.replaceAll("[^a-zA-Z0-9.-]", "_") + ".docx";
 
         try {
             FileInputStream fis = new FileInputStream(templatePath);
