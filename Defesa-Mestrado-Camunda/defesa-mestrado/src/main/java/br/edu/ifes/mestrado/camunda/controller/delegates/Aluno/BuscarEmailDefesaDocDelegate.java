@@ -51,8 +51,8 @@ public class BuscarEmailDefesaDocDelegate implements JavaDelegate {
                             List<String> anexos = email.getAttachmentPaths();
                             if (anexos != null && !anexos.isEmpty()) {
                                 for (String path : anexos) {
-                                    System.out.println("📎 Anexo encontrado: " + path);
-                                    paths.append(path).append(";"); // separa os paths com ponto e vírgula, por exemplo
+                                    System.out.println("Anexo encontrado: " + path);
+                                    paths.append(path).append(";");
                                 }
                         }
                              */

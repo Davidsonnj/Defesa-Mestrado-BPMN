@@ -48,6 +48,8 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
                     if(email.getStatus().equals("DADOS_DETALHADOS_DEFESA")
                             && emailOrientadorBD.equals(emailOrientador)) {
 
+                        long idDadosDetalhadosDefesa = email.getUid();
+
                         String resposta = perguntaDadosDetalhados.takeQuestion(email.getBody());
                         System.out.println("--- Resposta da IA ---");
                         System.out.println(resposta);
@@ -62,6 +64,7 @@ public class BuscarEmailDadosAlunoDelegate implements JavaDelegate {
                         execution.setVariable("horaDefesa", hora);
                         execution.setVariable("localDefesa", local);
                         execution.setVariable("bancaDefesa", banca);
+                        execution.setVariable("idDadosDetalhadosDefesa", idDadosDetalhadosDefesa);
 
                         System.out.println("Dados extraídos:");
                         System.out.println("Data: " + data);

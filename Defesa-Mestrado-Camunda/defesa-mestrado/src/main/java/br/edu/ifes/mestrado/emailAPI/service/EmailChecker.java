@@ -44,6 +44,8 @@ public class EmailChecker {
                 if(email.getStatus().equals("DADOS_INICIAIS")) {
                     System.out.println("Email encontrado: " + email.getSubject() + " - " + email.getSender());
 
+                    long idDadosIniciais = email.getUid();
+
                     String body = email.getBody();
                     String resposta = null;
                     try {
@@ -73,7 +75,7 @@ public class EmailChecker {
                         String emailCoorientador = dados.emailCoorientador;
                         List<Banca> banca = dados.banca;
 
-                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, banca);
+                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, banca, idDadosIniciais);
                         if (camundaResquest) {
                             System.out.println("Requisição enviada ao Camunda com sucesso!");
                             emailController.sendEmail(emailOrientador, "\"Dados Extraídos com Sucesso\"\n",

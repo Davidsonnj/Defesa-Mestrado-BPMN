@@ -27,10 +27,11 @@ public class CamundaRequester {
             String localDefesa,
             String nomeCoorientador,
             String emailCoorientador,
-            List<Banca> bancaDefesa
+            List<Banca> bancaDefesa,
+            Long idDadosIniciais
     ) {
         if(bancaDefesa.isEmpty() || aluno == null || tituloTrabalho == null || emailAluno == null ||
-           emailOrientador == null || dataDefesa == null || horaDefesa == null || localDefesa == null)
+           emailOrientador == null || dataDefesa == null || horaDefesa == null || localDefesa == null || idDadosIniciais == null)
         {
             System.err.println("Dados insuficientes para iniciar o processo.");
             return false;
@@ -54,6 +55,7 @@ public class CamundaRequester {
         variables.put("localDefesa", criarVariavel(localDefesa, "String"));
         variables.put("nomeCoorientador", criarVariavel(nomeCoorientador, "String"));
         variables.put("emailCoorientador", criarVariavel(emailCoorientador, "String"));
+        variables.put("idDadosIniciais", idDadosIniciais);
 
         // Serializar a banca como JSON puro
         try {
