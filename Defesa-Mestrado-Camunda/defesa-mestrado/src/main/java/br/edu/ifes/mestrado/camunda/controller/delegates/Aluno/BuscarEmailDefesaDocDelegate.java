@@ -40,8 +40,13 @@ public class BuscarEmailDefesaDocDelegate implements JavaDelegate {
 
                 if(email.getStatus().equals("DOCUMENTO_DISSERTACAO") && emailAluno.equals(emailAlunoBD)) {
 
+                    // Envio do id DOCUMENTO_DISSERTACAO do email para o camunda
+                    long idDocumentoDissertacao = email.getUid();
+                    execution.setVariable("idDocumentoDissertacao", idDocumentoDissertacao);
+
                     String txt = "Titulo do trabalho no sistema: " + titulo_trabalho + "Subject: " + email.getSubject() + "Body: " + email.getBody();
                     boolean validacao = perguntaValidacaoDoc.booleanTakeQuestion(txt);
+
 
                     if(validacao) {
 

@@ -45,6 +45,10 @@ public class BuscarEmailAnuenciaDelegate implements JavaDelegate {
 
                 if(email.getStatus().equals("ANUENCIA_COORDENACAO")) {
 
+                    // Envio do id ANUENCIA_COORDENACAO do email para o camunda
+                    long idAnuenciaCoordenacao = email.getUid();
+                    execution.setVariable("idAnuenciaCoordenacao", idAnuenciaCoordenacao);
+
                     String txt = "Subject: " + email.getSubject() + "Body: " + email.getBody() + "Titulo da dissertação no sistema: " + titulo_trabalho;
                     boolean validacao = perguntaValidacaoAnuencia.booleanTakeQuestion(txt);
 

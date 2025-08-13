@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class BuscarEmailDefesaDelegate implements JavaDelegate {
+public class
+BuscarEmailDefesaDelegate implements JavaDelegate {
 
     @Autowired
     private PerguntaConfirmacaoDefesa perguntaConfirmacaoDefesa;
@@ -40,6 +41,10 @@ public class BuscarEmailDefesaDelegate implements JavaDelegate {
                     String emailAlunoBD =  resultado.getValue();
 
                     if(email.getStatus().equals("CONFIRMACAO_DEFESA") && emailAlunoBD.equals(emailAluno) ) {
+
+                        // Envio do id CONFIRMACAO_DEFESA do email para o camunda
+                        long idConfirmacaoDefesa = email.getUid();
+                        execution.setVariable("idConfirmacaoDefesa", idConfirmacaoDefesa);
 
                         String txt = "Titulo do sistema:" + titulo_trabalho +"Corpo do Email:" + email.getBody();
                         boolean titulo_igual = perguntaConfirmacaoDefesa.booleanTakeQuestion(txt);

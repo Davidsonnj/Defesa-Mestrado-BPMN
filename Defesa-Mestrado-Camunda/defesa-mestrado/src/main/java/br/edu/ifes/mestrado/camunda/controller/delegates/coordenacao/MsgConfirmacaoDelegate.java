@@ -13,6 +13,8 @@ public class MsgConfirmacaoDelegate implements JavaDelegate {
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
         String businessKey = execution.getProcessBusinessKey();
 
+        long idAnuenciaCoordenacao = (long) execution.getVariable("idAnuenciaCoordenacao");
+
         long count = runtimeService.createExecutionQuery()
                 .processInstanceBusinessKey(businessKey)
                 .messageEventSubscriptionName("MsgCoordenacao")
@@ -33,6 +35,7 @@ public class MsgConfirmacaoDelegate implements JavaDelegate {
             runtimeService.createMessageCorrelation("MsgCoordenacao")
                     .setVariable("justificativaAnuencia", justificativaAnuencia)
                     .setVariable("anuencia", anuencia)
+                    .setVariable("idAnuenciaCoordenacao", idAnuenciaCoordenacao)
                     .processInstanceBusinessKey(businessKey)
                     .correlate();
         } else {
