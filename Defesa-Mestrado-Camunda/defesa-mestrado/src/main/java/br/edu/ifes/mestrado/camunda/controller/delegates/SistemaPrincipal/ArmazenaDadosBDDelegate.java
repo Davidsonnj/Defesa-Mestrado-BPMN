@@ -1,9 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
-import br.edu.ifes.mestrado.database.dao.implementations.AlunoDAO;
-import br.edu.ifes.mestrado.database.dao.implementations.BancaDAO;
-import br.edu.ifes.mestrado.database.dao.implementations.DefesaBancaDAO;
-import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
+import br.edu.ifes.mestrado.database.dao.implementations.*;
 import br.edu.ifes.mestrado.camunda.exception.ErroInsercaoBancoException;
 import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.camunda.model.Aluno;
@@ -35,11 +32,17 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
             String horaDefesa = execution.getVariable("horaDefesa").toString();
             String localDefesa = execution.getVariable("localDefesa").toString();
             String tituloTrabalho = execution.getVariable("titulo_trabalho").toString();
+            long idDadosIniciais = (long) execution.getVariable("idDadosIniciais");
+            Long idConfirmacaoDefesa =  (long) execution.getVariable("idConfirmacaoDefesa");
 
             Defesa defesa = new Defesa(idAluno, dataDefesa, horaDefesa, localDefesa, tituloTrabalho);
 
             DefesaDAO defesaDAO = new DefesaDAO();
             int idDefesa = defesaDAO.inserir(defesa);
+
+            DefesaEmailsDAO defesaEmailsDAO = new DefesaEmailsDAO();
+            defesaEmailsDAO.inserir(idDefesa, idDadosIniciais);
+            defesaEmailsDAO.inserir(idDefesa, idConfirmacaoDefesa);
 
             List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
 

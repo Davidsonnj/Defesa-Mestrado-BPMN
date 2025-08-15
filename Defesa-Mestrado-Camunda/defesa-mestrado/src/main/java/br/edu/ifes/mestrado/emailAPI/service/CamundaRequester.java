@@ -55,7 +55,7 @@ public class CamundaRequester {
         variables.put("localDefesa", criarVariavel(localDefesa, "String"));
         variables.put("nomeCoorientador", criarVariavel(nomeCoorientador, "String"));
         variables.put("emailCoorientador", criarVariavel(emailCoorientador, "String"));
-        variables.put("idDadosIniciais", idDadosIniciais);
+        variables.put("idDadosIniciais", criarVariavel(idDadosIniciais, "Long"));
 
         // Serializar a banca como JSON puro
         try {

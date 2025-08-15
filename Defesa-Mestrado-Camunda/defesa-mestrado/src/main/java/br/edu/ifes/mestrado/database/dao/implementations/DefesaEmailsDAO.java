@@ -10,7 +10,7 @@ public class DefesaEmailsDAO implements IDefesaEmailDAO {
 
     @Override
     public int inserir(int idDefesa, long idEmail) throws SQLException {
-        String sql = "INSERT INTO Defesa_Banca (idDefesa, idEmail) VALUES (?, ?)";
+        String sql = "INSERT INTO Defesa_Emails (idDefesa, idEmail) VALUES (?, ?)";
         try {
             Connection connection = DatabaseConnection.getInstance();
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

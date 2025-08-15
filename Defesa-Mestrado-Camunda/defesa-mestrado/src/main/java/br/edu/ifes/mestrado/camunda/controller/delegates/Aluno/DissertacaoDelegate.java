@@ -23,7 +23,6 @@ public class DissertacaoDelegate implements JavaDelegate {
         if (count > 0) {
             Map<String, Object> variables = new HashMap<>();
             variables.put("idDocumentoDissertacao", idDocumentoDissertacao);
-            variables.put("idConfirmacaoDefesa", idConfirmacaoDefesa);
 
             String caminhosDosAnexos = (String) execution.getVariable("caminhosDosAnexos");
 

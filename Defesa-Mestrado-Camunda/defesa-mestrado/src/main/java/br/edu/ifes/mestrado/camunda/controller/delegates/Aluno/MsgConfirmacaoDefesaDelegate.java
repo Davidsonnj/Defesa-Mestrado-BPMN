@@ -13,7 +13,7 @@ public class MsgConfirmacaoDefesaDelegate implements JavaDelegate {
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
 
         boolean isWaiting = false;
-        for (int i = 0; i < 5; i++) {  // Tentamos por 5 ciclos
+        for (int i = 0; i < 5; i++) {
             long count = runtimeService.createExecutionQuery()
                     .processInstanceBusinessKey(businessKey)
                     .messageEventSubscriptionName("DefesaConfirmada")
@@ -32,8 +32,11 @@ public class MsgConfirmacaoDefesaDelegate implements JavaDelegate {
         }
 
         if (isWaiting) {
+            long idConfirmacaoDefesa = (long) execution.getVariable("idConfirmacaoDefesa");
+
             runtimeService.createMessageCorrelation("DefesaConfirmada")
                     .processInstanceBusinessKey(businessKey)
+                    .setVariable("idConfirmacaoDefesa", idConfirmacaoDefesa)
                     .correlate();
             System.out.println("Mensagem correlacionada com sucesso.");
         } else {
