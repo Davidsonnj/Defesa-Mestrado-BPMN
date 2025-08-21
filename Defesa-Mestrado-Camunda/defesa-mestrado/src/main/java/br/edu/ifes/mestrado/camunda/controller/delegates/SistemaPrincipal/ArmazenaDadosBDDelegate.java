@@ -33,7 +33,7 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
             String localDefesa = execution.getVariable("localDefesa").toString();
             String tituloTrabalho = execution.getVariable("titulo_trabalho").toString();
             long idDadosIniciais = (long) execution.getVariable("idDadosIniciais");
-            Long idConfirmacaoDefesa =  (long) execution.getVariable("idConfirmacaoDefesa");
+            long idConfirmacaoDefesa =  (long) execution.getVariable("idConfirmacaoDefesa");
 
             Defesa defesa = new Defesa(idAluno, dataDefesa, horaDefesa, localDefesa, tituloTrabalho);
 
