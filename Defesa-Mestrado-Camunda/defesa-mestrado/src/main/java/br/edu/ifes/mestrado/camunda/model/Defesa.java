@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 public class Defesa {
     private int idDefesa;
     private int idAluno;
+    private int idOrientador;
+    private int idCoorientador;
     private String dataDefesa;
     private String horaDefesa;
     private String localDefesa;
@@ -28,8 +30,10 @@ public class Defesa {
      *
      **/
 
-    public Defesa(int idAluno,String dataDefesa, String horaDefesa, String localDefesa, String tituloTrabalho) {
+    public Defesa(int idAluno, int idOrientador, int idCoorientador, String dataDefesa, String horaDefesa, String localDefesa, String tituloTrabalho) {
         this.idAluno = idAluno;
+        this.idOrientador = idOrientador;
+        this.idCoorientador = idCoorientador;
         this.dataDefesa = dataDefesa;
         this.horaDefesa = horaDefesa;
         this.localDefesa = localDefesa;
@@ -55,6 +59,14 @@ public class Defesa {
         this.idDefesa = idDefesa;
     }
 
+    public void setIdOrientador(int idOrientador) {
+        this.idOrientador = idOrientador;
+    }
+
+    public void setIdCoorientador(int idCoorientador) {
+        this.idCoorientador = idCoorientador;
+    }
+
     public void setDataDefesa(String dataDefesa) {
         this.dataDefesa = dataDefesa;
     }
@@ -78,6 +90,14 @@ public class Defesa {
 
     public int getIdAluno() {
         return idAluno;
+    }
+
+    public int getIdCoorientador() {
+        return idCoorientador;
+    }
+
+    public int getIdOrientador() {
+        return idOrientador;
     }
 
     public String getDataDefesa() {
