@@ -4,4 +4,6 @@ import br.edu.ifes.mestrado.camunda.model.Defesa;
 
 public interface IDefesaDAO {
     int inserir(Defesa defesa);
+    void atualizar(int idDefesa, Defesa defesa);
+    int criarInstanciaVazia();
 }
