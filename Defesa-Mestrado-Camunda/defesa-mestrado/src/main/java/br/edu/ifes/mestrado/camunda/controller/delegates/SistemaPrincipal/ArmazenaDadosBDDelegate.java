@@ -14,6 +14,7 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         try {
+            int idDefesa = (int) execution.getVariable("idDefesaBD");
             String dataDefesa = execution.getVariable("dataDefesa").toString();
             String horaDefesa = execution.getVariable("horaDefesa").toString();
             String localDefesa = execution.getVariable("localDefesa").toString();
@@ -60,7 +61,7 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
             Defesa defesa = new Defesa(idAluno, idOrientador, idCoorientador, dataDefesa, horaDefesa, localDefesa, tituloTrabalho);
 
             DefesaDAO defesaDAO = new DefesaDAO();
-            int idDefesa = defesaDAO.inserir(defesa);
+            defesaDAO.atualizar(idDefesa, defesa);
 
             // Relacionamento dos email com a defesa
             DefesaEmailsDAO defesaEmailsDAO = new DefesaEmailsDAO();
@@ -83,7 +84,6 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
                 defesaBanca.inserir(idDefesa, idBanca);
             }
 
-            execution.setVariable("idDefesaBD", idDefesa);
 
         } catch (ErroInsercaoBancoException e) {
             System.err.println("Erro ao armazenar dados: " + e.getMessage());
