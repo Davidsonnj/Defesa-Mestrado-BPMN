@@ -9,10 +9,9 @@ import java.sql.*;
 public class OrientadorDAO implements IOrientadorDAO {
     @Override
     public int inserir(Orientador orientador) {
-        String verificaSql = "SELECT idAluno FROM Aluno WHERE email = ?";
-        String updateSql = "UPDATE Aluno SET nome = ? WHERE email = ?";
-        String sql = "INSERT INTO Aluno (nome, email) VALUES (?, ?)";
-
+        String verificaSql = "SELECT idOrientador FROM Orientador WHERE email = ?";
+        String updateSql = "UPDATE Orientador SET nome = ? WHERE email = ?";
+        String sql = "INSERT INTO Orientador (nome, email) VALUES (?, ?)";
 
         try (Connection connection = DatabaseConnection.getInstance();
              PreparedStatement verificaStmt = connection.prepareStatement(verificaSql)) {
@@ -20,19 +19,19 @@ public class OrientadorDAO implements IOrientadorDAO {
             verificaStmt.setString(1, orientador.getEmail());
             ResultSet rsVerifica = verificaStmt.executeQuery();
 
+            // Se o orientador já existe, atualiza os dados
             if (rsVerifica.next()) {
-                try(PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
+                try (PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
                     int idExistente = rsVerifica.getInt("idOrientador");
                     updateStmt.setString(1, orientador.getNome());
                     updateStmt.setString(2, orientador.getEmail());
 
                     updateStmt.executeUpdate();
 
-                    System.out.println("Orientador com email '" + orientador.getEmail() + "' já existe e os dados foram atualizado com sucesso! ID: " + idExistente);
+                    System.out.println("Orientador com email '" + orientador.getEmail() + "' já existe e os dados foram atualizados com sucesso! ID: " + idExistente);
 
                     return idExistente;
                 }
-
             }
 
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -47,12 +46,11 @@ public class OrientadorDAO implements IOrientadorDAO {
                 return idGerado;
             }
 
-            System.out.println("Orientador salvo com sucesso! Id não retornou.");
+            System.out.println("Orientador salvo com sucesso! ID não foi retornado.");
             return -1;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

@@ -10,8 +10,8 @@ public class CoorientadorDAO implements ICoorientadorDAO {
     @Override
     public int inserir(Coorientador coorientador) {
         String verificaSql = "SELECT idCoorientador FROM Coorientador WHERE email = ?";
-        String updateSql = "UPDATE idCoorientador SET nome = ? WHERE email = ?";
-        String sql = "INSERT INTO idCoorientador(nome, email) VALUES (?, ?)";
+        String updateSql = "UPDATE Coorientador SET nome = ? WHERE email = ?";
+        String sql = "INSERT INTO Coorientador(nome, email) VALUES (?, ?)";
 
 
         try (Connection connection = DatabaseConnection.getInstance();
