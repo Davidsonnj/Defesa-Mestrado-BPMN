@@ -25,7 +25,7 @@ public class SistemaDefesaMestradoTest {
     private RuntimeService runtimeService;
 
     @Test
-    @Deployment(resources = {"process.bpmn"})
+    @Deployment(resources = {"BPMNs/SistemaDeMestrado.bpmn"})
     @Transactional
     public void testeCaminhoPrincipalCompleto() {
 
@@ -33,7 +33,6 @@ public class SistemaDefesaMestradoTest {
         variables.put("aluno", "Davidson Silva");
         variables.put("titulo_trabalho", "Análise de Processos com BPMN e Camunda");
         variables.put("emailAluno", "davidsonifes@gmail.com");
-        variables.put("emailOrientador", "davidsoncs45@gmail.com");
         variables.put("dataDefesa", "2025/12/25");
         variables.put("horaDefesa", "14:00");
         variables.put("localDefesa", "Sala de Conferências A");
@@ -44,6 +43,7 @@ public class SistemaDefesaMestradoTest {
         List<Banca> bancaDefesa = Arrays.asList(membro1, membro2);
         variables.put("bancaDefesa", bancaDefesa);
 
+        variables.put("emailOrientador", "davidsoncs45@gmail.com");
         variables.put("nomeOrientador", "Dr. Orientador Principal");
         variables.put("nomeCoorientador", "Dr. Coorientador Secundario");
         variables.put("emailCoorientador", "davidsonifes@gmail.com");
