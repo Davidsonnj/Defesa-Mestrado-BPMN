@@ -65,14 +65,44 @@ public class DefesaDAO implements IDefesaDAO {
     }
     @Override
     public void atualizar(int idDefesa, Defesa defesa) {
-
-        String sql = "UPDATE Defesa SET FK_aluno = ?, FK_orientador = ?, FK_coorientador= ?, dataDefesa = ?, localDefesa = ?, tituloTrabalho = ?) WHERE = ";
+        String sql = "UPDATE Defesa SET FK_aluno = ?, FK_orientador = ?, FK_coorientador = ?, dataDefesa = ?, localDefesa = ?, tituloTrabalho = ? WHERE idDefesa = ?";
 
         try {
             Connection connection = DatabaseConnection.getInstance();
-            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setInt(1, defesa.getIdAluno());
+            stmt.setInt(2, defesa.getIdOrientador());
+            stmt.setObject(3, defesa.getIdCoorientador(), java.sql.Types.INTEGER);
+            stmt.setDate(4, Date.valueOf(defesa.getDataDefesa()));
+            stmt.setString(5, defesa.getLocalDefesa());
+            stmt.setString(6, defesa.getTituloTrabalho());
+            stmt.setInt(7, idDefesa);
+
+            stmt.executeUpdate();
+            stmt.close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public void atualizarStatus(int idDefesa, String status) {
+        String sql = "UPDATE Defesa SET Status = ? WHERE idDefesa = ?";
+
+        try {
+            Connection connection = DatabaseConnection.getInstance();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            stmt.setString(1, status);
+            stmt.setInt(2, idDefesa);
+
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
