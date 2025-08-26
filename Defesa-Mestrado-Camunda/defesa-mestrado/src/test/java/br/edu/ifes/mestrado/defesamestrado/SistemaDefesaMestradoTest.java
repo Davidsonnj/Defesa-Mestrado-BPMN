@@ -30,26 +30,26 @@ public class SistemaDefesaMestradoTest {
     public void testeCaminhoPrincipalCompleto() {
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("aluno", "Davidson");
+        variables.put("aluno", "Davidson Silva");
         variables.put("titulo_trabalho", "Análise de Processos com BPMN e Camunda");
         variables.put("emailAluno", "davidsonifes@gmail.com");
         variables.put("emailOrientador", "davidsoncs45@gmail.com");
-        variables.put("dataDefesa", "25/12/2025");
+        variables.put("dataDefesa", "2025/12/25");
         variables.put("horaDefesa", "14:00");
         variables.put("localDefesa", "Sala de Conferências A");
 
-        Banca membro1 = new Banca("Prof. Dr. Carlos", "carlos@instituicao.br", "Instituição A", "Especialista em IA.");
-        Banca membro2 = new Banca("Profa. Dra. Ana", "ana@outra.br", "Instituição B", "Especialista em Engenharia de Software.");
+        Banca membro1 = new Banca("Prof. Dr. Carlos", "davidsoncsantos45@gmail.com", "Instituição A", "Especialista em IA.");
+        Banca membro2 = new Banca("Profa. Dra. Ana", "davidsoncarvalhos45@gmail.com", "Instituição B", "Especialista em Engenharia de Software.");
 
         List<Banca> bancaDefesa = Arrays.asList(membro1, membro2);
         variables.put("bancaDefesa", bancaDefesa);
 
-
-        variables.put("nomeOrientador", "Dr. orientador");
-        variables.put("nomeCoorientador", "Dr. Coorientador");
-        variables.put("emailCoorientador", "coorientador@email.com");
+        variables.put("nomeOrientador", "Dr. Orientador Principal");
+        variables.put("nomeCoorientador", "Dr. Coorientador Secundario");
+        variables.put("emailCoorientador", "davidsonifes@gmail.com");
         variables.put("idDadosIniciais", 167L);
         variables.put("idConfirmacaoDefesa", 162L);
+        variables.put("caminhosDosAnexos", "/home/davidson/Desktop/1752573732108.jpeg");
 
         String businessKey = "defesa-davidson-" + System.currentTimeMillis();
 

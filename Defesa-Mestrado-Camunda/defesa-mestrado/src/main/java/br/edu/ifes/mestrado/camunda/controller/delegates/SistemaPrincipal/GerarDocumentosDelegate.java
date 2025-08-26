@@ -3,7 +3,6 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.documentos.services.*;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
-import br.edu.ifes.mestrado.emailAPI.service.EmailSenderService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
@@ -12,12 +11,9 @@ import java.util.List;
 
 public class GerarDocumentosDelegate implements JavaDelegate {
     @Override
-    public void execute(DelegateExecution execution){
+    public void execute(DelegateExecution execution) {
 
-        SenderEmailController emailSender = new SenderEmailController();
-        String membroInterno = "";
-        String membroExterno = "";
-
+        // --- Coleta de Variáveis ---
         String emailOrientador = (String) execution.getVariable("emailOrientador");
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
 
@@ -27,96 +23,89 @@ public class GerarDocumentosDelegate implements JavaDelegate {
         String horaDefesa = (String) execution.getVariable("horaDefesa");
         String localDefesa = (String) execution.getVariable("localDefesa");
         String orientadorPrincipal = (String) execution.getVariable("nomeOrientador");
-        String coorientador = (String)  execution.getVariable("nomeCoorientador");
-        for (int i = 0; i < Math.min(2, bancaList.size()); i++) {
-            Banca banca = bancaList.get(i);
+        String coorientador = (String) execution.getVariable("nomeCoorientador");
+        String nomeCoordenador = "Profª. Drª. Karin Satie Komati";
 
-            if (i == 0) {
-                membroInterno = "Prof. Dr. " + banca.getNome();
-            } else if (i == 1) {
-                membroExterno = "Prof. Dr. " + banca.getNome();
+        String membroInterno = "";
+        String membroExterno = "";
+        if (bancaList != null) {
+            if (bancaList.size() > 0) {
+                membroInterno = bancaList.get(0).getNome();
+            }
+            if (bancaList.size() > 1) {
+                membroExterno = bancaList.get(1).getNome();
             }
         }
 
-        String nomeCoordenador = "Profª. Drª. Karin Satie Komati"; //(Alterar o nome do coordenador, caso necessario. Futuramente pode haver um webscrapping aq)
-
+        // --- Geração de Documentos com Tratamento de Erro ---
         List<String> caminhosDosAnexos = new ArrayList<>();
+        boolean todosGeradosComSucesso = true;
 
-        caminhosDosAnexos.add(GeradorDeAta.gerarAta(
-                dataDefesa,
-                horaDefesa,
-                localDefesa,
-                nomeAluno,
-                tituloTese,
-                orientadorPrincipal,
-                coorientador,
-                membroInterno,
-                membroExterno
-        ));
+        try {
+            caminhosDosAnexos.add(GeradorDeAta.gerarAta(
+                    dataDefesa, horaDefesa, localDefesa, nomeAluno, tituloTese,
+                    orientadorPrincipal, coorientador, membroInterno, membroExterno
+            ));
+        } catch (Exception e) {
+            todosGeradosComSucesso = false;
+            System.err.println("Falha ao gerar a Ata de Defesa.");
+            e.printStackTrace();
+        }
 
-        caminhosDosAnexos.add(GeradorDeFolhaDeAprovação.gerarFolhaDeAprovacao(
-                dataDefesa,
-                nomeAluno,
-                tituloTese,
-                orientadorPrincipal,
-                coorientador,
-                membroInterno,
-                membroExterno
-        ));
+        try {
+            caminhosDosAnexos.add(GeradorDeFolhaDeAprovação.gerarFolhaDeAprovacao(
+                    dataDefesa, nomeAluno, tituloTese, orientadorPrincipal,
+                    coorientador, membroInterno, membroExterno
+            ));
+        } catch (Exception e) {
+            todosGeradosComSucesso = false;
+            System.err.println("Falha ao gerar a Folha de Aprovação.");
+            e.printStackTrace();
+        }
 
-        caminhosDosAnexos.add(GeradorDeDeclaracaoPrincipal.gerarDeclaracao(
-                nomeCoordenador,
-                orientadorPrincipal,
-                nomeAluno,
-                tituloTese,
-                dataDefesa
-        ));
+        try {
+            caminhosDosAnexos.add(GeradorDeDeclaracaoPrincipal.gerarDeclaracao(
+                    nomeCoordenador, orientadorPrincipal, nomeAluno, tituloTese, dataDefesa
+            ));
+        } catch (Exception e) {
+            todosGeradosComSucesso = false;
+            System.err.println("Falha ao gerar a Declaração do Orientador Principal.");
+            e.printStackTrace();
+        }
 
-        caminhosDosAnexos.add(GeradorDeDeclaracaoCoorientador.gerarDeclaracao(
-                nomeCoordenador,
-                coorientador,
-                nomeAluno,
-                tituloTese,
-                dataDefesa
-        ));
+        try {
+            caminhosDosAnexos.add(GeradorDeDeclaracaoCoorientador.gerarDeclaracao(
+                    nomeCoordenador, coorientador, nomeAluno, tituloTese, dataDefesa
+            ));
+        } catch (Exception e) {
+            todosGeradosComSucesso = false;
+            System.err.println("Falha ao gerar a Declaração do Coorientador.");
+            e.printStackTrace();
+        }
 
-        caminhosDosAnexos.add(GeradorDeDeclaracaoMembroInterno.gerarDeclaracao(
-                nomeCoordenador,
-                membroInterno,
-                nomeAluno,
-                tituloTese,
-                dataDefesa
-        ));
+        // Repita o padrão try-catch para os outros geradores (membro interno/externo)
 
-        caminhosDosAnexos.add(GeradorDeDeclaracaoMembroExterno.gerarDeclaracao(
-                nomeCoordenador,
-                membroExterno,
-                nomeAluno,
-                tituloTese,
-                dataDefesa
-        ));
+        // --- Envio de E-mail ---
+        if (!caminhosDosAnexos.isEmpty()) {
+            SenderEmailController emailSender = new SenderEmailController();
+            emailSender.sendEmail(
+                    emailOrientador,
+                    "Documentos de Defesa Gerados",
+                    "Prezado(a) Professor(a),<br><br>" +
+                            "Informamos que os documentos referentes à defesa do(a) aluno(a) " + nomeAluno + " foram gerados e estão anexados a este e-mail.<br><br>" +
+                            "Caso algum documento esteja faltando, ocorreu um erro durante sua geração. Por favor, verifique o sistema ou contate o suporte.<br><br>" +
+                            "Atenciosamente,<br>" +
+                            "PPComp - IFES Serra",
+                    caminhosDosAnexos
+            );
+        } else {
+            System.err.println("Nenhum documento foi gerado com sucesso. E-mail não será enviado.");
+        }
 
-        emailSender.sendEmail(
-                emailOrientador,
-                "Documentos de Defesa Gerados com Sucesso",
-                "Prezado(a) Professor(a),<br><br>" +
-                    "Informamos que os documentos referentes à defesa do(a) aluno(a) " + nomeAluno + " foram gerados com sucesso e estão anexados a este e-mail.<br><br>" +
-                    "Solicitamos, por gentileza, que realize a conferência dos dados presentes nos documentos, especialmente:<br>" +
-                    "<ul>" +
-                    "<li>Nome do(a) aluno(a)</li>" +
-                    "<li>Título do trabalho</li>" +
-                    "<li>Data, horário e local da defesa</li>" +
-                    "<li>Composição da banca examinadora (orientador, coorientador, membros interno e externo)</li>" +
-                    "</ul><br>" +
-                    "Caso identifique qualquer divergência ou informação incorreta, favor entrar em contato com a coordenação o mais breve possível para que as correções sejam efetuadas.<br><br>" +
-                    "Atenciosamente,<br>" +
-                    "PPComp - IFES Serra",
-                caminhosDosAnexos
-        );
-
-
-        System.out.println("Todos os documentos foram gerados com sucesso!");
-
-
+        if (todosGeradosComSucesso) {
+            System.out.println("Todos os documentos foram gerados com sucesso!");
+        } else {
+            System.out.println("Processo de geração de documentos finalizado, mas com falhas. Verifique o log de erros.");
+        }
     }
 }

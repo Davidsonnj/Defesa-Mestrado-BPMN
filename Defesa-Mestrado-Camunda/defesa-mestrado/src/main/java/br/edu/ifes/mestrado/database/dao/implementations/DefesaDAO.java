@@ -5,6 +5,9 @@ import br.edu.ifes.mestrado.database.DatabaseConnection;
 import br.edu.ifes.mestrado.camunda.model.Defesa;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class DefesaDAO implements IDefesaDAO {
     @Override
@@ -63,24 +66,40 @@ public class DefesaDAO implements IDefesaDAO {
         }
 
     }
+
     @Override
     public void atualizar(int idDefesa, Defesa defesa) {
         String sql = "UPDATE Defesa SET FK_aluno = ?, FK_orientador = ?, FK_coorientador = ?, dataDefesa = ?, localDefesa = ?, tituloTrabalho = ? WHERE idDefesa = ?";
 
-        try {
-            Connection connection = DatabaseConnection.getInstance();
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        // Usando try-with-resources para garantir que tudo é fechado automaticamente
+        try (Connection connection = DatabaseConnection.getInstance();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setInt(1, defesa.getIdAluno());
             stmt.setInt(2, defesa.getIdOrientador());
             stmt.setObject(3, defesa.getIdCoorientador(), java.sql.Types.INTEGER);
-            stmt.setDate(4, Date.valueOf(defesa.getDataDefesa()));
+
+            String dataDefesaString = defesa.getDataDefesa();
+            if (dataDefesaString != null && !dataDefesaString.isEmpty()) {
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[dd/MM/yyyy][yyyy/MM/dd][yyyy-MM-dd]");
+
+                    LocalDate localDate = LocalDate.parse(dataDefesaString, formatter);
+
+                    stmt.setDate(4, java.sql.Date.valueOf(localDate));
+
+                } catch (DateTimeParseException e) {
+                    throw new IllegalArgumentException("Formato de data inválido recebido: " + dataDefesaString, e);
+                }
+            } else {
+                stmt.setNull(4, Types.DATE);
+            }
+
             stmt.setString(5, defesa.getLocalDefesa());
             stmt.setString(6, defesa.getTituloTrabalho());
             stmt.setInt(7, idDefesa);
 
             stmt.executeUpdate();
-            stmt.close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
