@@ -13,7 +13,6 @@ public class GerarDocumentosDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) {
 
-        // --- Coleta de Variáveis ---
         String emailOrientador = (String) execution.getVariable("emailOrientador");
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
 
@@ -83,9 +82,8 @@ public class GerarDocumentosDelegate implements JavaDelegate {
             e.printStackTrace();
         }
 
-        // Repita o padrão try-catch para os outros geradores (membro interno/externo)
+        // Repitir o padrão try-catch para os outros geradores (membro interno/externo)
 
-        // --- Envio de E-mail ---
         if (!caminhosDosAnexos.isEmpty()) {
             SenderEmailController emailSender = new SenderEmailController();
             emailSender.sendEmail(
