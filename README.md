@@ -31,7 +31,7 @@
   - JavaMail API
   - Java Activation
 
-## ⚙️ Instalação e Execução 
+## Instalação e Execução 
 
 [GitHub do projeto](https://github.com/Davidsonnj/Defesa-Mestrado-BPMN)
 
@@ -111,30 +111,30 @@ mvn spring-boot:run
             ├────images/
             └── diagram_relacional/</pre>
 
-## 💾 Diagrama Relacional
+## Diagrama Relacional
 
 O diagrama abaixo representa visualmente as informações relacionadas à **Defesa de Mestrado**, incluindo os dados de alunos, bancas e defesas. Ele facilita o entendimento das relações entre as tabelas no banco de dados do sistema.
 
 ![Diagrama Relacional](Defesa-Mestrado-Camunda/docs/defesa/diagram_relacional/Defesa-MestradoBD(30-04-2025).png)
 
-## 📊 Diagramas BPMN (Business Process Model and Notation)
+## Diagramas BPMN (Business Process Model and Notation)
 
 Os diagramas a seguir representam visualmente os processos relacionados à Defesa de Mestrado, modelados segundo a notação BPMN (Business Process Model and Notation). Essa notação permite uma compreensão clara e padronizada do fluxo de atividades entre os envolvidos no processo.
 > Este é o diagrama base, que representa a visão geral de todo o processo de defesa. A partir dele, foram derivados outros diagramas mais específicos que detalham subprocessos individuais (como aluno, orientador, coordenação, etc.).
 ![BPMN Base](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/Defesa-Mestrado-Completo.jpeg)
 
-### 🖥️ Sistema de Mestrado
+### Sistema de Mestrado
 > Representa as responsabilidades automatizadas e operacionais atribuídas ao sistema no decorrer da defesa, como envio de e-mails, controle de prazos e armazenamento de informações.
 ![BPMN SistemaMestrado](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/SistemaDeMestrado.png)
 
-### 👨‍🏫 Orientador
+### Orientador
 > Descreve o fluxo de ações atribuídas ao orientador do aluno, como validação de documentos, acompanhamento do progresso do orientando e aprovação das etapas do processo.
 ![BPMN Orientador](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/Orientador.png)
 
-### 🎓 Aluno
+### Aluno
 > Exibe as responsabilidades do aluno, incluindo a entrega de documentos e confirmação da defesa.
 ![BPMN Aluno](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/Aluno.png)
 
-### 📚 Coordenação
+### Coordenação
 > Apresenta as etapas sob responsabilidade da coordenação, como confirmar ou negar anuência da defesa.
 ![BPMN Coordenacao](Defesa-Mestrado-Camunda/docs/defesa/BPMNs/images/Coordenacao.png)
