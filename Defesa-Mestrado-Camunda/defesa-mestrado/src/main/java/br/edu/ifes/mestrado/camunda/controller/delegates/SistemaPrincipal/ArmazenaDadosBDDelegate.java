@@ -1,16 +1,22 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.camunda.controller.delegates.Aluno.MsgConfirmacaoDefesaDelegate;
 import br.edu.ifes.mestrado.camunda.model.*;
 import br.edu.ifes.mestrado.database.dao.implementations.*;
 import br.edu.ifes.mestrado.camunda.exception.ErroInsercaoBancoException;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ArmazenaDadosBDDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsgConfirmacaoDefesaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         try {
@@ -46,16 +52,21 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
                 throw new ErroInsercaoBancoException("Falha ao inserir aluno no banco de dados.");
             }
 
-            String nomeCoorientador =  execution.getVariable("nomeCoorientador").toString();
-            String emailCoorientador =  execution.getVariable("emailCoorientador").toString();
+            String nomeCoorientador = (String) execution.getVariable("nomeCoorientador");
+            String emailCoorientador = (String) execution.getVariable("emailCoorientador");
 
-            Coorientador coorientador = new Coorientador(nomeCoorientador, emailCoorientador);
+            int idCoorientador = -1;
 
-            CoorientadorDAO coorientadorDAO = new CoorientadorDAO();
-            int idCoorientador = coorientadorDAO.inserir(coorientador);
+            if (nomeCoorientador != null && !nomeCoorientador.isBlank() &&
+                    emailCoorientador != null && !emailCoorientador.isBlank()) {
 
-            if (idCoorientador < 0) {
-                throw new ErroInsercaoBancoException("Falha ao inserir aluno no banco de dados.");
+                Coorientador coorientador = new Coorientador(nomeCoorientador, emailCoorientador);
+                CoorientadorDAO coorientadorDAO = new CoorientadorDAO();
+                idCoorientador = coorientadorDAO.inserir(coorientador);
+
+                if (idCoorientador < 0) {
+                    throw new ErroInsercaoBancoException("Falha ao inserir coorientador no banco de dados.");
+                }
             }
 
             Defesa defesa = new Defesa(idAluno, idOrientador, idCoorientador, dataDefesa, horaDefesa, localDefesa, tituloTrabalho);
@@ -86,7 +97,7 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
 
 
         } catch (ErroInsercaoBancoException e) {
-            System.err.println("Erro ao armazenar dados: " + e.getMessage());
+            LOGGER.error("Erro ao armazenar dados: {}", e.getMessage());
             execution.setVariable("erroArmazenamento", true);
             throw e;
         }
