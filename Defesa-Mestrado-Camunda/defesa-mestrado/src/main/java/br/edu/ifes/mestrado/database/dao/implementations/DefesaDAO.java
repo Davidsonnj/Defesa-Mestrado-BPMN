@@ -71,23 +71,24 @@ public class DefesaDAO implements IDefesaDAO {
     public void atualizar(int idDefesa, Defesa defesa) {
         String sql = "UPDATE Defesa SET FK_aluno = ?, FK_orientador = ?, FK_coorientador = ?, dataDefesa = ?, localDefesa = ?, tituloTrabalho = ? WHERE idDefesa = ?";
 
-        // Usando try-with-resources para garantir que tudo é fechado automaticamente
         try (Connection connection = DatabaseConnection.getInstance();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setInt(1, defesa.getIdAluno());
             stmt.setInt(2, defesa.getIdOrientador());
-            stmt.setObject(3, defesa.getIdCoorientador(), java.sql.Types.INTEGER);
+
+            if (defesa.getIdCoorientador() > 0) {
+                stmt.setInt(3, defesa.getIdCoorientador());
+            } else {
+                stmt.setNull(3, Types.INTEGER);
+            }
 
             String dataDefesaString = defesa.getDataDefesa();
             if (dataDefesaString != null && !dataDefesaString.isEmpty()) {
                 try {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[dd/MM/yyyy][yyyy/MM/dd][yyyy-MM-dd]");
-
                     LocalDate localDate = LocalDate.parse(dataDefesaString, formatter);
-
                     stmt.setDate(4, java.sql.Date.valueOf(localDate));
-
                 } catch (DateTimeParseException e) {
                     throw new IllegalArgumentException("Formato de data inválido recebido: " + dataDefesaString, e);
                 }
@@ -105,6 +106,7 @@ public class DefesaDAO implements IDefesaDAO {
             throw new RuntimeException(e);
         }
     }
+
 
     public void atualizarStatus(int idDefesa, String status) {
         String sql = "UPDATE Defesa SET Status = ? WHERE idDefesa = ?";
