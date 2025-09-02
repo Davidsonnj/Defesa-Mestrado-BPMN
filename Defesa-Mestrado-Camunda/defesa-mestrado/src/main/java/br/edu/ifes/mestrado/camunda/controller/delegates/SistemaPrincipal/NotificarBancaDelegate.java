@@ -4,10 +4,15 @@ import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class NotificarBancaDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificarBancaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) {
         SenderEmailController emailSender = new SenderEmailController();
@@ -21,7 +26,7 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String nomeOrientador = (String) execution.getVariable("nomeOrientador");
 
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
-        System.out.println("Variável 'bancaDefesa' lida com sucesso. Conteúdo: " + bancaList);
+        LOGGER.info("Variável 'bancaDefesa' lida com sucesso. Conteúdo: " + bancaList);
 
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
 
@@ -33,7 +38,7 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String bodyOrientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
         emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
 
-        System.out.println("Notificou todos os integrantes da banca sobre o horário e local de defesa.");
+        LOGGER.info("Notificou todos os integrantes da banca sobre o horário e local de defesa.");
     }
 
     private String gerarCorpoEmail(String nomeDestinatario, String tituloTrabalho, String aluno, String data, String hora, String local) {

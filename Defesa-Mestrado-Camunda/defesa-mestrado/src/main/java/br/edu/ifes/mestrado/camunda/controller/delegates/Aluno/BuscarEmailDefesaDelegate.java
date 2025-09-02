@@ -1,6 +1,7 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaConfirmacaoDefesa;
+import br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal.DefesaCanceladaDelegate;
 import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
@@ -8,6 +9,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +24,8 @@ BuscarEmailDefesaDelegate implements JavaDelegate {
     @Autowired
     private EmailDAO emailDAO;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BuscarEmailDefesaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
 
@@ -31,7 +36,7 @@ BuscarEmailDefesaDelegate implements JavaDelegate {
             String emailAluno = (String) execution.getVariable("emailAluno");
             String aluno = (String) execution.getVariable("aluno");
 
-            System.out.println("Verificando email do aluno: " + aluno + "Email: " + emailAluno);
+            LOGGER.info("Verificando email do aluno: " + aluno + "Email: " + emailAluno);
             List<Email> emailConfirmacao = emailDAO.findAll();
 
             if (!emailConfirmacao.isEmpty()) {
@@ -66,7 +71,7 @@ BuscarEmailDefesaDelegate implements JavaDelegate {
             execution.setVariable("recebeuEmail", recebeuEmail);
         } else{
             execution.setVariable("verificaEmail", 1);
-            System.out.println("Passou ao verificar o email do Aluno.");
+            LOGGER.info("Passou ao verificar o email do Aluno.");
         }
     }
 }

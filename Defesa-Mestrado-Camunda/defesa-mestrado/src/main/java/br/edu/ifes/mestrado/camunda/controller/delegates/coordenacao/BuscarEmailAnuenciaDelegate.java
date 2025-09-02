@@ -2,12 +2,15 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao;
 
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaAnuencia;
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaValidacaoAnuencia;
+import br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal.DefesaCanceladaDelegate;
 import br.edu.ifes.mestrado.database.dao.implementations.EmailDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.EmailController;
 import br.edu.ifes.mestrado.emailAPI.controller.FuncoesEmail;
 import br.edu.ifes.mestrado.emailAPI.model.Email;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +29,8 @@ public class BuscarEmailAnuenciaDelegate implements JavaDelegate {
     @Autowired
     private PerguntaValidacaoAnuencia perguntaValidacaoAnuencia;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BuscarEmailAnuenciaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
 
@@ -35,7 +40,7 @@ public class BuscarEmailAnuenciaDelegate implements JavaDelegate {
 
             String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
 
-            System.out.println("Verificando o email da coordenação...");
+            LOGGER.info("Verificando o email da coordenação...");
             List<Email> emailConfirmacao = emailDAO.findAll();
 
             for (Email email : emailConfirmacao) {
@@ -72,7 +77,7 @@ public class BuscarEmailAnuenciaDelegate implements JavaDelegate {
             }
         } else{
             execution.setVariable("verificaEmail", 1);
-            System.out.println("Passou ao verificar o email da Coordenacao.");
+            LOGGER.info("Passou ao verificar o email da Coordenacao.");
         }
     }
 }

@@ -4,10 +4,15 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.runtime.Execution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class SolicitarUploadDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SolicitarUploadDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         String businessKey = execution.getProcessBusinessKey();
@@ -22,9 +27,9 @@ public class SolicitarUploadDelegate implements JavaDelegate {
             runtimeService.createMessageCorrelation("SolicitacaoUpload")
                     .processInstanceBusinessKey(businessKey)
                     .correlateAll();
-            System.out.println("Mensagem de Solicitação de Upload Enviado com sucesso!");
+            LOGGER.info("Mensagem de Solicitação de Upload Enviado com sucesso!");
         } else {
-            System.out.println("Nenhuma instância encontrada esperando pela mensagem de Solicitação de Upload.");
+            LOGGER.error("Nenhuma instância encontrada esperando pela mensagem de Solicitação de Upload.");
         }
     }
 }

@@ -4,6 +4,8 @@ import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class EnviarDissertaçãoBancaDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnviarDissertaçãoBancaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         SenderEmailController emailSender = new SenderEmailController();
@@ -38,6 +43,6 @@ public class EnviarDissertaçãoBancaDelegate implements JavaDelegate {
 
             emailSender.sendEmail(banca.getEmail(), subject, body, paths);
         }
-        System.out.println("Notificou todos os integrantes da banca!");
+        LOGGER.info("Notificou todos os integrantes da banca!");
     }
 }

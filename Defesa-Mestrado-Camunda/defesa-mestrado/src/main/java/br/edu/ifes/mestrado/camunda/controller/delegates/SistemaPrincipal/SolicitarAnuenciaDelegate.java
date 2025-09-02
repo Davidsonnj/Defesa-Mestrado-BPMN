@@ -4,12 +4,16 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.runtime.Execution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SolicitarAnuenciaDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SolicitarAnuenciaDelegate.class);
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
@@ -35,9 +39,9 @@ public class SolicitarAnuenciaDelegate implements JavaDelegate {
                         .setVariable("aluno", aluno)
                         .correlate();
 
-                System.out.println("Mensagem de anuência solicitado com sucesso!");
+                LOGGER.info("Mensagem de anuência solicitado com sucesso!");
             } else {
-                System.out.println("Nenhuma instância encontrada esperando pela mensagem de solicitacao de anuência.");
+                LOGGER.error("Nenhuma instância encontrada esperando pela mensagem de solicitacao de anuência.");
             }
         }
     }

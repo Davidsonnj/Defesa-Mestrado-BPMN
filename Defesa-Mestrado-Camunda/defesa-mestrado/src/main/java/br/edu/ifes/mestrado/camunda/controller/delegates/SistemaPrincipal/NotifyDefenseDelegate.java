@@ -5,12 +5,16 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.runtime.Execution;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class NotifyDefenseDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotifyDefenseDelegate.class);
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
@@ -76,11 +80,10 @@ public class NotifyDefenseDelegate implements JavaDelegate {
                         .processInstanceBusinessKey(businessKey)
                         .correlate();
             } else {
-                System.out.println("⚠️ NotifyDefense - Business Key está NULL!");
+                LOGGER.info("NotifyDefense - Business Key está NULL!");
             }
         } else {
-
-            System.out.println("Processo de confirmação da defesa já existe para o aluno: " + aluno);
+            LOGGER.warn("Processo de confirmação da defesa já existe para o aluno: " + aluno);
         }
     }
 }

@@ -1,15 +1,29 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaMembroExterno;
+import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaValidacaoDoc;
 import br.edu.ifes.mestrado.camunda.model.Banca;
+import br.edu.ifes.mestrado.camunda.model.BancaMembro;
 import br.edu.ifes.mestrado.documentos.services.*;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class GerarDocumentosDelegate implements JavaDelegate {
+
+    @Autowired
+    PerguntaMembroExterno perguntaMembroExterno;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GerarDocumentosDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) {
 
@@ -25,18 +39,40 @@ public class GerarDocumentosDelegate implements JavaDelegate {
         String coorientador = (String) execution.getVariable("nomeCoorientador");
         String nomeCoordenador = "Profª. Drª. Karin Satie Komati";
 
+        // Tratamento de null para todas as variáveis de string
+        nomeAluno = (nomeAluno != null) ? nomeAluno : "";
+        tituloTese = (tituloTese != null) ? tituloTese : "";
+        dataDefesa = (dataDefesa != null) ? dataDefesa : "";
+        horaDefesa = (horaDefesa != null) ? horaDefesa : "";
+        localDefesa = (localDefesa != null) ? localDefesa : "";
+        orientadorPrincipal = (orientadorPrincipal != null) ? orientadorPrincipal : "";
+        coorientador = (coorientador != null) ? coorientador : "";
+        nomeCoordenador = (nomeCoordenador != null) ? nomeCoordenador : "";
+
         String membroInterno = "";
         String membroExterno = "";
-        if (bancaList != null) {
-            if (bancaList.size() > 0) {
-                membroInterno = bancaList.get(0).getNome();
+
+        if (bancaList != null && !bancaList.isEmpty()) {
+
+            List<BancaMembro> bancaMembros = new ArrayList<>();
+
+            for (Banca membro : bancaList) {
+                BancaMembro bancaMembro = new BancaMembro(membro, false);
+                bancaMembros.add(bancaMembro);
             }
-            if (bancaList.size() > 1) {
-                membroExterno = bancaList.get(1).getNome();
+
+            for (BancaMembro bancaMembro : bancaMembros) {
+                perguntaMembroExterno.takeQuestionMembroExterno(bancaMembro);
+                if (bancaMembro.isExterno()){
+                    membroExterno = bancaMembro.getNome();
+                }else{
+                    membroInterno = bancaMembro.getNome();
+                }
             }
+
         }
 
-        // --- Geração de Documentos com Tratamento de Erro ---
+        // geração de documentos com tratamento de erro
         List<String> caminhosDosAnexos = new ArrayList<>();
         boolean todosGeradosComSucesso = true;
 
@@ -47,7 +83,7 @@ public class GerarDocumentosDelegate implements JavaDelegate {
             ));
         } catch (Exception e) {
             todosGeradosComSucesso = false;
-            System.err.println("Falha ao gerar a Ata de Defesa.");
+            LOGGER.error("Falha ao gerar a Ata de Defesa.");
             e.printStackTrace();
         }
 
@@ -58,7 +94,7 @@ public class GerarDocumentosDelegate implements JavaDelegate {
             ));
         } catch (Exception e) {
             todosGeradosComSucesso = false;
-            System.err.println("Falha ao gerar a Folha de Aprovação.");
+            LOGGER.error("Falha ao gerar a Folha de Aprovação.");
             e.printStackTrace();
         }
 
@@ -68,7 +104,7 @@ public class GerarDocumentosDelegate implements JavaDelegate {
             ));
         } catch (Exception e) {
             todosGeradosComSucesso = false;
-            System.err.println("Falha ao gerar a Declaração do Orientador Principal.");
+            LOGGER.error("Falha ao gerar a Declaração do Orientador Principal.");
             e.printStackTrace();
         }
 
@@ -78,7 +114,7 @@ public class GerarDocumentosDelegate implements JavaDelegate {
             ));
         } catch (Exception e) {
             todosGeradosComSucesso = false;
-            System.err.println("Falha ao gerar a Declaração do Coorientador.");
+            LOGGER.error("Falha ao gerar a Declaração do Coorientador.");
             e.printStackTrace();
         }
 
@@ -97,13 +133,13 @@ public class GerarDocumentosDelegate implements JavaDelegate {
                     caminhosDosAnexos
             );
         } else {
-            System.err.println("Nenhum documento foi gerado com sucesso. E-mail não será enviado.");
+            LOGGER.error("Nenhum documento foi gerado com sucesso. E-mail não será enviado.");
         }
 
         if (todosGeradosComSucesso) {
-            System.out.println("Todos os documentos foram gerados com sucesso!");
+            LOGGER.info("Todos os documentos foram gerados com sucesso!");
         } else {
-            System.out.println("Processo de geração de documentos finalizado, mas com falhas. Verifique o log de erros.");
+            LOGGER.warn("Processo de geração de documentos finalizado, mas com falhas. Verifique o log de erros.");
         }
     }
 }

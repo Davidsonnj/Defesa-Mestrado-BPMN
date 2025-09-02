@@ -3,11 +3,16 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EnviarJustificativaAnuenciaDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnviarJustificativaAnuenciaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution){
-        System.out.println("Chegou em 'Jusitifcativa de defesa negada reportada' no BPMN");
+        LOGGER.info("Chegou em 'Jusitifcativa de defesa negada reportada' no BPMN");
 
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
         String businessKey = execution.getProcessBusinessKey();
@@ -17,7 +22,7 @@ public class EnviarJustificativaAnuenciaDelegate implements JavaDelegate {
                 .messageEventSubscriptionName("DefesaNegada")
                 .count();
 
-        System.out.println("Bussiness Key: " + businessKey + " Envio de justificativa da anuência");
+        LOGGER.info("Bussiness Key: " + businessKey + " Envio de justificativa da anuência");
         if (count > 0){
             String justificativaAnuencia = (String) execution.getVariable("justificativaAnuencia");
 
@@ -26,7 +31,7 @@ public class EnviarJustificativaAnuenciaDelegate implements JavaDelegate {
                     .processInstanceBusinessKey(businessKey)
                     .correlateAll();
         } else {
-            System.out.println("Nenhuma instância encontrada esperando pela mensagem Envio de justificativa no sistema principal.");
+            LOGGER.warn("Nenhuma instância encontrada esperando pela mensagem Envio de justificativa no sistema principal.");
         }
 
     }

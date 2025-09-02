@@ -1,17 +1,23 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Orientador;
 
+import br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao.MsgConfirmacaoDelegate;
 import br.edu.ifes.mestrado.camunda.model.Banca;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.RuntimeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnviarDadosParaSistemaDelegate.class);
+
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
@@ -38,12 +44,8 @@ public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
 
         Object bancaDefesa = bancaList;
 
-        // Exemplo de como usar a lista de objetos:
-        if (!bancaList.isEmpty()) {
-            System.out.println("Nome do primeiro membro da banca: " + bancaList.get(0).getNome());
-        }
         if (emailAluno == null || emailAluno.isEmpty()) {
-            System.out.println("⚠️ E-mail do aluno não foi fornecido. Impossível enviar o e-mail.");
+            LOGGER.info("E-mail do aluno não foi fornecido. Impossível enviar o e-mail.");
             return;
         }
 
@@ -67,7 +69,7 @@ public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
                     .processInstanceBusinessKey(businessKey)
                     .correlate();
         } else {
-            System.out.println("⚠️ SendMessageDelegate - Business Key está NULL! Tentando correlacionar sem Business Key...");
+            LOGGER.info("SendMessageDelegate 'dadosAlunos' - Business Key está NULL! Tentando correlacionar sem Business Key...");
             runtimeService.createMessageCorrelation("dadosAlunos")
                     .setVariables(variables)
                     .correlateAll();

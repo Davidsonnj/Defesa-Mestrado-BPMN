@@ -1,14 +1,24 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.Aluno;
 
+import br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal.DefesaCanceladaDelegate;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MsgConfirmacaoDefesaDelegate implements JavaDelegate {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsgConfirmacaoDefesaDelegate.class);
+
     public void execute(DelegateExecution execution) throws Exception {
         String businessKey = execution.getProcessBusinessKey();
-        System.out.println("Tentando correlacionar mensagem para BusinessKey: " + businessKey);
+        if (businessKey == null) {
+            LOGGER.error("BusinessKey está nulo! Não é possível correlacionar a mensagem.");
+            return;
+        }
+
+        LOGGER.info("Tentando correlacionar mensagem 'DefesaCancelada' para BusinessKey: {}", businessKey);
 
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
 
@@ -38,9 +48,9 @@ public class MsgConfirmacaoDefesaDelegate implements JavaDelegate {
                     .processInstanceBusinessKey(businessKey)
                     .setVariable("idConfirmacaoDefesa", idConfirmacaoDefesa)
                     .correlate();
-            System.out.println("Mensagem correlacionada com sucesso.");
+            LOGGER.info("Mensagem 'DefesaConfirmada' correlacionada com sucesso.");
         } else {
-            System.out.println("Nenhuma instância encontrada esperando pela mensagem.");
+            LOGGER.warn("NENHUMA instância encontrada para a mensagem 'DefesaConfirmada'. A correlação não foi tentada.");
         }
 
     }

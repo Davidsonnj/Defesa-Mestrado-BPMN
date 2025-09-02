@@ -3,11 +3,15 @@ package br.edu.ifes.mestrado.camunda.controller.delegates.coordenacao;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MsgConfirmacaoDelegate implements JavaDelegate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MsgConfirmacaoDelegate.class);
 
     public void execute(DelegateExecution execution) throws Exception {
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
@@ -19,7 +23,7 @@ public class MsgConfirmacaoDelegate implements JavaDelegate {
                 .processInstanceBusinessKey(businessKey)
                 .messageEventSubscriptionName("MsgCoordenacao")
                 .count();
-        System.out.println("Bussiness Key: " + businessKey + " Envio de resposta da anuência");
+        LOGGER.info("Bussiness Key: " + businessKey + " Envio de resposta da anuência");
         if (count > 0){
             Boolean anuencia = (Boolean) execution.getVariable("anuencia");
             String justificativaAnuencia;
@@ -39,7 +43,7 @@ public class MsgConfirmacaoDelegate implements JavaDelegate {
                     .processInstanceBusinessKey(businessKey)
                     .correlate();
         } else {
-            System.out.println("Nenhuma instância encontrada esperando pela mensagem Envio de dados do aluno.");
+            LOGGER.warn("NENHUMA instância encontrada para a mensagem 'MsgCoordenacao'. A correlação não foi tentada.");
         }
 
     }
