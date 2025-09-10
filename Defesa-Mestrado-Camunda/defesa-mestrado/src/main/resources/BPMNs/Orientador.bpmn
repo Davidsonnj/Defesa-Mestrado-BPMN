@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wvzbrw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.35.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0wvzbrw" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.36.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.22.0">
   <bpmn:message id="Message_0ap2rt2" name="DefesaCancelada" />
   <bpmn:message id="Message_2h2bo1u" name="DefesaConfirmadaOrientador" />
   <bpmn:message id="Message_3ljrk5v" name="DefesaAutorizada" />
@@ -51,7 +51,7 @@
         <camunda:executionListener class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnvioDefesaNegada" event="end" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0piufk9</bpmn:incoming>
-      <bpmn:outgoing>Flow_1iixky7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1stncdv</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_02ob0r9" messageRef="Message_0isvi1u" />
     </bpmn:intermediateCatchEvent>
     <bpmn:intermediateCatchEvent id="Event_0nwzvea" name="Defesa Autorizada">
@@ -59,17 +59,9 @@
         <camunda:executionListener class="br.edu.ifes.mestrado.camunda.controller.delegates.Orientador.EnvioDefesaAutorizada" event="end" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_16858qs</bpmn:incoming>
-      <bpmn:outgoing>Flow_1kpqhe2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0ezgqxg</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_15m6svs" messageRef="Message_3ljrk5v" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:userTask id="Activity_01eckoe">
-      <bpmn:incoming>Flow_1iixky7</bpmn:incoming>
-      <bpmn:incoming>Flow_1kpqhe2</bpmn:incoming>
-      <bpmn:outgoing>Flow_1necrfh</bpmn:outgoing>
-    </bpmn:userTask>
-    <bpmn:endEvent id="Event_0od0r7e">
-      <bpmn:incoming>Flow_1necrfh</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0bk4exc" sourceRef="Event_05o1whs" targetRef="Event_1n7ejnt" />
     <bpmn:sequenceFlow id="Flow_025kvec" name="" sourceRef="Event_1n7ejnt" targetRef="Gateway_1b7rm4d" />
     <bpmn:sequenceFlow id="Flow_0h18rlf" sourceRef="Gateway_1b7rm4d" targetRef="Event_0j04sez" />
@@ -78,14 +70,17 @@
     <bpmn:sequenceFlow id="Flow_0otu21g" sourceRef="Event_0f2t67f" targetRef="Gateway_1jw28ij" />
     <bpmn:sequenceFlow id="Flow_16858qs" sourceRef="Gateway_1jw28ij" targetRef="Event_0nwzvea" />
     <bpmn:sequenceFlow id="Flow_0piufk9" sourceRef="Gateway_1jw28ij" targetRef="Event_0tzhbil" />
-    <bpmn:sequenceFlow id="Flow_1iixky7" sourceRef="Event_0tzhbil" targetRef="Activity_01eckoe" />
-    <bpmn:sequenceFlow id="Flow_1kpqhe2" sourceRef="Event_0nwzvea" targetRef="Activity_01eckoe" />
-    <bpmn:sequenceFlow id="Flow_1necrfh" sourceRef="Activity_01eckoe" targetRef="Event_0od0r7e" />
+    <bpmn:sequenceFlow id="Flow_0ezgqxg" sourceRef="Event_0nwzvea" targetRef="Event_0od0r7e" />
+    <bpmn:sequenceFlow id="Flow_1stncdv" sourceRef="Event_0tzhbil" targetRef="Event_0od0r7e" />
+    <bpmn:endEvent id="Event_0od0r7e">
+      <bpmn:incoming>Flow_0ezgqxg</bpmn:incoming>
+      <bpmn:incoming>Flow_1stncdv</bpmn:incoming>
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_15ea8l9">
       <bpmndi:BPMNShape id="Participant_1sbfnr5_di" bpmnElement="Participant_1sbfnr5" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="940" height="390" />
+        <dc:Bounds x="160" y="80" width="770" height="390" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0xc52mp_di" bpmnElement="Event_1n7ejnt">
@@ -136,11 +131,8 @@
           <dc:Bounds x="723" y="248" width="54" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_10wamot_di" bpmnElement="Activity_01eckoe">
-        <dc:Bounds x="840" y="250" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0od0r7e_di" bpmnElement="Event_0od0r7e">
-        <dc:Bounds x="1002" y="272" width="36" height="36" />
+        <dc:Bounds x="852" y="272" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_0bk4exc_di" bpmnElement="Flow_0bk4exc">
         <di:waypoint x="258" y="227" />
@@ -178,19 +170,15 @@
         <di:waypoint x="630" y="370" />
         <di:waypoint x="732" y="370" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1iixky7_di" bpmnElement="Flow_1iixky7">
-        <di:waypoint x="768" y="370" />
-        <di:waypoint x="890" y="370" />
-        <di:waypoint x="890" y="330" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1kpqhe2_di" bpmnElement="Flow_1kpqhe2">
+      <bpmndi:BPMNEdge id="Flow_0ezgqxg_di" bpmnElement="Flow_0ezgqxg">
         <di:waypoint x="768" y="220" />
-        <di:waypoint x="890" y="220" />
-        <di:waypoint x="890" y="250" />
+        <di:waypoint x="870" y="220" />
+        <di:waypoint x="870" y="272" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1necrfh_di" bpmnElement="Flow_1necrfh">
-        <di:waypoint x="940" y="290" />
-        <di:waypoint x="1002" y="290" />
+      <bpmndi:BPMNEdge id="Flow_1stncdv_di" bpmnElement="Flow_1stncdv">
+        <di:waypoint x="768" y="370" />
+        <di:waypoint x="870" y="370" />
+        <di:waypoint x="870" y="308" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

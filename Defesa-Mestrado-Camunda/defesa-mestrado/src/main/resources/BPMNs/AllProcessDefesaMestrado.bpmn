@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1om5q7p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.28.0">
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1om5q7p" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.36.1">
   <bpmn:collaboration id="Collaboration_1635u9x">
     <bpmn:participant id="Participant_1r9kbtn" name="Orientador" processRef="Process_1" />
     <bpmn:participant id="Participant_1poojeq" name="Coordenaçao PPCOMP" processRef="Process_1weq2i3" />
     <bpmn:participant id="Participant_1bvtcfh" name="Banca" processRef="Process_1fjapq3" />
     <bpmn:participant id="Participant_1n3wuaa" name="Sistema de Gestão de Defesa" processRef="Process_1dl3ely" />
     <bpmn:participant id="Participant_0wfaede" name="Aluno" processRef="Process_1fcedrc" />
-    <bpmn:messageFlow id="Flow_1b8lkj4" name="Informar Aluno e Título do trabalho" sourceRef="Event_0ww3xp2" targetRef="Event_1qzhozp" />
+    <bpmn:messageFlow id="Flow_1b8lkj4" name="Informar Aluno e Título do trabalho,&#10;Dados da Defesa: Data, Hora, Local. Banca: (Nome, email, instituição, minicurriculo)" sourceRef="Event_0ww3xp2" targetRef="Event_1qzhozp" />
     <bpmn:messageFlow id="Flow_0juen5g" sourceRef="Event_0ggu2cy" targetRef="Event_1ytwiiv" />
-    <bpmn:messageFlow id="Flow_0y3y3as" name="Dados da Defesa: Data, Hora, Local. Banca: (Nome, email, instituição, minicurriculo)" sourceRef="Activity_1s17ib1" targetRef="Activity_0fv7xak" />
+    <bpmn:messageFlow id="Flow_0y3y3as" sourceRef="Activity_1s17ib1" targetRef="Activity_0fv7xak" />
     <bpmn:messageFlow id="Flow_1ed8o46" sourceRef="Event_0a3g4kf" targetRef="Event_0f2t67f" />
     <bpmn:messageFlow id="Flow_139exd2" sourceRef="Event_1k4ixxw" targetRef="Event_1c2e0w8" />
     <bpmn:messageFlow id="Flow_125g7bv" sourceRef="Event_00hz2tt" targetRef="Participant_1poojeq" />
@@ -111,7 +111,7 @@
       <bpmn:incoming>Flow_1x5jyqg</bpmn:incoming>
       <bpmn:outgoing>Flow_1e5a0rc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:intermediateCatchEvent id="Event_0vv7x5n" name="NNotificacoes&#62;3?">
+    <bpmn:intermediateCatchEvent id="Event_0vv7x5n" name="N_Notificacoes&#62;3?">
       <bpmn:incoming>Flow_0yiff2v</bpmn:incoming>
       <bpmn:outgoing>Flow_1otywd6</bpmn:outgoing>
       <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1tmvjvv">
@@ -203,10 +203,6 @@
       <bpmn:incoming>Flow_1w2jrp5</bpmn:incoming>
       <bpmn:outgoing>Flow_1gn0mes</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:endEvent id="Event_0oca1tw" name="Pronto para Realização da Defesa">
-      <bpmn:incoming>Flow_1gn0mes</bpmn:incoming>
-      <bpmn:signalEventDefinition id="SignalEventDefinition_19gtp9a" />
-    </bpmn:endEvent>
     <bpmn:dataStoreReference id="DataStoreReference_0jma9nc" name="Banco de Defesas" />
     <bpmn:receiveTask id="Activity_0ewxrm0" name="Registrar Dissertação">
       <bpmn:incoming>Flow_0fvxvw4</bpmn:incoming>
@@ -268,10 +264,19 @@
     <bpmn:sequenceFlow id="Flow_1kpr2gg" sourceRef="Gateway_14t876l" targetRef="Event_1ykcco7" />
     <bpmn:sequenceFlow id="Flow_0k4upcg" sourceRef="Activity_0ewxrm0" targetRef="Activity_0huwjgp" />
     <bpmn:sequenceFlow id="Flow_1h6ylzw" sourceRef="Activity_0huwjgp" targetRef="Gateway_0dep9rh" />
-    <bpmn:sequenceFlow id="Flow_1gn0mes" sourceRef="Gateway_0dep9rh" targetRef="Event_0oca1tw" />
+    <bpmn:sequenceFlow id="Flow_1gn0mes" sourceRef="Gateway_0dep9rh" targetRef="gerar_documentos" />
     <bpmn:sequenceFlow id="Flow_1kr33nm" sourceRef="Gateway_05n0sw1" targetRef="Event_1ytwiiv" />
     <bpmn:sequenceFlow id="Flow_1j1vz9z" sourceRef="Gateway_05n0sw1" targetRef="Event_0g6zu2o" />
     <bpmn:sequenceFlow id="Flow_0reoxgg" sourceRef="Event_0g6zu2o" targetRef="Activity_0stjm7l" />
+    <bpmn:endEvent id="Event_0oca1tw" name="Pronto para Realização da Defesa">
+      <bpmn:incoming>Flow_0kauz58</bpmn:incoming>
+      <bpmn:signalEventDefinition id="SignalEventDefinition_19gtp9a" />
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="gerar_documentos" name="Gerar Documentos" camunda:class="br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal.GerarDocumentosDelegate">
+      <bpmn:incoming>Flow_1gn0mes</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kauz58</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0kauz58" sourceRef="gerar_documentos" targetRef="Event_0oca1tw" />
   </bpmn:process>
   <bpmn:process id="Process_1fcedrc" isExecutable="false">
     <bpmn:startEvent id="Event_0mhcpkx" name="Defesa Notificada">
@@ -293,7 +298,7 @@
     <bpmn:sequenceFlow id="Flow_0fa1v30" sourceRef="Gateway_03yasyl" targetRef="Event_1y9v7kt" />
     <bpmn:sequenceFlow id="Flow_1lte1wy" sourceRef="Event_1y9v7kt" targetRef="Event_06fjnkf" />
     <bpmn:sequenceFlow id="Flow_0klzsmz" sourceRef="Gateway_03yasyl" targetRef="Event_1dckiqo" />
-    <bpmn:intermediateCatchEvent id="Event_1dckiqo" name="jusitifcativa de defesa negada reportada">
+    <bpmn:intermediateCatchEvent id="Event_1dckiqo" name="justificativa de defesa negada reportada">
       <bpmn:incoming>Flow_0klzsmz</bpmn:incoming>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1he176n" />
     </bpmn:intermediateCatchEvent>
@@ -416,7 +421,7 @@
         <dc:Bounds x="1430" y="290" width="310" height="100" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1n3wuaa_di" bpmnElement="Participant_1n3wuaa" isHorizontal="true">
-        <dc:Bounds x="180" y="500" width="1860" height="498" />
+        <dc:Bounds x="180" y="500" width="2150" height="498" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0l7z6k3_di" bpmnElement="Event_01eoh1p">
@@ -440,7 +445,7 @@
       <bpmndi:BPMNShape id="Event_0vv7x5n_di" bpmnElement="Event_0vv7x5n">
         <dc:Bounds x="542" y="792" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="517" y="835" width="87" height="14" />
+          <dc:Bounds x="517" y="835" width="87" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0ue6eax_di" bpmnElement="Event_1k4ixxw">
@@ -515,12 +520,6 @@
       <bpmndi:BPMNShape id="Gateway_1qk0muy_di" bpmnElement="Gateway_0dep9rh">
         <dc:Bounds x="1815" y="715" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1m8qkxr_di" bpmnElement="Event_0oca1tw">
-        <dc:Bounds x="1922" y="722" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="1905" y="765" width="71" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataStoreReference_0jma9nc_di" bpmnElement="DataStoreReference_0jma9nc">
         <dc:Bounds x="1615" y="885" width="50" height="50" />
         <bpmndi:BPMNLabel>
@@ -565,6 +564,16 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="488" y="905" width="25" height="14" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1m8qkxr_di" bpmnElement="Event_0oca1tw">
+        <dc:Bounds x="2042" y="722" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2025" y="765" width="71" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1g7o0it_di" bpmnElement="gerar_documentos">
+        <dc:Bounds x="1890" y="700" width="100" height="80" />
+        <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1e5a0rc_di" bpmnElement="Flow_1e5a0rc">
         <di:waypoint x="355" y="690" />
@@ -673,7 +682,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1gn0mes_di" bpmnElement="Flow_1gn0mes">
         <di:waypoint x="1865" y="740" />
-        <di:waypoint x="1922" y="740" />
+        <di:waypoint x="1890" y="740" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1kr33nm_di" bpmnElement="Flow_1kr33nm">
         <di:waypoint x="525" y="690" />
@@ -686,6 +695,10 @@
       <bpmndi:BPMNEdge id="Flow_0reoxgg_di" bpmnElement="Flow_0reoxgg">
         <di:waypoint x="482" y="880" />
         <di:waypoint x="460" y="880" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kauz58_di" bpmnElement="Flow_0kauz58">
+        <di:waypoint x="1990" y="740" />
+        <di:waypoint x="2042" y="740" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_0wfaede_di" bpmnElement="Participant_0wfaede" isHorizontal="true">
         <dc:Bounds x="585" y="1070" width="735" height="250" />
@@ -772,17 +785,13 @@
         <di:waypoint x="1596" y="830" />
         <di:waypoint x="1632" y="885" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_06gvfm3_di" bpmnElement="Association_06gvfm3">
-        <di:waypoint x="607" y="677" />
-        <di:waypoint x="554" y="624" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1b8lkj4_di" bpmnElement="Flow_1b8lkj4">
         <di:waypoint x="300" y="248" />
         <di:waypoint x="300" y="560" />
         <di:waypoint x="270" y="560" />
         <di:waypoint x="270" y="672" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="307" y="464" width="86" height="27" />
+          <dc:Bounds x="315" y="463" width="89" height="93" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0juen5g_di" bpmnElement="Flow_0juen5g">
@@ -793,8 +802,8 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0y3y3as_di" bpmnElement="Flow_0y3y3as">
         <di:waypoint x="615" y="360" />
-        <di:waypoint x="615" y="550" />
-        <di:waypoint x="910" y="550" />
+        <di:waypoint x="615" y="530" />
+        <di:waypoint x="910" y="530" />
         <di:waypoint x="910" y="650" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="720" y="507" width="89" height="66" />
@@ -858,6 +867,10 @@
         <di:waypoint x="1200" y="638" />
         <di:waypoint x="1200" y="1250" />
         <di:waypoint x="958" y="1250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_06gvfm3_di" bpmnElement="Association_06gvfm3">
+        <di:waypoint x="607" y="677" />
+        <di:waypoint x="554" y="624" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
