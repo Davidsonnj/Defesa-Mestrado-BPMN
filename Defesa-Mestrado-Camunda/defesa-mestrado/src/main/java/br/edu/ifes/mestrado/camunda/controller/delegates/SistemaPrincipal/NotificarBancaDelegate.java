@@ -26,6 +26,8 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String localDefesa = (String) execution.getVariable("localDefesa");
         String emailOrientador = (String) execution.getVariable("emailOrientador");
         String nomeOrientador = (String) execution.getVariable("nomeOrientador");
+        String nomeCoorientador = (String) execution.getVariable("nomeCoorientador");
+        String emailCoorientador = (String) execution.getVariable("emailCoorientador");
         int idDefesa = (int) execution.getVariable("idDefesaBD");
 
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
@@ -40,6 +42,14 @@ public class NotificarBancaDelegate implements JavaDelegate {
 
         String bodyOrientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
         emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
+
+        if (nomeCoorientador != null && !nomeCoorientador.isBlank() &&
+                emailCoorientador != null && !emailCoorientador.isBlank()) {
+
+            String bodyCoorientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+            emailSender.sendEmail(emailCoorientador, subject, bodyCoorientador);
+
+        }
 
         defesaDAO.atualizarStatus(idDefesa, "NotificaBanca");
 
