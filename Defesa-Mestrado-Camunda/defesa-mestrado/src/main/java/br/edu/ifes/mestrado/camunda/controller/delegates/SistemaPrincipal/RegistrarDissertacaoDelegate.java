@@ -1,5 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import br.edu.ifes.mestrado.database.dao.implementations.DissertacaoDAO;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -11,11 +12,14 @@ public class RegistrarDissertacaoDelegate implements JavaDelegate {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrarDissertacaoDelegate.class);
 
     public void execute(DelegateExecution execution) throws Exception {
+        DefesaDAO defesaDAO = new DefesaDAO();
         int idDefesa = (int) execution.getVariable("idDefesaBD");
         String caminhosDosAnexos = (String) execution.getVariable("caminhosDosAnexos");
 
         DissertacaoDAO dissertacaoDAO = new DissertacaoDAO();
         dissertacaoDAO.inserir(idDefesa, caminhosDosAnexos);
+
+        defesaDAO.atualizarStatus(idDefesa, "RegistraDissertacao");
         LOGGER.info("Dissertacao registrada com sucesso!");
     }
 }

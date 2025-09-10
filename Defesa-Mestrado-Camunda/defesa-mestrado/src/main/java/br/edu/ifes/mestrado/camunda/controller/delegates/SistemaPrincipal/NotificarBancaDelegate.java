@@ -1,6 +1,7 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
 import br.edu.ifes.mestrado.camunda.model.Banca;
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -16,6 +17,7 @@ public class NotificarBancaDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) {
         SenderEmailController emailSender = new SenderEmailController();
+        DefesaDAO defesaDAO = new DefesaDAO();
 
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
@@ -24,6 +26,7 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String localDefesa = (String) execution.getVariable("localDefesa");
         String emailOrientador = (String) execution.getVariable("emailOrientador");
         String nomeOrientador = (String) execution.getVariable("nomeOrientador");
+        int idDefesa = (int) execution.getVariable("idDefesaBD");
 
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
         LOGGER.info("Variável 'bancaDefesa' lida com sucesso. Conteúdo: " + bancaList);
@@ -38,12 +41,14 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String bodyOrientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
         emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
 
+        defesaDAO.atualizarStatus(idDefesa, "NotificaBanca");
+
         LOGGER.info("Notificou todos os integrantes da banca sobre o horário e local de defesa.");
     }
 
     private String gerarCorpoEmail(String nomeDestinatario, String tituloTrabalho, String aluno, String data, String hora, String local) {
         return "Prezado(a) " + nomeDestinatario + ",<br><br>" +
-                "Informamos que a defesa do trabalho, intitulada &quot;" + tituloTrabalho + "&quot;, está agendada conforme os detalhes abaixo:<br><br>" +
+                 "Informamos que a defesa do trabalho, intitulada &quot;" + tituloTrabalho + "&quot;, está agendada conforme os detalhes abaixo:<br><br>" +
                 "Título do Trabalho: " + tituloTrabalho + "<br>" +
                 "Aluno(a): " + aluno + "<br>" +
                 "Data: " + data + "<br>" +

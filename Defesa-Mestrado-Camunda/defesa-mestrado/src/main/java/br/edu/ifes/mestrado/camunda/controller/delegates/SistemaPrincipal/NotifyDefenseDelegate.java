@@ -1,5 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -18,6 +19,7 @@ public class NotifyDefenseDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
+        DefesaDAO defesaDAO = new DefesaDAO();
         SenderEmailController emailSender = new SenderEmailController();
 
         String businessKey = execution.getProcessBusinessKey();
@@ -29,7 +31,9 @@ public class NotifyDefenseDelegate implements JavaDelegate {
         String dataDefesa = (String) execution.getVariable("dataDefesa");
         String horaDefesa = (String) execution.getVariable("horaDefesa");
         String localDefesa = (String) execution.getVariable("localDefesa");
+        int idDefesa = (Integer) execution.getVariable("idDefesaBD");
 
+        defesaDAO.atualizarStatus(idDefesa, "NotificaAluno");
 
         // Criando o assunto e o corpo do e-mail
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
