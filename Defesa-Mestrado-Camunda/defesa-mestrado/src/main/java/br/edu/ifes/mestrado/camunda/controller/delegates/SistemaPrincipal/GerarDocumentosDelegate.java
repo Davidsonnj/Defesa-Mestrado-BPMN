@@ -4,6 +4,7 @@ import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaMembroExterno;
 import br.edu.ifes.mestrado.GenAI.pergunta.implementacoes.PerguntaValidacaoDoc;
 import br.edu.ifes.mestrado.camunda.model.Banca;
 import br.edu.ifes.mestrado.camunda.model.BancaMembro;
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import br.edu.ifes.mestrado.documentos.services.*;
 import br.edu.ifes.mestrado.emailAPI.controller.SenderEmailController;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -26,6 +27,7 @@ public class GerarDocumentosDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) {
+        int idDefesa = (Integer) execution.getVariable("idDefesaBD");
 
         String emailOrientador = (String) execution.getVariable("emailOrientador");
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
@@ -141,5 +143,8 @@ public class GerarDocumentosDelegate implements JavaDelegate {
         } else {
             LOGGER.warn("Processo de geração de documentos finalizado, mas com falhas. Verifique o log de erros.");
         }
+
+        DefesaDAO defesaDAO = new DefesaDAO();
+        defesaDAO.atualizarStatus(idDefesa, "GeraDocumento");
     }
 }

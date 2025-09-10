@@ -1,5 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -19,6 +20,9 @@ public class SolicitarAnuenciaDelegate implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
         String businessKey = execution.getProcessBusinessKey();
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
+        int idDefesa = (Integer) execution.getVariable("idDefesaBD");
+
+        DefesaDAO defesaDAO = new DefesaDAO();
 
         List<Execution> execucoes = runtimeService.createExecutionQuery()
                 .processDefinitionKey("Process_0z4nyrp")
@@ -38,6 +42,7 @@ public class SolicitarAnuenciaDelegate implements JavaDelegate {
                         .setVariable("titulo_trabalho", titulo_trabalho)
                         .setVariable("aluno", aluno)
                         .correlate();
+                defesaDAO.atualizarStatus(idDefesa, "SolicitaAnuencia");
 
                 LOGGER.info("Mensagem de anuência solicitado com sucesso!");
             } else {

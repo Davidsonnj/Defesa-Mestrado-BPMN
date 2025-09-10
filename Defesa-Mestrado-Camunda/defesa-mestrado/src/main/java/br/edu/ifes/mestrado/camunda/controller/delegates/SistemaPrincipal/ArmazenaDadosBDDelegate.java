@@ -94,7 +94,7 @@ public class ArmazenaDadosBDDelegate implements JavaDelegate {
             for (int idBanca : idBancaList) {
                 defesaBanca.inserir(idDefesa, idBanca);
             }
-
+            defesaDAO.atualizarStatus(idDefesa, "DadosArmazenadosBD");
 
         } catch (ErroInsercaoBancoException e) {
             LOGGER.error("Erro ao armazenar dados: {}", e.getMessage());

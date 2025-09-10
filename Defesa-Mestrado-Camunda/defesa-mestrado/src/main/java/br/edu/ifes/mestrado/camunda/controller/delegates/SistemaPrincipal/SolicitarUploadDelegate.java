@@ -1,5 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -17,6 +18,9 @@ public class SolicitarUploadDelegate implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
         String businessKey = execution.getProcessBusinessKey();
         RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
+        int idDefesa = (Integer) execution.getVariable("idDefesaBD");
+
+        DefesaDAO defesaDAO = new DefesaDAO();
 
         long count = runtimeService.createExecutionQuery()
                 .processInstanceBusinessKey(businessKey)
@@ -27,6 +31,7 @@ public class SolicitarUploadDelegate implements JavaDelegate {
             runtimeService.createMessageCorrelation("SolicitacaoUpload")
                     .processInstanceBusinessKey(businessKey)
                     .correlateAll();
+            defesaDAO.atualizarStatus(idDefesa, "SolicitacaoUpload");
             LOGGER.info("Mensagem de Solicitação de Upload Enviado com sucesso!");
         } else {
             LOGGER.error("Nenhuma instância encontrada esperando pela mensagem de Solicitação de Upload.");

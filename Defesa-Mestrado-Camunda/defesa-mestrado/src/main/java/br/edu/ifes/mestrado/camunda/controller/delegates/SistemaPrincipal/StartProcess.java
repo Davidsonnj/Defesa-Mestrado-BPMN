@@ -11,7 +11,7 @@ public class StartProcess implements JavaDelegate {
         DefesaDAO defesaDAO = new DefesaDAO();
 
         int idDefesa = defesaDAO.criarInstanciaVazia();
-
+        defesaDAO.atualizarStatus(idDefesa, "Iniciando");
         execution.setVariable("idDefesaBD", idDefesa);
     }
 }

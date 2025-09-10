@@ -1,5 +1,6 @@
 package br.edu.ifes.mestrado.camunda.controller.delegates.SistemaPrincipal;
 
+import br.edu.ifes.mestrado.database.dao.implementations.DefesaDAO;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -15,6 +16,9 @@ public class DefesaCanceladaDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
+        int idDefesa = (int) execution.getVariable("idDefesaBD");
+        DefesaDAO defesaDAO = new DefesaDAO();
+
         String businessKey = execution.getProcessBusinessKey();
         if (businessKey == null) {
             LOGGER.error("BusinessKey está nulo! Não é possível correlacionar a mensagem.");
@@ -38,6 +42,7 @@ public class DefesaCanceladaDelegate implements JavaDelegate {
             runtimeService.createMessageCorrelation("DefesaCancelada")
                     .processInstanceBusinessKey(businessKey)
                     .correlateAll();
+            defesaDAO.atualizarStatus(idDefesa, "DefesaCancelada");
             LOGGER.info("Mensagem 'DefesaCancelada' correlacionada com sucesso!");
         } else {
             LOGGER.warn("NENHUMA instância encontrada para a mensagem 'DefesaCancelada'. A correlação não foi tentada.");
