@@ -12,18 +12,34 @@ public class EnvioDefesaNegada implements JavaDelegate {
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
         String justificativaAnuencia = (String) execution.getVariable("justificativaAnuencia");
+        String tipoDefesa = (String) execution.getVariable("tipoDefesa");
 
-        String subject = "Comunicação de Indeferimento da Defesa de Mestrado – " + aluno;
+        String subject;
+        String body;
 
-        String body = "Prezado(a) Orientador(a),<br><br>" +
-                "Informamos que a defesa de mestrado do(a) discente " + aluno + ", intitulada &quot;" + titulo_trabalho + "&quot;, foi indeferida. " +
-                "Segue abaixo a justificativa detalhada para essa decisão:<br><br>" +
-                "Justificativa:<br>&quot;" + justificativaAnuencia + "&quot;<br><br>" +
-                "Agradecemos a atenção dispensada e colocamo-nos à disposição para quaisquer esclarecimentos adicionais.<br><br>" +
-                "Atenciosamente,<br><br>" +
-                "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
-                "IFES – Campus Serra";
+        if (tipoDefesa.equals("qualificacao")){
+            subject = "Comunicação de Indeferimento do Exame de Qualifição – " + aluno;
 
+            body = "Prezado(a) Orientador(a),<br><br>" +
+                    "Informamos que o exame de qualifição do(a) discente " + aluno + ", intitulada &quot;" + titulo_trabalho + "&quot;, foi indeferida. " +
+                    "Segue abaixo a justificativa detalhada para essa decisão:<br><br>" +
+                    "Justificativa:<br>&quot;" + justificativaAnuencia + "&quot;<br><br>" +
+                    "Agradecemos a atenção dispensada e colocamo-nos à disposição para quaisquer esclarecimentos adicionais.<br><br>" +
+                    "Atenciosamente,<br><br>" +
+                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
+                    "IFES – Campus Serra";
+        }else {
+            subject = "Comunicação de Indeferimento da Defesa de Mestrado – " + aluno;
+
+            body = "Prezado(a) Orientador(a),<br><br>" +
+                    "Informamos que a defesa de mestrado do(a) discente " + aluno + ", intitulada &quot;" + titulo_trabalho + "&quot;, foi indeferida. " +
+                    "Segue abaixo a justificativa detalhada para essa decisão:<br><br>" +
+                    "Justificativa:<br>&quot;" + justificativaAnuencia + "&quot;<br><br>" +
+                    "Agradecemos a atenção dispensada e colocamo-nos à disposição para quaisquer esclarecimentos adicionais.<br><br>" +
+                    "Atenciosamente,<br><br>" +
+                    "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
+                    "IFES – Campus Serra";
+        }
 
         emailSender.sendEmail(emailOrientador, subject, body);
     }

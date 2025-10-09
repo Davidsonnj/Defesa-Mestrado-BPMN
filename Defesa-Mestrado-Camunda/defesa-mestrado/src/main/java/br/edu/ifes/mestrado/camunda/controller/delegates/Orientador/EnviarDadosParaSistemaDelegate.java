@@ -34,6 +34,7 @@ public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
         String nomeOrientador = (String) execution.getVariable("nomeOrientador");
         String emailCoorientador = (String) execution.getVariable("emailCoorientador");
         String nomeCoorientador = (String) execution.getVariable("nomeCoorientador");
+        String tipoDefesa = (String) execution.getVariable("tipoDefesa");
         long idDadosIniciais = (long) execution.getVariable("idDadosIniciais");
 
         String bancaJsonString = execution.getVariableTyped("bancaDefesa").getValue().toString();
@@ -50,6 +51,7 @@ public class EnviarDadosParaSistemaDelegate implements JavaDelegate {
         }
 
         Map<String, Object> variables = new HashMap<>();
+        variables.put("tipoDefesa", tipoDefesa);
         variables.put("aluno", aluno);
         variables.put("titulo_trabalho", tituloTrabalho);
         variables.put("emailAluno", emailAluno);

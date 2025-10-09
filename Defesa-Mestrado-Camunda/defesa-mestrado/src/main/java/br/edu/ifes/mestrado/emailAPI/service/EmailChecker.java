@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EmailChecker {
@@ -65,6 +66,7 @@ public class EmailChecker {
                     ExtrairDadosEmail.DadosExtraidos dados = ExtrairDadosEmail.extrairDados(resposta);
 
                     if (dados != null) {
+                        String tipoDefesa = dados.tipoDefesa;
                         String aluno = dados.aluno;
                         String emailAluno = dados.email;
                         String titulo_trabalho = dados.titulo;
@@ -75,15 +77,30 @@ public class EmailChecker {
                         String emailCoorientador = dados.emailCoorientador;
                         List<Banca> banca = dados.banca;
 
-                        boolean camundaResquest = camundaRequester.iniciarProcesso(aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, banca, idDadosIniciais);
+                        boolean camundaResquest = camundaRequester.iniciarProcesso(tipoDefesa, aluno, titulo_trabalho, emailAluno, nomeOrientador, emailOrientador, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, banca, idDadosIniciais);
                         if (camundaResquest) {
                             System.out.println("Requisição enviada ao Camunda com sucesso!");
                             emailController.sendEmail(emailOrientador, "\"Dados Extraídos com Sucesso\"\n",
                                     "Prezado(a),<br><br>" +
-                                          "Os dados foram extraídos com sucesso e o processo foi iniciado.<br><br>" +
-                                          "Agradecemos a colaboração.<br><br>" +
-                                          "Atenciosamente,<br>" +
-                                          "PPComp - Programa de Pós-Graduação em Computação");
+                                            "Os dados foram extraídos com sucesso e o processo foi iniciado.<br><br>" +
+                                            "Dados: <br>" +
+                                            "Tipo da defesa: " + tipoDefesa + "<br>" +
+                                            "Nome do aluno: " + aluno + "<br>" +
+                                            "E-mail do aluno: " + emailAluno + "<br>" +
+                                            "Título do trabalho: " + titulo_trabalho + "<br>" +
+                                            "Data da defesa: " + dataDefesa + "<br>" +
+                                            "Hora da defesa: " + horaDefesa + "<br>" +
+                                            "Local da defesa: " + localDefesa + "<br>" +
+                                            "Nome do coorientador: " + nomeCoorientador + "<br>" +
+                                            "E-mail do coorientador: " + emailCoorientador + "<br><br>" +
+                                            "Membros da banca:<br>" +
+                                            banca.stream()
+                                                    .map(membro -> "- " + membro.getNome() + " (" + membro.getEmail() + ")")
+                                                    .collect(Collectors.joining("<br>")) +
+                                            "<br+>Atenciosamente,<br><br>" +
+                                            "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +
+                                            "IFES – Campus Serra"
+                            );
 
                             email.setStatus("PROCESSADO");
                             emailDAO.update(email);
@@ -93,13 +110,14 @@ public class EmailChecker {
                     }
                 } else if(email.getStatus().equals("DADOS_INICIAIS_INCORRETOS")) {
                     System.out.println("Dados não encontrados no email.");
-                    emailController.sendEmail(emailOrientador, "\"Formato de Dados Incorreto para Cadastro de Defesa\"\n",
+                    emailController.sendEmail(emailOrientador, "\"Modelo de dados para submissão - PPComp\"\n",
                             "Prezado(a) Orientador(a),<br><br>" +
                                     "Encaminhamos, abaixo, o modelo com as informações obrigatórias para a formalização do processo de defesa de dissertação no âmbito do Programa de Pós-Graduação em Computação Aplicada (PPComp) – IFES, Campus Serra, referentes ao(à) discente.<br><br>" +
 
                                     "Solicitamos que todos os campos abaixo sejam devidamente preenchidos e enviados no corpo do e-mail, com o assunto: <strong>Defesa</strong>.<br><br>" +
 
                                     "<strong>Informações obrigatórias do(a) discente:</strong><br>" +
+                                    "- Tipo de defesa (Exame de Qualificação/ Defesa de Diseertação)" +
                                     "- Nome completo do(a) aluno(a)<br>" +
                                     "- E-mail do(a) aluno(a)<br>" +
                                     "- Título da dissertação<br><br>" +

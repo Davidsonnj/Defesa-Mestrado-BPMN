@@ -12,6 +12,7 @@ public class ExtrairDadosEmail {
      * Foi ajustada para ter um construtor completo e campos para todos os dados.
      */
     public static class DadosExtraidos {
+        public String tipoDefesa;
         public String aluno;
         public String email;
         public String titulo;
@@ -24,7 +25,8 @@ public class ExtrairDadosEmail {
         public String nomeCoorientador;
 
         // Construtor completo para facilitar a criação do objeto.
-        public DadosExtraidos(String aluno, String email, String titulo, String dataDefesa, String horaDefesa, String localDefesa, String nomeCoorientador, String emailCoorientador,List<Banca> banca) {
+        public DadosExtraidos(String tipoDefesa, String aluno, String email, String titulo, String dataDefesa, String horaDefesa, String localDefesa, String nomeCoorientador, String emailCoorientador,List<Banca> banca) {
+            this.tipoDefesa = tipoDefesa;
             this.aluno = aluno;
             this.email = email;
             this.titulo = titulo;
@@ -50,7 +52,7 @@ public class ExtrairDadosEmail {
         }
 
         // Variáveis para armazenar os dados de nível superior
-        String aluno = null, email = null, titulo = null, dataDefesa = null, horaDefesa = null, localDefesa = null, nomeCoorientador = null, emailCoorientador = null;
+        String aluno = null, tipoDefesa = null, email = null, titulo = null, dataDefesa = null, horaDefesa = null, localDefesa = null, nomeCoorientador = null, emailCoorientador = null;
         List<Banca> bancaList = new ArrayList<>();
 
         // Variáveis temporárias para construir cada membro da banca
@@ -60,8 +62,9 @@ public class ExtrairDadosEmail {
 
         for (String line : lines) {
             String trimmedLine = line.trim();
-
-            if (trimmedLine.startsWith("- Aluno:")) {
+            if (trimmedLine.startsWith("- Tipo de Defesa:")) {
+                tipoDefesa = extractValue(trimmedLine, "- Tipo de Defesa:");
+            }else if (trimmedLine.startsWith("- Aluno:")) {
                 aluno = extractValue(trimmedLine, "- Aluno:");
             } else if (trimmedLine.startsWith("- Email do Aluno:")) {
                 email = extractValue(trimmedLine, "- Email do Aluno:");
@@ -105,7 +108,7 @@ public class ExtrairDadosEmail {
             bancaList.add(new Banca(nomeMembro, emailMembro, instituicaoMembro, miniCurriculoMembro));
         }
 
-        return new DadosExtraidos(aluno, email, titulo, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, bancaList);
+        return new DadosExtraidos(tipoDefesa, aluno, email, titulo, dataDefesa, horaDefesa, localDefesa, nomeCoorientador, emailCoorientador, bancaList);
     }
 
     /**

@@ -17,6 +17,7 @@ public class CamundaRequester {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public boolean iniciarProcesso(
+            String tipoDefesa,
             String aluno,
             String tituloTrabalho,
             String emailAluno,
@@ -30,7 +31,7 @@ public class CamundaRequester {
             List<Banca> bancaDefesa,
             Long idDadosIniciais
     ) {
-        if(bancaDefesa.isEmpty() || aluno == null || tituloTrabalho == null || emailAluno == null ||
+        if(bancaDefesa.isEmpty() || tipoDefesa == null ||aluno == null || tituloTrabalho == null || emailAluno == null ||
            emailOrientador == null || dataDefesa == null || horaDefesa == null || localDefesa == null || idDadosIniciais == null)
         {
             System.err.println("Dados insuficientes para iniciar o processo.");
@@ -44,6 +45,7 @@ public class CamundaRequester {
 
         // Variáveis do processo
         Map<String, Object> variables = new HashMap<>();
+        variables.put("tipoDefesa", criarVariavel(tipoDefesa, "String"));
         variables.put("email", criarVariavel(1, "Integer"));
         variables.put("aluno", criarVariavel(aluno, "String"));
         variables.put("titulo_trabalho", criarVariavel(tituloTrabalho, "String"));
@@ -86,11 +88,23 @@ public class CamundaRequester {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-            System.out.println("Requisição enviada ao Camunda com sucesso!");
-            System.out.println("Resposta: " + response.getStatusCode());
-            return response.getStatusCode().is2xxSuccessful();
-        } catch (Exception e) {
-            System.err.println("Erro ao enviar requisição para o Camunda: " + e.getMessage());
+            String responseBody = response.getBody(); // Pega o corpo da resposta
+
+            // Logs para depuração
+            System.out.println("Requisição enviada ao Camunda!");
+            System.out.println("Status da Resposta: " + response.getStatusCode());
+            System.out.println("Corpo da Resposta: " + responseBody);
+
+            if (response.getStatusCode().is2xxSuccessful() && responseBody != null && !responseBody.trim().equals("[]")) {
+                System.out.println("SUCESSO: Pelo menos um processo foi iniciado no Camunda.");
+                return true;
+            } else {
+                System.err.println("AVISO: A requisição foi bem-sucedida, mas NENHUM processo foi iniciado no Camunda (nenhuma condição foi atendida).");
+                return false;
+            }
+
+        } catch (Exception e) { // Este catch agora só pegará erros de comunicação reais
+            System.err.println("ERRO DE COMUNICAÇÃO ao enviar requisição para o Camunda: " + e.getMessage());
             return false;
         }
     }
@@ -108,4 +122,5 @@ public class CamundaRequester {
         var.put("type", "Json");
         return var;
     }
+
 }

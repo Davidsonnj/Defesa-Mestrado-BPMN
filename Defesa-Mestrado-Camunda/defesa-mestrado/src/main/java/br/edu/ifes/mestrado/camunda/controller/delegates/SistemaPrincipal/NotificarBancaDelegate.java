@@ -28,26 +28,45 @@ public class NotificarBancaDelegate implements JavaDelegate {
         String nomeOrientador = (String) execution.getVariable("nomeOrientador");
         String nomeCoorientador = (String) execution.getVariable("nomeCoorientador");
         String emailCoorientador = (String) execution.getVariable("emailCoorientador");
+        String tipoDefesa = (String) execution.getVariable("tipoDefesa");
         int idDefesa = (int) execution.getVariable("idDefesaBD");
 
         List<Banca> bancaList = (List<Banca>) execution.getVariable("bancaDefesa");
         LOGGER.info("Variável 'bancaDefesa' lida com sucesso. Conteúdo: " + bancaList);
 
         String subject = "Informações sobre a Defesa de Trabalho de " + aluno;
+        String body;
 
         for (Banca banca : bancaList) {
-            String body = gerarCorpoEmail(banca.getNome(), titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
-            emailSender.sendEmail(banca.getEmail(), subject, body);
+            if (tipoDefesa.equals("qualificacao")){
+                body = gerarCorpoEmail("o exame de qualificação", banca.getNome(), titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+                emailSender.sendEmail(banca.getEmail(), subject, body);
+            }else{
+                body = gerarCorpoEmail("a defesa de dissertação", banca.getNome(), titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+                emailSender.sendEmail(banca.getEmail(), subject, body);
+            }
         }
 
-        String bodyOrientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
-        emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
+        String bodyOrientador;
+        String bodyCoorientador;
+
+        if (tipoDefesa.equals("qualificacao")) {
+            bodyOrientador = gerarCorpoEmail("o exame de qualificação", nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+            emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
+        }else{
+            bodyOrientador = gerarCorpoEmail("a defesa de dissertação", nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+            emailSender.sendEmail(emailOrientador, subject, bodyOrientador);
+        }
 
         if (nomeCoorientador != null && !nomeCoorientador.isBlank() &&
-                emailCoorientador != null && !emailCoorientador.isBlank()) {
-
-            String bodyCoorientador = gerarCorpoEmail(nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
-            emailSender.sendEmail(emailCoorientador, subject, bodyCoorientador);
+            emailCoorientador != null && !emailCoorientador.isBlank()) {
+            if (tipoDefesa.equals("qualificacao")) {
+                bodyCoorientador = gerarCorpoEmail("o exame de qualificação", nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+                emailSender.sendEmail(emailCoorientador, subject, bodyCoorientador);
+            }else{
+                bodyCoorientador = gerarCorpoEmail("a defesa de dissertação", nomeOrientador, titulo_trabalho, aluno, dataDefesa, horaDefesa, localDefesa);
+                emailSender.sendEmail(emailCoorientador, subject, bodyCoorientador);
+            }
 
         }
 
@@ -56,15 +75,15 @@ public class NotificarBancaDelegate implements JavaDelegate {
         LOGGER.info("Notificou todos os integrantes da banca sobre o horário e local de defesa.");
     }
 
-    private String gerarCorpoEmail(String nomeDestinatario, String tituloTrabalho, String aluno, String data, String hora, String local) {
+    private String gerarCorpoEmail(String tipoDefesa, String nomeDestinatario, String tituloTrabalho, String aluno, String data, String hora, String local) {
         return "Prezado(a) " + nomeDestinatario + ",<br><br>" +
-                 "Informamos que a defesa do trabalho, intitulada &quot;" + tituloTrabalho + "&quot;, está agendada conforme os detalhes abaixo:<br><br>" +
+                 "Informamos que " + tipoDefesa + ", intitulada &quot;" + tituloTrabalho + "&quot;, está agendada conforme os detalhes abaixo:<br><br>" +
                 "Título do Trabalho: " + tituloTrabalho + "<br>" +
                 "Aluno(a): " + aluno + "<br>" +
                 "Data: " + data + "<br>" +
                 "Hora: " + hora + "<br>" +
                 "Local: " + local + "<br><br>" +
-                "A defesa ocorrerá conforme o cronograma e local previamente definidos.<br><br>" +
+                "Ocorrerá conforme o cronograma e local previamente definidos.<br><br>" +
                 "Caso haja alguma dúvida ou necessite de informações adicionais, por favor, não hesite em nos contatar.<br><br>" +
                 "Atenciosamente,<br><br>" +
                 "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>" +

@@ -12,20 +12,36 @@ public class EnviarEmailSolicitacaoAnuenciaDelegate implements JavaDelegate {
 
         String aluno = (String) execution.getVariable("aluno");
         String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
+        String tipoDefesa = (String) execution.getVariable("tipoDefesa");
 
         String subject = "Solicitação de anuência – Aluno: " + aluno + " | Título: " + titulo_trabalho;
+        String body;
 
-        String body = "Prezado(a) Coordenador(a),<br><br>"
-                + "Solicitamos, por meio deste, a anuência institucional referente à defesa de mestrado do(a) discente " + aluno
-                + ", cujo trabalho intitula-se: &quot;" + titulo_trabalho + "&quot;.<br><br>"
-                + "Gentilmente, solicitamos que a resposta a esta solicitação contenha, de forma objetiva:<br>"
-                + "- A autorização para realização da defesa, ou<br>"
-                + "- A negativa, acompanhada da respectiva justificativa.<br><br>"
-                + "O retorno desta informação é imprescindível para a continuidade dos trâmites acadêmicos referentes ao processo de defesa.<br><br>"
-                + "Permanecemos à disposição para quaisquer esclarecimentos.<br><br>"
-                + "Atenciosamente,<br><br>"
-                + "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>"
-                + "IFES – Campus Serra";
+        if(tipoDefesa.equals("qualificacao")) {
+            body = "Prezado(a) Coordenador(a),<br><br>"
+                    + "Solicitamos, por meio deste, a anuência institucional referente ao exame de qualificação do(a) discente " + aluno
+                    + ", cujo trabalho intitula-se: &quot;" + titulo_trabalho + "&quot;.<br><br>"
+                    + "Gentilmente, solicitamos que a resposta a esta solicitação contenha, de forma objetiva:<br>"
+                    + "- A autorização para realização da defesa, ou<br>"
+                    + "- A negativa, acompanhada da respectiva justificativa.<br><br>"
+                    + "O retorno desta informação é imprescindível para a continuidade dos trâmites acadêmicos referentes ao processo de defesa.<br><br>"
+                    + "Permanecemos à disposição para quaisquer esclarecimentos.<br><br>"
+                    + "Atenciosamente,<br><br>"
+                    + "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>"
+                    + "IFES – Campus Serra";
+        }else {
+            body = "Prezado(a) Coordenador(a),<br><br>"
+                    + "Solicitamos, por meio deste, a anuência institucional referente à defesa de dissertação do(a) discente " + aluno
+                    + ", cujo trabalho intitula-se: &quot;" + titulo_trabalho + "&quot;.<br><br>"
+                    + "Gentilmente, solicitamos que a resposta a esta solicitação contenha, de forma objetiva:<br>"
+                    + "- A autorização para realização do exame, ou<br>"
+                    + "- A negativa, acompanhada da respectiva justificativa.<br><br>"
+                    + "O retorno desta informação é imprescindível para a continuidade dos trâmites acadêmicos referentes ao processo de defesa.<br><br>"
+                    + "Permanecemos à disposição para quaisquer esclarecimentos.<br><br>"
+                    + "Atenciosamente,<br><br>"
+                    + "Programa de Pós-Graduação em Computação Aplicada (PPComp)<br>"
+                    + "IFES – Campus Serra";
+        }
 
         senderEmail.sendEmail(email, subject, body);
     }
