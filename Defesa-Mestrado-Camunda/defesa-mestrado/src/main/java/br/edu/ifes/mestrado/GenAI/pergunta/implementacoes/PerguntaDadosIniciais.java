@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class PerguntaDadosIniciais implements PromptPergunta {
 
+    // O GeminiAPI continua injetado normalmente.
     private final GeminiAPI geminiAPI;
 
+    // A única alteração foi aqui no prompt.
     private static final String PROMPT_UNIFICADO_TEMPLATE = """
         Você é um assistente de IA especialista em extrair e estruturar informações de e-mails acadêmicos.
 
@@ -23,6 +25,7 @@ public class PerguntaDadosIniciais implements PromptPergunta {
         **Modelo de Saída (Formato Obrigatório):**
         Sua resposta deve seguir EXATAMENTE esta estrutura. Preencha cada campo com a informação correspondente encontrada no texto.
 
+        - Tipo de Defesa: [retorne "qualificacao" para Exame de Qualificação ou "defesa" para Defesa de Dissertação]
         - Aluno: [nome completo do aluno]
         - Email do Aluno: [email do aluno]
         - Título da Dissertação: [título da dissertação]
@@ -52,6 +55,7 @@ public class PerguntaDadosIniciais implements PromptPergunta {
         1.  **Formato da Data:** A data DEVE ser formatada como `dd/mm/yyyy`. Se o ano não for especificado no texto, assuma o ano corrente (2025).
         2.  **Informação Ausente:** Se qualquer informação não for encontrada no texto, deixe o campo correspondente VAZIO, mas mantenha o rótulo (ex: `- Aluno: `).
         3.  **Sem Texto Adicional:** NÃO inclua NENHUMA introdução, explicação, comentário ou a palavra "null" na sua resposta. A saída deve ser apenas o texto formatado como no modelo.
+  
         """;
 
     @Autowired
@@ -60,14 +64,12 @@ public class PerguntaDadosIniciais implements PromptPergunta {
     }
 
     @Override
-    public String takeQuestion(String body) throws Exception{
+    public String takeQuestion(String body) throws Exception {
         try {
             String promptFinal = String.format(PROMPT_UNIFICADO_TEMPLATE, body);
-
             return geminiAPI.perguntar(promptFinal);
         } catch (Exception e) {
             throw e;
         }
     }
-
 }
