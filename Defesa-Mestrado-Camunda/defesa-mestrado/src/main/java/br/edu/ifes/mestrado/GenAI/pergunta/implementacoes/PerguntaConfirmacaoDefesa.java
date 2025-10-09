@@ -22,7 +22,7 @@ public class PerguntaConfirmacaoDefesa implements PromptPergunta {
                     + "Texto para análise: ```" + body + "```\n\n"
                     + "Siga estas duas tarefas:\n"
                     + "1. TAREFA DE CONSISTÊNCIA: Verifique se o 'Corpo do Email' menciona ou se refere diretamente ao 'Titulo do sistema'.\n"
-                    + "2. TAREFA DE CONFIRMAÇÃO: Verifique se o 'Corpo do Email' contém uma mensagem explícita de confirmação, aceite ou intenção de prosseguir com a defesa.\n\n"
+                    + "2. TAREFA DE CONFIRMAÇÃO: Verifique se o 'Corpo do Email' contém uma mensagem explícita de confirmação, aceite ou intenção de prosseguir com a defesa ou exame de qualificação.\n\n"
                     + "AVALIAÇÃO FINAL: Responda 'True' apenas se o resultado de AMBAS as tarefas (1 E 2) for positivo. Caso contrário, responda 'False'.\n"
                     + "Responda estritamente com a palavra True ou False.";
 
