@@ -36,11 +36,13 @@ public class SolicitarAnuenciaDelegate implements JavaDelegate {
             if (businessKey != null) {
                 String titulo_trabalho = (String) execution.getVariable("titulo_trabalho");
                 String aluno = (String) execution.getVariable("aluno");
+                String tipoDefesa = (String) execution.getVariable("tipoDefesa");
 
                 runtimeService.createMessageCorrelation("SolicitacaoAnuencia")
                         .processInstanceBusinessKey(businessKey)
                         .setVariable("titulo_trabalho", titulo_trabalho)
                         .setVariable("aluno", aluno)
+                        .setVariable("tipoDefesa", tipoDefesa)
                         .correlate();
                 defesaDAO.atualizarStatus(idDefesa, "SolicitaAnuencia");
 
