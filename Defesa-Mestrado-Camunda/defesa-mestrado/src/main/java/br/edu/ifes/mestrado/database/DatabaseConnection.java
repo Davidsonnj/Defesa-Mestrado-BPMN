@@ -3,14 +3,16 @@ package br.edu.ifes.mestrado.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import io.github.cdimascio.dotenv.Dotenv;
 
 public class DatabaseConnection {
-
+    private static final Dotenv dotenv = Dotenv.load();
+    
     private static Connection connection;
 
-    private static final String URL = "jdbc:postgresql://localhost:5432/bancoemails";
-    private static final String USER = "davidson";
-    private static final String PASSWORD = "davidson123";
+    private static final String URL = dotenv.get("URL_BD");
+    private static final String USER = dotenv.get("USER_BD");
+    private static final String PASSWORD = dotenv.get("PASSWORD_BD");
 
     private DatabaseConnection() {
         // Construtor privado para evitar instâncias

@@ -25,7 +25,7 @@ public final class GeminiAPI {
         while (true) {
             try {
                 GenerateContentResponse response = client.models.generateContent(
-                        "gemini-2.0-flash",
+                        "gemini-flash-latest",
                         pergunta,
                         null
                 );
